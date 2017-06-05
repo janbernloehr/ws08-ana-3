@@ -1,0 +1,1957 @@
+\section{Volumen und Flächenintegrale, Vektoranalysis}
+
+\subsection{Mannigfaltigkeiten}
+
+%TODO: Einführungstext, Bildchen
+
+\begin{defn}
+\label{defn:4.1}
+\begin{enumerate}[label=\arabic{*}.)]
+  \item Eine Menge $S\subseteq\R^n$ heißt \emph{$k$-dimensionale Mannigfaltigkeit} im
+$\R^n$, falls zu jedem $x\in S$ eine in der Spurtopologie offene Umgebung $U(x)$ auf $S$
+und ein Homöomorphismus $\phi_x: K_1^{(k)}(0)\to U(x)$ existiert.
+
+$(\phi_x, U(x))$ heißt \emph{Karte}.
+\item Eine Menge,
+\begin{align*}
+A(S) := \setdef{(\phi_{x_j},U(x_j))}{1\le j\le N}
+ =\setdef{(\phi_j, U_j)}{1\le j\le N},
+\end{align*}
+mit $\bigcup_{i=j}^N U_j = S$
+heißt \emph{Atlas von $S$}.
+\item $S$ ist \emph{von der Klasse $m$} $\in\N_0$ $(S\in C^m)$, falls ein Atlas
+$A(S)$ existiert, so dass alle $\phi_j$ $C^m$-Diffeomorphismen sind.\fishhere
+\end{enumerate}
+\end{defn}
+
+\begin{bsp}
+\label{bsp:4.2}
+Sei $S=\setdef{x\in\R^3}{\abs{x} = 1}$, sowie
+% TODO: Kugel im \R^3
+\begin{align*}
+&\phi_{1,2}(y_1,y_2) = \left(y_1, y_2, \sqrt{1-y_1^2-y_2^2} \right),\\
+&\phi_{3,4}(y_1,y_2) = \left(\sqrt{1-y_1^2-y_2^2}, y_1, y_2 \right),\\
+&\phi_{5,6}(y_1,y_2) = \left(y_1, \sqrt{1-y_1^2-y_2^2}, y_2 \right),
+\end{align*}
+dann hat $A(S)$ genau $3$ Elemente und $S\in C^\infty$.
+
+Alternativ kann man Kugelkoordinaten zur Beschreibung der Fläche verwenden,
+\begin{align*}
+\phi(\ph,\th) := \begin{pmatrix}
+\cos\ph \cos\th\\
+\sin\ph\cos\th\\
+\sin\th
+\end{pmatrix}
+\end{align*}
+für $0\le\ph\le 2\pi$, sowie $-\frac{\pi}{2}\le \th\le \frac{\pi}{2}$.
+% TODO Polarkoordianten
+Hier stoßen wir jedoch zunächst auf Probleme. Erstens ist der
+Definitionsbereich von $\phi$ keine offene Menge und zweitens ist $\phi$ nicht
+bijektiv, denn bei $\th = \pm \frac{\pi}{2}$ ist $\phi$ nicht eindeutig.
+
+Trotzdem eignen sich die Kugelkoordianten für Berechnungen, denn wählt
+man $0<\ph<2\pi$ und $-\frac{\pi}{2}< \th< \frac{\pi}{2}$, dann ist der
+Definitionsbereich offen und $\phi$ bijektiv und es wurden lediglich Nullmengen
+entfernt.\bsphere
+\end{bsp}
+%TODO: Bild, Parametrisierung von Mnf
+Bei Mannigfaltigkeiten mit Rand wird ein halber Einheitskreis mit Rand zur
+Parametrisierung verwendet.
+\begin{defn}
+\label{defn:4.3}
+\begin{enumerate}[label=\arabic{*}.)]
+  \item $S\subseteq\R^n$ heißt \emph{$k$-dimensionale Mannigfaltigkeit mit
+  Rand} $k\ge 2$, wenn es zu jedem $x\in S$ eine $S$ offene Umgebung $U(x)$ und
+  ein Homöomorphismus $\phi_x$ existiert mit,
+\begin{align*}
+\phi_x: K_1^{(k)}(0)\to U(x),
+\quad\text{oder},\quad
+\phi_x: K_{1,+}^{(k)}(0)\to U(x),
+\end{align*}
+mit $K_{1,+}^{(k)}(0) = K_1^{(k)}(0)\cap \setdef{x}{x_k \ge 0}$. Der
+\emph{Atlas von $S$} wird analog zu \ref{defn:4.1} definiert.
+\item $x\in S$ heißt \emph{Randpunkt von $S$}, wenn $\phi_x^{-1}(x) \in 
+K_{1,+}^{(k)}(0)\cap \setdef{x}{x_k=0}$.
+
+$\partial S$, der \emph{Rand von $S$} ist definiert als die Menge der Randpunkte
+von $S$.\fishhere
+\end{enumerate}
+\end{defn}
+
+\begin{bem}
+\label{bem:4.4}
+Die Festlegung $x\in\partial S$ hängt nicht von der Wahl der Karte ab, denn
+seien $(\phi_1,U_1), (\phi_2,U_2)$ Karten und $x\in U_1\cap U_2$, so bildet
+$\phi_1^{-1}\circ \phi_2$ innere Punkte auf innere Punkte ab.\maphere
+\end{bem}
+
+\begin{prop}
+\label{prop:4.5}
+Sei $S$ $k$-dimensionale $C^m$-Mannigfaltigkeit mit Rand, so ist $\partial S$
+eine $k-1$-dimensionale $C^m$-Mannigfaltigkeit ohne Rand. Insbesondere gilt,
+\begin{align*}
+\partial(\partial S) = \varnothing.\fishhere
+\end{align*}
+\end{prop}
+\begin{proof}
+Seien $x\in\partial S$, $\phi_x\in C^m(K_{1,+}^{(k)}(0)\to S)$,
+\begin{align*}
+\tilde{\phi}_x := \phi_x\big|_{K_{1,+}^{(k)}(0)\cap \setdef{x}{x_k = 0}},
+\end{align*}
+dann ist $\tilde{\phi}\in C^m(K_{1,+}^{(k-1)}(0)\to U(x)\cap
+\partial S)$ ein $C^m$-Diffeomorphismus.\qedhere
+\end{proof}
+
+\begin{bspn}
+Eine einfache Mannigfaltigkeit ist eine geschlossene Kurve $\gamma$ im $\R^n$.
+%TODO: Bildchen
+
+Die Definition erlaubt eine Überlappung von Karten, bei denen $\gamma$ einen
+gegenläufigen Durchlaufsinn hat.\bsphere
+\end{bspn}
+
+\begin{defn}[Orientierung des Raums]
+\label{defn:4.6}
+Zwei Basen $(b_1,\ldots,b_n)$ und $(c_1,\ldots,c_n)$ des $\R^n$ heißen
+\emph{gleich orientiert}, falls
+\begin{align*}
+b_j = \sum\limits_{i=1}^n \alpha_{ji}c_i, \text{ und } \det(\alpha_{ji}) > 0,
+\end{align*}
+oder äquivalent,
+\begin{align*}
+c_i = \sum\limits_{j=1}^n \beta_{ij}b_j, \text{ und } \det(\beta_{ij}) >
+0.\fishhere
+\end{align*}
+\end{defn}
+\begin{proof}
+Die Äquivalenz sieht man sofort, da $\det(\alpha_{ij}) =
+\dfrac{1}{\det(\beta_{ij})}$.\qedhere
+\end{proof}
+
+\begin{prop}[Definition/Satz]
+\label{prop:4.7}
+Seien $S$ eine $k$-dimensionale $C^1$-Mannigfaltigkeit,
+$(\phi_1,U_1), (\phi_2,U_2)$ zwei Karten und $x\in U_1\cap U_2$.
+  
+Der \emph{Tangentialraum} in $x_0$ ist der lineare Raum,
+\begin{align*}
+T_{x_0} := \sp{\frac{\partial \phi_1}{\partial y_1}(y_0),\ldots,\frac{\partial
+\phi_1}{\partial y_k}(y_0)}.
+\end{align*}
+%TODO: Bild, Tangentailraum
+Dieser Raum hat die Dimension $k$ und es gilt,
+\begin{align*}
+T_{x_0} := \sp{\frac{\partial \phi_2}{\partial z_1}(z_0),\ldots,\frac{\partial
+\phi_2}{\partial z_k}(z_0)}.\fishhere
+\end{align*}
+\end{prop}
+\begin{proof}
+$T_{x_0}$ ist der Aufspann der Spaltenvektoren in $\D\phi_1(y_0)$. Nun ist
+$\phi_1$ ein $C^1$-Diffeomorphismus zwischen $U(x_0)$ und $K_1^{(k)}{(y_0)}$
+und daher hat $\D\phi(y_0)$ maximalen Rang also $k$. Dies kann man auch so
+sehen,
+\begin{align*}
+&\id_y = \phi_1^{-1}\circ \phi_1: K_1^{(k)}(0) \to K_1^{(k)}(0).
+\end{align*}
+Die Kettenregel besagt nun,
+\begin{align*}
+\Id_k = \D \phi_1^{-1}(\phi_1(y_0))\D \phi_1(y_0),
+\end{align*}
+und $\Id_k$ hat Rang $k$, also haben die Faktoren auf der rechten Seite beide
+mindestens Rang $k$ und damit ist $\rg\D\phi_1(y_0)\ge k$.\\
+Daher sind die Spaltenvektoren in $\D\phi_1(y_0)$ linear unabhängig und
+$T_{x_0}$ hat die Dimension $k$.
+
+$T_{x_0}$ ist auch unabhängig von der Wahl der Karte, denn 
+seien $D_j = \phi_j^{-1}(U_1\cap U_2)$, dann sind $D_1$, $D_2$ offen und
+$\phi_1^{-1}\circ\phi_2$ ist ein $C^1$ Diffeomorphismus zwischen $D_2$ und
+$D_1$. Somit kann man die Basisvektoren bezüglich $\phi_2$ als
+Linearkombination von Basisvektoren bezüglich $\phi_1$ darstellen,
+\begin{align*}
+\frac{\partial\phi_2}{\partial z_i}(z_0)
+&= \frac{\partial}{\partial z_i}(\phi_1\circ(\phi^{-1}\circ\phi_2))(z_0)
+\\ &= \sum\limits_{j=1}^n \frac{\partial \phi_1}{\partial
+y_j}(\phi_1^{-1}\circ\phi_2(z_0))\frac{\partial(\phi_1^{-1}\circ\phi_2)_j}{\partial
+z_i}(z_0)
+\\ &= \sum\limits_{j=1}^n \alpha_{ij}\frac{\partial \phi_1}{\partial
+y_j}(y_0),\quad \alpha_{ij} = \frac{\partial(\phi_1^{-1}\circ\phi_2)_j}{\partial
+z_i}(z_0).
+\end{align*}
+Da beide Räume die gleiche Dimension $k$ haben, sind sie gleich.\qedhere
+\end{proof}
+
+\addtocounter{prop}{1}
+
+\begin{defn}[Orientierung von Karten]
+\label{defn:4.9}
+Sei $S$ eine $k$-dimensionale $C^1$-Mannigfaltigkeit.
+\begin{enumerate}[label=\arabic{*}.)]
+\item Zwei Karten $(\phi_1,U_1)$, $(\phi_2,U_2)$ heißen \emph{gleich
+orientiert}, falls
+\begin{align*}
+\det \left(\frac{\partial (\phi_1^{-1}\circ\phi_2)_j}{\partial y_j}\right)_{i,j
+= 1,\ldots,n} (z_0) > 0,
+\end{align*}
+für ein $z_0\in D_2=\phi_2^{-1}(U_2)$ und damit für alle $z\in D_2$. (Die
+Determinante hängt stetig von $z$ ab und ist immer $\neq 0$).
+
+Zwei Karten heißen \emph{kompatibel}, wenn sie gleich orientiert sind oder
+$U_1$ und $U_2$ leeren Schnitt haben.
+\item Ein Atlas heißt \emph{orientiert}, wenn alle Karten paarweise kompatibel
+sind.
+\item Eine Mannigfaltigkeit heißt \emph{orientierbar}, wenn sie mindestens einen
+orientierten Atlas besitzt.
+\item Zwei orientierte Atlanten $A(S)$ und $B(S)$ heißen \emph{kompatibel},
+falls der Atlas $C(S) := A(S)\cup B(S)$ orientiert ist. Dies definiert eine
+Äquivalenzrelation auf der Menge der orientierbaren Atlanten. Eine
+Äquivalenzklasse ist eine \emph{Orientierung von $S$}.\fishhere
+\end{enumerate}
+\end{defn}
+
+\begin{lemn}
+Eine zusammenhängende Mannigfaltigkeit hat genau zwei Orientierungen.\fishhere
+\end{lemn}
+\begin{proof}
+Der Beweis ist eine gute Übung.\qedhere
+\end{proof}
+
+\begin{defn}[Ergänzung zu \ref{defn:4.3}]
+Im Fall $k=1$ seien,
+\begin{align*}
+K_1^{(k)} = (-1,1),\; K_{1,+}^{(k)} = [0,1),\; K_{1,-}^{(k)} = (-1,0]. 
+\end{align*}
+$S\subseteq \R^n$ heißt \emph{1-dimensionale
+Mannigfaltigkeit mit Rand}, falls zu jedem $x\in S$, eine Karte $(\phi_x,U_x)$
+existiert mit,
+\begin{align*}
+\phi_x : (-1,1)\to U_x,\quad\text{oder }\phi_x: [0,1) \to U_x,\quad\text{oder
+}\phi_x: (-1,0]\to U_x,
+\end{align*}
+und die übrigen Voraussetzungen von \ref{defn:4.3} gelten.
+
+$x$ heißt \emph{Randpunkt}, falls $\phi_x : K_{1,\pm}^{(k)}\to U_x$ und
+$\phi_x^{-1}(x) = 0$.\fishhere
+\end{defn}
+
+\begin{bsp}
+\label{bsp:4.11}
+\begin{enumerate}[label=\arabic{*}.)]
+  \item $S=\setdef{t-(1,1,1)}{0\le t\le 3}$ ist eine 
+$1$-dimensionale $C^\infty$-Mannigfaltigkeit mit Rand und den Karten,
+\begin{align*}
+&\phi_1: [0,1)\to S: y\mapsto 3y (1,1,1), && U_1 = \setdef{t-(1,1,1)}{t\in
+[0,3)},\\
+&\phi_2: (-1,0]\to S: z\mapsto 3(z+1) (1,1,1), && U_1 = \setdef{t-(1,1,1)}{t\in
+(0,3]}.
+\end{align*}
+Damit ist $\{(\phi_1,U_1), (\phi_2,U_2)\}$ Atlas und es gilt,
+\begin{align*}
+&\phi_1^{-1}\circ\phi_2(z) = z+1,\\
+\Rightarrow\;& \frac{\partial (\phi_1^{-1}\circ\phi_2)}{\partial z}(z) = 1 > 0,
+\end{align*}
+also ist der Atlas orientiert.
+
+Falls $\tphi_2: [0,1) \to S, z\mapsto 3(1-z)(1,1,1)$, dann ist
+$\tilde{A}(S) = \{(\phi_1,U_1), (\tphi_2,\tilde{U}_2)\}$ ebenfalls Atlas aber
+nicht orientiert, denn
+\begin{align*}
+\frac{\partial (\phi_1^{-1}\circ\tphi_2)}{\partial z}(z) = -1 < 0.
+\end{align*}
+\item Sei $S=\setdef{(x_1,x_2,x_3)}{x_1^2+x_2^2 = 1 \land 0\le x_3\le 2}$,
+%TODO: Bild, Zylinder,
+dann ist $S$ orientierbar und $\partial S$ sind zwei disjunkte Kreise. Durch
+eine Orientierung von $S$ wird auch eine Orientierung von $\partial S$
+induziert (vgl. \ref{defn:4.12})
+\item Das Möbiusband ist nicht orientierbar.
+%TODO: Bild Möbiusband.
+\item Die Kleinsche Flasche ist ebenfalls nicht orientierbar.
+%TODO: Bild Kleinsche Flasche.
+\hfill\bsphere
+\end{enumerate}
+\end{bsp}
+
+\begin{defn}[Definition/Satz]
+\label{defn:4.12}
+Sei $S$ orientierte $C^1$-Mannigfaltigkeit der Dimension $k\ge 2$ und $A(S)$
+orientierter Atlas. Durch die Konstruktion \ref{prop:4.5} wird ein orientierter
+Atlas $A(\partial S)$ gegeben. Die dadurch definierte Orientierung von $\partial
+S$ heißt \emph{verträglich} mit der Orientierung von $S$.\fishhere
+%TODO: Bild, verträgliche Orientierung.
+\end{defn}
+
+\begin{proof}
+Karten auf $\partial S$ werden durch,
+\begin{align*}
+\tphi_1 := \phi\big|_{\{y_1 = 0\}},\quad \tphi_2 := \phi\big|_{\{z_k = 0\}},
+\end{align*}
+gebildet. Dann ist $\tilde{U}_1 = U_1\cap \partial S$ und $\tilde{U}_2 = U_2\cap
+\partial S$, sowie $A(\partial S) = \{(\tphi_1,\tilde{U}_1),
+(\tphi_2,\tilde{U}_2)\}$.
+
+Zeige, dass $(\tphi_1,\tilde{U}_1)$ und $(\tphi_2,\tilde{U}_2)$ kompatibel
+sind.
+
+Sei $\psi = \phi_1^{-1}\circ\phi_2$.  Wir wissen, dass $A(S)$ orientiert ist,
+d.h. $\det \D\psi > 0$. Da Randpunkte auf Randpunkte abgebildet werden, gilt
+\begin{align*}
+&\psi(\ldots,z_k=0) = (\ldots,0)^t, &&\Rightarrow \partial_j \psi_k(z_0) = 0, j
+= 1,\ldots,k-1,\\
+&\psi(\ldots,z_k>0) = (\ldots,>0)^t, &&\Rightarrow \partial_k \psi_k(z_0) \ge 0.
+\end{align*}
+Damit gilt für die Funktionaldeterminante,
+\begin{align*}
+\det \D\psi(z_0) = \det \begin{pmatrix}
+& & & *\\ 
+& A & & \vdots\\
+& & & *\\
+0 & \ldots & 0 & \partial_k \psi_k(z_0)\\
+\end{pmatrix}
+= (-1)^{2k} \underbrace{\partial_k \psi_k(z_0)}_{\ge 0} \det A.
+\end{align*}
+Nun ist aber $\det\D\psi(z_0)>0$, also sind auch $\partial_k \psi_k(z_0)>0$ und
+$\det A >0$. Also gilt,
+\begin{align*}
+\det \left(\frac{\partial(\tphi_1^{-1}\circ\phi_2)_i}{\partial z_j}(z_0)
+\right)_{i,j} = \det \left(\frac{\partial\psi_i}{\partial
+z_j}(z_0) \right)_{1\le i,j \le k-1} > 0.\qedhere
+\end{align*}
+\end{proof}
+
+\begin{bsp}
+\label{bsp:4.13}
+Sei $k=n=2$ und $S=\overline{K_1^{(2)}(0)}\subseteq\R^2$.
+\begin{enumerate}[label=(\roman{*})]
+  \item Ist $A(S)$ Atlas, der $(\phi,U)$ mit $\phi(x_1,x_2) = (x_1,x_2),\; U =
+  K_1^{(2)}(0)$ enthält, so ist die Orientierung von $\partial S$ gegen
+  den Uhrzeigersinn.
+%TODO: Bild, Orientierung
+  \item Ist $A(S)$ Atlas, der $(\phi,U)$ mit $\phi(x_1,x_2) = (-x_1,x_2),\; U =
+  K_1^{(2)}(0)$ enthält, so ist die Orientierung von $\partial S$ im Uhrzeigersinn.
+%TODO: Bild Orientierung
+\hfill\bsphere 
+\end{enumerate}
+\end{bsp}
+
+\begin{defn}
+\label{defn:4.14}
+\begin{enumerate}[label=\arabic{*}.)]
+  \item Eine \emph{stückweise $C^m$-Mannigfaltigkeit $S$ der Dimension $1$} ist
+  eine $C^0$ Mannigfaltigkeit der Dimension $1$, die nach entfernen endlich
+  vieler Punkte in endlich viele $C^m$ Mannigfaltigkeiten zerfällt.
+  \item Eine \emph{stückweise $C^m$-Mannigfaltigkeit $S$ der Dimension $k$}
+  ($k \ge 2$) ist eine $C^0$-Mannigfaltigkeit der Dimension $k$, die nach
+  entfernen endlich vieler stückweiser $C^m$-Mannigfaltigkeiten der Dimension
+  $k-1$ in endlich viele $C^m$-Mannigfaltigkeiten zerfällt.\fishhere
+\end{enumerate}
+\end{defn}
+
+\begin{bem}
+\label{bem:4.15}
+In der Definition von Manngifaltigkeiten kann statt $K_1^{(k)}(0)$ auch $\R^k$
+bzw. $W_1^{(k)} = \setdef{x\in\R^k}{\max\limits_{1\le i\le k} \abs{x_i} <1}$
+verwendet werden.\maphere
+\end{bem}
+
+\subsection{Der Inhalt von Mannigfaltigkeiten}
+\begin{defn}
+\label{defn:4.16}
+Sei $1\le k\le n$, $\{v_1,\ldots,v_k\}\subseteq\R^n$. Der $k$-Inhalt des von
+$v_1,\ldots,v_k$ aufgespannten Parallelepipeds ist definiert durch,
+\begin{align*}
+V^{(n)}(v_1,\ldots,v_k) := \sqrt{
+\det (v_1,\ldots,v_k)^*(v_1,\ldots,v_k).\fishhere
+} 
+\end{align*}
+\end{defn}
+
+\begin{prop}[Macht das Sinn?]
+\label{prop:4.17}
+\begin{enumerate}[label=\arabic{*}.)]
+  \item Im Fall $k=n$ ergibt sich der Inhalt,
+\begin{align*}
+V^{(k)}(v_1,\ldots,v_k) &= \sqrt{\det (v_1,\ldots,v_n)^*(v_1,\ldots,v_k)}
+\\ &= \sqrt{\det (v_1,\ldots,v_n)^*\det(v_1,\ldots,v_k)}
+\\ &= \abs{\det(v_1,\ldots,v_n)}.
+\end{align*}
+Also erhalten wir eine positive Antwort.
+\item Im Fall $k=1$ erhalten wir,
+\begin{align*}
+V^{(1)}(v_1) = \sqrt{\det v_1^* v_1} = \sqrt{\lin{v_1,v_1}} = \norm{v_1}.
+\end{align*}
+Auch hier stimmt der so definierte Inhalt mit dem bereits bekannten Inhalt
+überein.
+\item Exemplarisch für Restfälle: $k=2, n=3$.
+\begin{enumerate}[label=(\alph{*})]
+\item Seien $v,w\in\R^3$ konjugiert in $x_1,x_2$ Ebene,
+%TODO: Bild, Vektoren in x_1,x_2 Ebene,
+\begin{align*}
+v = (v_1,v_2,0),\quad w = (w_1, w_2, 0).
+\end{align*}
+\begin{align*}
+\det (v,w)^* (v,w)
+&= \det \begin{pmatrix}
+v_1 &v_2& 0\\ w_1& w_2& 0
+\end{pmatrix} 
+\begin{pmatrix}
+v_1 & w_1\\
+v_2 & w_2\\
+0 & 0
+\end{pmatrix}
+\\ &= \det \begin{pmatrix}
+v_1 &v_2\\ w_1& w_2
+\end{pmatrix} 
+\begin{pmatrix}
+v_1 & w_1\\
+v_2 & w_2
+\end{pmatrix}
+\\ &= V^{(2)}(\tilde{v},\tilde{w}),
+\end{align*}
+mit $\tilde{v} = (v_1,v_2)$ und $\tilde{w} = (w_1,w_2)$.
+\item $v,w$ allgemein
+
+Wähle $n\bot v,w$ mit $\norm{n} = 1$ und Drehmatrix $D$ so, dass $Dn = e_3$,
+dann liegen $Dv$ und $Dw$ in der $x_1,x_2$-Ebene. Für eine Drehmatrix ist
+$D^*=D^{-1}$, also erhalten wir,
+\begin{align*}
+V^{(3)}(v,w,n)^2 &= \det (v,w,n)^*\det(v,w,n) \\ 
+&= \det (v,w,n)^* D^{-1}D \det(v,w,n) \\
+&= \det D^{-1}(v,w,n)^*\det D(v,w,n) \\ 
+&= \det (Dv,Dw,Dn)^*\det (Dv,Dw,Dn) \\
+&= V^{(2)}(Dv,Dw)^2 = V^{(2)}(v,w).  
+\end{align*}
+\end{enumerate}
+\item Sind $\{v_1,\ldots,v_k\}$ linear abhängig, dann haben die Matrizen
+$(v_1,\ldots,v_k)$ und $(v_1,\ldots,v_k)^*$ einen Rang $<k$. Dies gilt auch für
+das Produkt der Matrizen und somit ist die Determinante des Matrizenproduktes
+Null.
+\item Noch offen bleibt jedoch die Frage warum die Determinante 
+immer $\ge 0$ ist.
+\end{enumerate}
+\end{prop}
+
+\begin{cor}
+\label{prop:4.18}
+Ist $S$ eine $C^1$-Mannigfaltigkeit, $(\phi, U)$ Karte auf $S$, $x_0\in U$ und
+$y_0 := \phi^{-1}(x_0)$, so ist,
+\begin{align*}
+\sqrt{\det\left(\D\phi(x_0)^*\D\phi(x_0)\right)},
+\end{align*}
+der $k$-Inhalt des Parallelepipeds das von
+den Tangentenvektoren,
+\begin{align*}
+\frac{\partial \phi}{\partial x_1}(y_0), \ldots, \frac{\partial \phi}{\partial
+x_k}(y_0),
+\end{align*}
+aufgespannt wird.\fishhere
+\end{cor}
+
+\begin{defn}
+\label{defn:4.19}
+Sei $1\le k\le n$ und $D\subseteq \R^k$ offen, $\ph\in C^1(D\to \R^n)$
+injektiv. Für die $k$-dimensionale Manngifaltigkeit im $\R^n$,
+\begin{align*}
+S := \setdef{\ph(y)}{y\in D} = \phi(D),
+\end{align*}
+ist,
+\begin{align*}
+V^{(k)}(S) := \int_D \sqrt{\det (\D\ph^*\D\ph)}\dmu
+= \int_D \sqrt{\det \lin{\frac{\partial \ph}{\partial y_i},
+\frac{\partial \ph}{\partial y_j}}_{i,j}}\dmu,
+\end{align*}
+der $k$-Inhalt von $S$.
+
+\begin{bemn}[Spezialfälle]
+$k=1$,
+\begin{align*}
+V^{(1)} := L \text{ Länge},
+\end{align*}
+$k=2$,
+\begin{align*}
+V^{(2)} := F \text{ Fläche},
+\end{align*}
+$k=n$,
+\begin{align*}
+V^{(n)} := V \text{ Volumen}.\fishhere
+\end{align*}
+\end{bemn}
+\end{defn}
+
+\begin{bsp}
+\label{bsp:4.20}
+\begin{enumerate}[label=\arabic{*}.)]
+  \item $D=(0,2\pi), \ph(t) = \begin{pmatrix}R\cos t\\R\sin t\end{pmatrix}$.
+                              
+Der Kreisumfang beträgt daher,
+\begin{align*}
+V^{1}(\ph(D)) &= \int_0^{2\pi} \sqrt{\det (-R\sin,R\cos t)\begin{pmatrix}-R\sin
+t\\R\cos t\end{pmatrix}} \dt \\ &= \int_0^{2\pi} R\dt = 2\pi R.
+\end{align*}
+\item $D=\setdef{(y_1,y_2)}{y_1^2+y_2^2 < 1}$, $\ph(y_1,y_2) = \begin{pmatrix}
+y_1 \\ y_2 \\ 2y_1 + 3
+\end{pmatrix}$
+%TODO: Bild Kreis, Ellipse
+\begin{align*}
+V^{(2)}(\ph(D)) &= \int_D \sqrt{\det
+\begin{pmatrix}
+1 & 0 & 2\\ 0 & 1 & 0\end{pmatrix}\begin{pmatrix}
+1 & 0 \\ 0 & 1 \\ 2 & 0\end{pmatrix}}
+\dy
+= \int_D \sqrt{\det\begin{pmatrix}
+5 & 0 \\ 0 & 1\end{pmatrix}}
+\\ &= \sqrt{5}\mu(D) = \sqrt{5}\Pi.\bsphere
+\end{align*} 
+\end{enumerate}
+\end{bsp}
+
+\begin{bem}
+\label{bem:4.21}
+Sei $1\le k\le n$ und $D\subseteq \R^k$ offen, $\ph\in C^1(D\to \R^n)$
+injektiv, $\phi\in C^1(D\to\phi(D))$ bijektiv und $\phi(D)\subseteq \R^n$ offen, so
+ist 
+\begin{align*}
+S := \setdef{\ph\circ\phi^{-1}(z)}{z\in\phi(D)} = \ph(D)
+\end{align*}
+die selbe Mannigfaltigkeit wie in \ref{defn:4.19} definiert.
+ Es gilt
+\begin{align*}
+V^{(n)}(S) &= \int_{\phi(D)} \sqrt{\det\left(\partial_z
+(\ph\circ\phi^{-1})(z)^{*}
+\partial_z
+(\ph\circ\phi^{-1})(z)\right)} \dz
+\\ &=
+\int_{D} \sqrt{\det\left( \partial_z
+(\ph\circ\phi^{-1}(\phi(y)))\right)^{*}
+\left( \partial_z
+(\ph\circ\phi^{-1}(\phi(y)))\right)} \abs{\det \partial_y
+\phi(y)} \dy
+\\ &=
+\int_{D} \sqrt{\det\left( \partial_z
+\ph(y)(\partial_y \phi^{-1})(\phi(y)) \right)^{*}
+\left( \partial_z
+\ph(y)(\partial_y \phi^{-1})(\phi(y)) \right)}
+\abs{\det \partial_y \phi(y)} \dy
+\\ &=
+\int_{D} \sqrt{\det\left( \partial_z
+\ph(y)\left((\partial_y \phi(y)\right)^{-1}
+\right)^{*} \left( \partial_z
+\ph(y)\left((\partial_y \phi(y)\right)^{-1}
+\right)} \abs{\det \partial_y \phi(y)} \dy
+\\ &=
+\int_{D} \sqrt{\det{\left((\partial_y \phi(y)\right)^{-1}}^{*}
+\left( \partial_z \ph(y)
+\right)^{*} \left( \partial_z
+\ph(y)\left((\partial_y \phi(y)\right)^{-1}
+\right)} \abs{\det\partial_y \phi(y)} \dy
+\\ &=
+\int_{D} \sqrt{\det\left( \partial_z \ph(y)
+\right)^{*} \left( \partial_z
+\ph(y)\right)}\dy
+\end{align*}
+und dies entspricht gerade dem $k$-Inhalt aus \ref{defn:4.19}.
+\maphere
+\end{bem}
+\begin{defn}
+\label{defn:4.22}
+Seien die Voraussetzungen wie in \ref{defn:4.19}, dann ist das Integral von $f$
+über $S$ definiert durch,
+\begin{align*}
+\int_S f \dV^{(k)} := \int_D f\circ\ph(y) \sqrt{\det
+\left(\D\ph(y)^*\D\ph(y)\right)}
+\dy.
+\end{align*}
+Insbesondere gilt, $V^{(k)}(S) := \int_S 1\dV^{(k)}$.\fishhere
+\end{defn}
+
+\subsection{Physikalische Integrale und Differentialformen}
+
+\begin{bem}[Vereinbarung.]
+Im Folgenden seien $O, D\subseteq\R^n$ offen, $\ph\in
+C^1(D\to O)$ injektiv und $\det
+\left(\D\ph(y)^{*}\D\ph(y)\right) \neq 0$ auf $D$,
+$S=\ph(D)$ eine $C^1$-Mannigfaltigkeit.\maphere
+\end{bem}
+
+\begin{defn}
+\label{defn:4.24}
+Sei $n=3, k=1$ und $F\in C(O\to\R)$. Dann ist die \emph{Arbeit} längs $S$ im
+Kraftfeld $F$ gegeben durch,
+\begin{align*}
+A &:= \int_S \lin{F,t_0}\dV^{(1)}  \\
+&= \int_{[a,b]}
+\lin{F\circ\ph(y),\frac{\ph'(y)}{\norm{\ph'(y)}}} \sqrt{\det
+(\ph_1'(y))^2+\ldots+(\ph_n'(y))^2} \dy \\
+&= \int_{[a,b]} \lin{F\circ\ph(y),\ph'(y)}\dy \\
+&= \int_D F_1\circ\ph(y)\frac{\partial \ph_1}{\partial y}
++ F_2\circ\ph(y)\frac{\partial \ph_2}{\partial y}
++ F_3\circ\ph(y)\frac{\partial \ph_3}{\partial y} \dy,
+\end{align*}
+mit dem \emph{Tangenteneinheitsvektor} $t_0$.\fishhere
+\end{defn}
+\begin{bemn}[Achtung.]
+Ändert man die Orientierung von $S$ (geht man ``rückwärts''), so ändert sich
+das Vorzeichen von $A$.\maphere
+\end{bemn}
+
+\begin{defn}
+\label{defn:4.25}
+Sei $n=3, k=2$ und $V\in C(O\to\R^n)$. Der \emph{Fluss} von $V$ durch die
+Fläche $S$ ist definiert durch,
+\begin{align*}
+F&:= \int_S \lin{V,n_0} \dV^{(2)}\\
+&= \int_D \lin{V\circ\ph, \frac{\partial\ph}{\partial y_1}\times
+\frac{\partial\ph}{\partial y_2}}\frac{1}{\norm{\frac{\partial\ph}{\partial y_1}\times
+\frac{\partial\ph}{\partial y_2}}} \det{\left(\D\ph(y)^*\D\ph(y)\right)}\dy \\
+&= \int_D V_1\circ\ph(y)\det \frac{\partial
+\ph_2\ph_3}{\partial y} + V_2\circ\ph(y) \det \frac{\partial
+\ph_3\ph_1}{\partial y} + V_3\circ\ph(y) \det \frac{\partial
+\ph_1\ph_2}{\partial y} \dy,
+\end{align*} 
+mit dem \emph{Normaleneinheitsvektor} $n_0$.\fishhere
+\end{defn}
+
+\begin{defn}
+\label{defn:4.26}
+Sei $n=3,\; k=3$ und $\rho\in C(O\to\R)$. Die in $S$ verteilte \emph{Masse}
+mit \emph{Dichte} $\rho$ hat die Gesamtmasse,
+\begin{align*}
+M = \int_S \rho \dV^{(3)} = \int_D \rho\circ\ph(y) \abs{\det \frac{\partial
+\ph}{\partial y}}\dy.\fishhere
+\end{align*}
+\end{defn}
+
+\begin{defn}
+\label{defn:4.27}
+\begin{enumerate}[label=\arabic{*}.)]
+\item Eine \emph{Differentialform der Ordnung $k$ in $O$} oder kurz
+\emph{$k$-Form in $O$} ist eine Abbildung,
+\begin{align*}
+\omega : \left\{k\text{-dimensionale Mannigfaltigkeiten in } O\right\}\to \R,
+\end{align*}
+symbolisch gegeben durch
+\begin{align*}
+\omega = \sum\limits_{i_1=1}^n \ldots \sum\limits_{i_k=1}^n a_{i_1 \ldots i_k}
+\dx_{i_1} \land \ldots \land \dx_{i_k},
+\end{align*}
+wobei die $a_{i_1\cdots i_k}$ stetige Abbildungen auf $O$ sind.
+
+Wir definieren,
+\begin{align*}
+\omega(S) := \int_S \omega = \int_D \sum\ldots\sum  a_{i_1 \ldots i_k}(\ph(y))
+\det \left( \frac{\partial(\ph_{i_1},\ldots,\ph_{i_k})}{\partial y} \right) \dy.
+\end{align*}
+
+Aus Kompatibilitätsgründen sei für $k=0$ und $S=\{x_1,\ldots,x_l\}$ endliche
+Menge, ein $0$-Form eine Abbildung $O\to\R$ gegeben durch,
+\begin{align*}
+\omega(S) = \sum\limits_{j=1}^l a(x_j).
+\end{align*}
+\item Eine $k$-Form ist von der \emph{Klasse $C^m$} $m\in\N_0$, falls
+$a_{i_1,\ldots,a_k}\in C^m(O\to\R)$ sind.\fishhere
+\end{enumerate}
+\end{defn}
+
+\begin{bsp}
+\label{bsp:4.28}
+Siehe \ref{defn:4.25}: $V\in C(O\to\R^n)$,
+\begin{align*}
+\omega = V_1 \dx_1\land \dx_2 + V_2 \dx_2\land\dx_3 + V_3\dx_1\land\dx_2,
+\end{align*}
+dann ist der Fluss durch $S$ gegeben als $F(S) = \omega(S)$.\bsphere
+\end{bsp}
+
+\begin{cor}
+\label{cor:4.29}
+Falls $k\ge 2$ und,
+\begin{align*}
+\omega = a(x) \dx_{i_1} \land \ldots \land d_{i_k},
+\end{align*}
+und es gilt $j,l$ mit $i_j = i_l$, dann ist $\omega = 0$, d.h. $\omega(S) = 0$,
+für alle $k$-dimensionalen Mannigfaltigkeiten $S$.
+
+Insbesondere ist $\dx_1\land \dx_1 = 0$.\fishhere
+\end{cor}
+\begin{proof}
+In der Funktionaldeterminante treten zwei identische Splaten auf, also gilt
+\begin{align*}
+\det\left(\frac{\partial \ph_{i_1}}{\partial y},\ldots,\frac{\partial
+\ph_{i_k}}{\partial y} \right) = 0.\qedhere
+\end{align*}
+\end{proof}
+
+\begin{prop}[Lineare Struktur]
+\label{4.30}
+Sind $\omega_1$, $\omega_2$ $k$-Formen in $O$ und $c_1,c_2\in\R$, so ist die
+$k$-Form $c_1\cdot\omega_1 + c_2\cdot\omega_2$ definiert durch,
+\begin{align*}
+(c_1 \omega_1 + c_2\omega_2)(S) := c_1 \omega_1(S) + c_2 \omega_2(S).
+\end{align*}
+Dann gilt,
+\begin{align*}
+c_1\omega_1(S) + c_2\omega_2(S) &= \int_D \sum\sum \left( c_1
+a_{i_1,\ldots,i_k}
+\det\left(\frac{\partial(\ph_{i_1},\ldots,\ph_{i_k})}{\partial y} \right)
+\right) \dy \\
+&+ \int_D \sum\sum \left( c_2
+b_{i_1,\ldots,i_k}
+\det\left(\frac{\partial(\ph_{i_1},\ldots,\ph_{i_k})}{\partial y} \right)
+\right) \dy.
+\end{align*}
+Damit bildet die Menge der $k$-Formen auf $O$ einen linearen Raum über
+$\R$.\fishhere
+\end{prop}
+
+\begin{cor}
+\label{prop:4.31}
+Falls $k\ge 2$ gilt $\dx_i\land \dx_j = - \dx_j \land \dx_i$.\fishhere
+\end{cor}
+\begin{proof}
+Wir betrachten dazu die Funktionaldeterminanten,
+\begin{align*}
+\det\left(\frac{\partial(\ph_{i_l},\ldots,\ph_{i_m})}{\partial y} \right)
+= - \det\left(\frac{\partial(\ph_{i_m},\ldots,\ph_{i_l})}{\partial y}
+\right).\qedhere
+\end{align*}
+\end{proof}
+
+\begin{bsp}
+\label{bsp:4.32}
+Sei $\omega = 1\dx_1\land\dx_2 + 1\dx_2\land\dx_1$, dann ist $\omega =
+0$.\bsphere
+\end{bsp}
+
+Diese Situation ist natürlich unbefriedigend, da man für die $k$-Form $0$
+zahlreiche von $0$ verschiedene Darstellungen findet. Wir wollen daher ``gute
+Koordinaten'' einführen, so dass wenn alle Koeffizienten der $k$-Form positiv
+sind, auch das Integral einen positiven Wert ergibt.
+
+\begin{defn}
+\label{defn:4.33}
+Es sei $\II_k = (i_1,\ldots,i_k)$ mit $1\le i_1 < i_2 <\ldots <i_k$ Dann heißt
+$\II$ \emph{wachsender Index}. Sei
+\begin{align*}
+\GG^{(k)} = \setdef{\II_k}{\II_k \text{ wachsender Index}},
+\end{align*}
+die Menge der wachsenden Indizes. Wir schreiben
+\begin{align*}
+\dx_I := \dx_{i_1}\land \ldots \land \dx_{i_k}.
+\end{align*}
+Eine solche $k$-Form heißt \emph{$k$-Grundform} im $\R^n$.\fishhere
+\end{defn}
+
+\begin{prop}
+\label{prop:4.34}
+\begin{enumerate}[label=\arabic{*}.)]
+  \item Ist $\omega = \sum\limits_{I\in\GG^{k}} a_I \dx_I = 0$, so folgt $a_I =
+  0$ für alle $I\in \GG^k$.
+  \item Jede $k$-Form in $O$ besitzt eine eindeutige Darstellung
+  \begin{align*}
+  \omega =
+  \sum\limits_{I\in\GG^{k}} a_I\dx_I,
+  \end{align*}
+d.h. $(a_I : I\in \GG^k)$ sind Koordinaten von $\omega$.
+
+Die Abbildung $\omega\mapsto a_I\in \GG^k$ ist linear und bijektiv als
+Abbildung von der Menge der $k$-Formen auf $O$ auf die Menge der
+$\binom{n}{k}$-Tupel von stetigen Funktionen auf $O$.\fishhere
+\end{enumerate}
+\end{prop}
+\begin{proof}
+\begin{enumerate}[label=\arabic{*}.)]
+\item Sei $\omega = 0$. Angenommen $\exists x\in \Omega, I_0\in\GG^k :
+a_{I_0}(x_0) > 0$. Wähle $\delta > 0$, so dass
+\begin{align*}
+a_{I_0}(x_0) \ge \frac{1}{2} a_{I_0}(x),
+\end{align*}
+für $x\in U_\delta(x_0)$. Sei $D=K_\delta^k(0), \ph(y) = x_0 +
+\sum\limits_{j=1}^k y_j e_{jk}$,
+wobei $I_0 = (j_1,\ldots,j_k)$, dann gilt
+\begin{align*}
+\det\left(\frac{\partial(\ph_{i_1},\ldots,\ph_{i_k})}{\partial y} \right) = 0,
+\end{align*}
+für $1\le i_1 < \ldots < i_k\le n$ und $(i_1,\ldots,i_k)\neq I_0$. Da für
+$i_l\in\N_0$ mit $(i_1, \ldots, i_l, \ldots, i_k)\neq I_0$ gilt,
+\begin{align*}
+\ph_{i_l} = (x_0)_{i_l},\quad\text{konstant},
+\end{align*}
+ist mindestens eine der Spalten $0$. Daher ist
+\begin{align*}
+\det\left(\frac{\partial(\ph_{i_1},\ldots,\ph_{i_k})}{\partial y} \right) =
+\det E = 1,
+\end{align*}
+\begin{align*}
+\Rightarrow \omega(S) = \int_D a_{I_0}(\ph(y))\dy > 0.\dipper
+\end{align*} 
+\item Die Eindeutigkeit folgt direkt aus \ref{defn:4.33}. Um die Existenz zu
+zeigen, sortiere alle Summanden so um, dass die Indizes aufsteigen  (ändert
+lediglich das Vorzeichen).\qedhere
+\end{enumerate}
+\end{proof}
+
+\begin{defn}[Nachtrag]
+\label{defn:4.35}
+Ist $\omega$ eine $k$-Form in $O$ und sind $S=\ph(O)=\ph(\tilde{O})$ zwei gleich
+orientierte Darstellungen der $k$-dimensionalen Mannigfaltigkeit $S$, so ist
+$\omega(S)$ unabhängig von der gwählten Darstellung.\fishhere
+\end{defn}
+\begin{proof}
+Mit Kettenregel nachrechnen, wie in \ref{bem:4.21}.\qedhere
+\end{proof}
+
+\subsection{Rechnen mit Differentialformen}
+
+\begin{defn}[Multiplikation]
+\label{defn:4.36}
+\begin{enumerate}[label=\arabic{*}.)]
+\item Sind $k,l\ge 1$ und
+\begin{align*}
+&\omega_1 = \sum\limits_{I\in\GG^k} a_I\dx_I,\\ 
+&\omega_2 = \sum\limits_{J\in\GG^k} b_J\dx_J,
+\end{align*}
+so ist
+\begin{align*}
+\omega_1\land \omega_2 = \sum\limits_{I\in\GG^k}\sum\limits_{J\in\GG^k} a_I b_J
+\dx_I\land \dx_J,
+\end{align*}
+eine $k+l$-Form. Das \emph{Produkt} von $\omega_1$ und $\omega_2$.
+\item Im Fall $k=0$, also $\omega_1 = f$
+\begin{align*}
+\omega_1\land\omega_2 := f\cdot\omega_2 = \sum\limits_{J\in\GG^k} f\cdot b_J
+\dx_J.\fishhere
+\end{align*}
+\end{enumerate}
+\end{defn}
+
+\begin{prop}
+\label{prop:4.37}
+Die Multiplikation ist assoziativ und distributiv über der Addition in beiden
+Richtungen,
+\begin{align*}
+&(\omega_1+\omega_2)\land\omega_3  =
+\omega_1\land\omega_3+\omega_2\land\omega_3,\\
+&\omega_1\land(\omega_2+\omega_3) =
+\omega_1\land\omega_2+\omega_1\land\omega_3,\\
+&\omega_1\land(\omega_2\land\omega_3) =
+(\omega_1\land\omega_2)\land\omega_3.\fishhere
+\end{align*}
+\end{prop}
+\begin{proof}
+Nachrechnen (Rudin).\qedhere
+\end{proof}
+
+\begin{prop}[Differentiation]
+\begin{enumerate}[label=\arabic{*}.)]
+\item Falls $\omega = f$ eine $0$-Form in $O$ der Klasse $C^1$ ist, dann ist
+\begin{align*}
+\domega := \sum\limits_{j=1}^n (\partial_{x_i} f) \dx_i, 
+\end{align*} 
+die \emph{Ableitung} von $\omega$.
+\item Falls $k\ge 1$ und $\omega = \sum\limits_{I\in\GG^k} a_I\dx_I$ eine
+$k$-Form in $O$ der Klasse $C^1$ ist, gilt
+\begin{align*}
+\domega := \sum\limits_{I\in\GG^k}  \diffd a_I\dx_I
+= \sum\limits_{I\in\GG^k}  \sum\limits_{j=1}^n (\partial_{x_i} a_I)
+\dx_i\land\dx_I.
+\end{align*}
+Ist $\omega$ eine $k$-Form der Klasse $C^m$, so ist $\domega$ eine $k+1$-Form
+der Klasse $C^{m-1}$.\fishhere
+\end{enumerate}
+\end{prop}
+
+\begin{bsp}
+\label{bsp:4.39}
+\begin{enumerate}
+\item Sei $f\in C^1(O\to\R),\;O\subseteq\R^n $ und $\omega = f$, dann gilt
+\begin{align*}
+\domega = \sum\limits_{i=1}^n \partial_{x_i} f \dx_i.
+\end{align*} 
+Sei $D=(a,b)$ und $\ph(D) = S$ eine $C^1$-Mannigfaltigkeit, dann gilt
+\begin{align*}
+\domega(S) & = \int_D \sum\limits_{i=1}^n (\partial_{x_i} f)(\ph(y)) \partial
+\ph_i \dy \\
+& = \int_D \frac{\diffd}{\dy}(f\circ\ph)(y) \dy = f\circ\ph(b) -
+f\circ\ph(a) \\ &= \omega(\ph(b)) - \omega(\ph(a)) = \omega(\partial S).
+\end{align*}
+Wir werden sehen, dass $\domega(S) = \omega(\partial S)$ allgemein gilt.
+\item Sei $k=3$,
+\begin{align*}
+\omega &= V_1\dx_2\land \dx_3 + V_2 \dx_3\land \dx_1 +
+V_3\dx_1\land \dx_2 \\ 
+&= V_1\dx_2\land \dx_3 - V_2 \dx_1\land \dx_3 +
+V_3\dx_1\land \dx_2.
+\end{align*}
+Aus \ref{defn:4.25} wissen wir, $\omega(S) = \int_S \lin{V,n_0}\dV^{(3)}$ ist
+der Fluss durch $S$.
+\begin{align*}
+\domega &= \partial_{x_1} V_1 \dx_1\land \dx_2 \land \dx_3 + \partial_{x_2} 
+V_2 \dx_1\land \dx_2 \land \dx_3 \\ 
+&+ \partial_{x_3} V_3  \dx_1\land \dx_2
+\land \dx_3 = \div V  \dx_1\land \dx_2 \land \dx_3.
+\end{align*}
+Daraus folgt,
+\begin{align*}
+\domega(S) = \int_D (\div V)(\ph(y))\det\left(\frac{\partial \ph}{\partial
+y}\right)\dy = \int_S (\div V)(y) \dy.
+\end{align*}
+\end{enumerate}
+\end{bsp}
+
+\begin{prop}
+\label{prop:4.40}
+\begin{enumerate}[label=\arabic{*}.)]
+\item $\diffd(\omega_1+\omega_2) =\domega_1+\domega_2$.\\
+$\diffd(c\omega) = c\domega$.
+\item Sei $\omega_1$ $k$-Form, $\omega_2$ eine $l$-Form der Klasse $C^1$, so
+gilt die \emph{Produktregel},
+\begin{align*}
+\diffd(\omega_1\land\omega_2) = \domega_1\land \omega_2 +
+(-1)^k\omega_1\land\domega_2.
+\end{align*}
+\item Ist $\omega$ eine $k$-Form der Klasse $C^2$, dann gilt die
+\emph{Poincare Identität},
+\begin{align*}
+\diffd^2\omega = 0.\fishhere
+\end{align*}
+\end{enumerate}
+\end{prop}
+\begin{proof}
+\begin{enumerate}[label=\arabic{*}.)]
+\item Folgt direkt aus der Definition.
+\item Sei $\omega_1 = a_I\dx_I$ und $\omega_2 = b_J\dx_J$. Aus der Definition
+folgt,
+\begin{align*}
+\omega_1\land\omega_2 = a_I b_j \dx_I\land \dx_J.
+\end{align*}
+Um die eindeutige Darstellung von  $\dx_I\land \dx_J$ zu erreichen, wäre noch
+ein Umsortieren notwendig, was aber lediglich einen Faktor $-1$ ändern würde.
+\begin{align*}
+\diffd(\omega_1\land\omega_2) &= \sum\limits_{k=1}^n \partial_{x_k} (a_Ib_j)
+\dx_k\land\dx_I\land\dx_J\\ 
+&= b_J\left(\sum\limits_{k=1}^n (\partial_{x_k} a_I)
+\dx_k\land\dx_I\right)\land\dx_J
+\\ &\;+ (-1)^ka_I\left(\sum\limits_{k=1}^n (\partial_{x_k} b_J)
+\dx_k\land\dx_J\right)\land\dx_I\\
+&= \domega_1\land\omega_2 + (-1)^k \omega_1\land\domega_2.
+\end{align*}
+\item\begin{enumerate}[label=\alph{*})]
+\item$\omega=f$ ist eine $0$-Form, dann folgt,
+\begin{align*}
+\domega &= \sum\limits_{i=1}^n (\partial_{x_i} f) \dx_i,\\
+\diffd^2\omega &= \sum\limits_{i,j=1}^n (\partial_{x_j}\partial_{x_i} f)
+\dx_j\land\dx_i = 0,
+\end{align*} 
+denn nach dem Satz von H.A. Schwartz ist $\partial_{x_j}\partial_{x_i} f =
+\partial_{x_i}\partial_{x_j} f$ und falls $j>i$ ist $\dx_j\land\dx_i =
+-\dx_i\land\dx_j$, also heben sich die Summanden weg.
+\item Sei $k\ge 1$, $\omega = a_I\dx_I = a_I\land \dx_I$, dann folgt
+\begin{align*}
+\domega &= \diffd a_I\land \dx_I + a_I \land \diffd^2x_I = \diffd a_I \land \dx_I,
+\end{align*}
+denn $\diffd^2x_I = \diffd(\dx_I)=\sum_i (\partial_{x_i} 1)\dx_i\land\dx_I
+= 0$.
+\begin{align*}
+\diffd^2\omega &= \underbrace{\diffd^2 a_I}_{=0} \land \dx_I + \diffd a_I \land
+\underbrace{\diffd^2x_I}_{=0} = 0.\qedhere
+\end{align*}
+\end{enumerate}
+\end{enumerate}
+\end{proof}
+
+\begin{bsp}
+\label{bsp:4.41}
+\begin{enumerate}[label=\arabic{*}.)]
+  \item $\omega = x_1\dx_2$ kann nicht Ableitung einer Nullform kein, denn
+\begin{align*}
+\domega = \domega_1\land\domega_2 \neq 0.
+\end{align*}
+  \item $\omega = x_1\dx_1, \domega = 0$. Rate $\Omega := \frac{1}{2}x_1^2+c$
+  ist Nullform und $\dOmega = \omega$.
+\end{enumerate}
+\end{bsp}
+
+\subsection{Zerlegung der Eins}
+
+Bisher sind wir in unserer Definition von $\omega(S)$ davon ausgegangen, dass
+eine Karte existiert, die ganz $S$ erfasst. Dies ist jedoch nur ein selten
+auftretender Spezialfall. Um die Definition zu verallgemeinern benötigen wir
+ein \emph{Zerlegung der Eins}, eine Menge von Funktionen $\{\psi_i\}$ deren
+Summe $\sum_i \psi_i(x) = 1$ für jedes $x\in S$. Damit ist es
+uns möglich, $\omega$ lokal in eine endliche Summe zu zerlegen und $\omega(S)$
+als Integral über die Summanden zu definieren, ohne die Mannigfaltigkeit
+$S$ vorher in disjunkte Stücke zerlegen zu müssen.
+
+\begin{lem}
+\label{prop:4.42}
+Sei $K\subseteq\R^n$ kompakt und $M\subseteq\R^n$ abgeschlossen, sowie $K\cap M
+= \varnothing$. Dann gilt,
+\begin{align*}
+\dist(K,M) = \inf\setdef{\norm{x-y}}{x\in K,y\in M} > 0,
+\end{align*}
+und das Infimum ist ein Minimum.\fishhere
+\end{lem}
+\begin{proof}
+Sei $(x_n)$ Folge in $K$ und $(y_n)$ Folge in $M$, so dass
+$\norm{x_n-y_n}\to d(K,M)$.\\
+$K$ ist kompakt, also hat $(x_n)$ eine konvergente Teilfolge $(x_{n_k})$ mit
+Grenzwert $x\in K$.
+\begin{align*}
+\norm{y_{n_k}} \le \norm{y_{n_k}-x_{n_k}}+\norm{x_{n_k}},
+\end{align*}
+also ist $(y_{n_k})$ beschränkt und besitzt eine konvergente Teilfolge
+$(y_{n_{k_l}})$ mit Grenzwert $y\in M$, da $M$ abgeschlossen ist. Es gilt daher
+\begin{align*}
+\norm{x-y} = \lim\limits_{l\to\infty}\norm{x_{n_{k_l}}-y_{n_{k_l}}} =
+d(K,M).\qedhere
+\end{align*}
+\end{proof}
+
+\begin{defn}
+\label{defn:4.43}
+Sei $\psi: \R^n\to\R/\C$. Der \emph{Träger (Support)} von $\psi$ ist definiert
+als
+\begin{align*}
+\supp\psi := \overline{\setdef{x\in\R^n}{\psi(x)\neq 0}}.\fishhere
+\end{align*}
+\end{defn}
+
+\begin{prop}
+\label{prop:4.44}
+Sei $M\subseteq\R^n$ und $\setdef{O_\alpha}{\alpha\in\AA}$ eine offene
+Überdeckung von $M$ mit beliebiger Indexmenge $\AA$. Dann existiert eine
+abzählbare Menge von Funktionen $\psi_j\in C^\infty(\R^n\to\R)$ mit den
+Eigenschaften:
+\begin{enumerate}[label=(\roman{*})]
+  \item $\forall j\in\N,x\in\R^n: 0\le \psi_j(x) \le 1$,
+  \item $\forall j\in\N : \supp\psi_j$ ist kompakt und es existiert ein
+  $\alpha\in\AA: \supp\psi_j \subseteq O_\alpha$,
+  \item $\forall x\in M : \card\setdef{j\in\N}{\psi_j(x)\neq0}<\infty$,
+  \item $\forall x\in M: \sum\limits_{j=1}^\infty \psi_j(x) = 1$.
+\end{enumerate}
+Die Familie $(\psi_j)$ heißt \emph{Zerlegung der Eins} bezüglich der
+Überdeckung $(O_\alpha)$.\fishhere
+\end{prop}
+
+\begin{lem}
+\begin{enumerate}[label=\arabic{*}.)]
+  \item Die Funktion
+\begin{align*}
+g_1(x) := \begin{cases}
+e^{-1/x}, & x> 0,\\
+0, & x\le 0,
+\end{cases}
+\end{align*}
+ist $C^\infty(\R\to\R)$ und $\supp g_1 := [0,\infty)$.
+\item $g_2(x) := g_1(1-\norm{x}^2)$ für $x\in\R^n$, dann gilt $g_2\in
+C^\infty(\R^n\to\R)$ und $\supp g_2 := K_1^{(n)}(0)$.
+\item $g_3(x) := \frac{1}{\int_{\R^n} g_2\dmu} g_2(x)$. Dann gilt
+zusätzlich $\int_{\R^n} g_3\dmu = 1$.
+\item Für $\delta > 0$ und $x\in\R^n$ sei,
+\begin{align*}
+\psi_\delta(x) := \frac{1}{\delta^n}g_3\left(\frac{x}{\delta}\right),
+\end{align*}
+dann ist $\psi_\delta\in C^\infty(\R^n\to\R), \psi_\delta \ge 0, \supp
+\psi_\delta = \overline{K_\delta(0)}$, sowie
+\begin{align*}
+\int_{\R^n} \psi_\delta \dmu = \int_{\R^n} \delta^n \psi_\delta(\delta y)\mu(y)
+= \int_{\R^n} g_3(y)\dmu(y) = 1.\fishhere
+\end{align*}
+\end{enumerate}
+\end{lem}
+\begin{proof}
+Die Eigenschaften ergeben sich direkt aus der Konstruktion.\qedhere
+\end{proof}
+
+\begin{lem}
+\label{prop:4.46}
+Sei $O\subseteq\R^n$ offen, $K\subseteq O$ kompakt, dann existiert ein $\ph\in
+C^\infty(\R^n\to\R)$ mit $\ph\ge0$, $\supp \ph \subseteq O$ kompakt, $\ph(x) =
+1$ für $x\in K$.\fishhere
+\end{lem}
+\begin{proof}
+Sei $\delta:=\frac{1}{4}d(K,\R^n\setminus O)$ bzw. $\delta = 1$, falls
+$O=\R^n$, dann ist $0<\delta <\infty$. Setzte
+\begin{align*}
+K_\delta := \setdef{x\in\R^n}{d(x,K)\le\delta} \subseteq O,
+\end{align*}
+%TODO: Bild Kugeln.
+dann erfüllt folgende Abbildung die Behauptung,
+\begin{align*}
+\ph(x) := \int_{\R^n} \chi_{K_\delta}(y)\psi_\delta(x-y)\dy,
+\end{align*}
+denn $\supp\psi_\delta(x-\cdot)=K_\delta(x)$ und für $x\in K$ ist
+$K_\delta(x)\subseteq K_\delta$. $\supp\ph$ ist beschränkt, denn
+$\ph(x)=0$, falls $d(K_\delta,x)>\delta$.\qedhere
+\end{proof}
+
+\begin{lem}
+\label{prop:4.47}
+Sei $O\subseteq\R^n$ offen, $K\subseteq O$ kompakt. Dann existiert ein
+$O'\subseteq\R^n$ offen mit $K\subseteq O'\subseteq \overline{O'}\subseteq
+O$.\fishhere
+\end{lem}
+\begin{proof}
+Sei $\delta:=\frac{1}{4}d(K,\R^n\setminus O)$ bzw. $\delta = 1$, falls
+$O=\R^n$. Dann erfüllt $O':=\bigcup\limits_{x\in K} K_\delta^{(n)}(x)$ die
+Behauptung.\qedhere
+\end{proof}
+
+\begin{lem}
+\label{prop:4.48}
+Sei $K\subseteq \R^n$ kompakt, $\{O_1,\ldots,O_n\}$ offene Überdeckung von $K$,
+dann existieren $O_1',\ldots,O_k'$ offen mit,
+\begin{align*}
+\overline{O_j'}\subseteq O_j,
+\end{align*}
+beschränkt und $K\subseteq\bigcup_{i=1}^N O_j'$.\fishhere
+\end{lem}
+\begin{proof}
+$K_1 := K\cap \left(\R^n\setminus\bigcup\limits_{j=2}^N O_j\right)$ ist kompakt
+und $K_1\subseteq O_1$. Wähle nach \ref{prop:4.47} $O_1'$ mit $K_1\subseteq
+O_1'\subseteq\overline{O}_1'\subseteq O_1$, dann überdecken
+$\left\{O_1',O_2,\ldots,O_N\right\}$ $K$. Fahre fort mit $O_2$.\qedhere
+\end{proof}
+
+\begin{proof}
+\begin{bemn}[Beweis von Satz \ref{prop:4.44}]
+\begin{enumerate}[label=\alph{*})]
+\item\label{proof:4.44:1} $M$ ist kompakt.
+
+Dann gibt es endlich viele $\alpha_j\in A$ mit $M \subseteq
+\bigcup\limits_{j=1}^N O_{\alpha_j}$. Wähle nach \ref{prop:4.48}
+$O_{\alpha_j}'$ offen mit $M \subseteq \bigcup\limits_{j=1}^N O_{\alpha_j}'$ und 
+$\overline{O}_{\alpha_j}'\subseteq O_{\alpha_j}$ kompakt. Dann existieren
+nach \ref{prop:4.46} $\ph_{\alpha_j}\in\C^\infty(\R^n\to\R)$ mit
+$\ph_{\alpha_j} \ge 0$, $\supp \ph_{\alpha_j} \subseteq O_{\alpha_j}$ kompakt
+und $\ph_{\alpha_j} = 1$ auf $\overline{O}_{\alpha_j}'$.
+
+Setze für $x\in\R^n$,
+\begin{align*}
+\psi_j(x) = \begin{cases}
+\frac{1}{\sum\limits_{j=1}^N \ph_{\alpha_j}(x)}\ph_{\alpha_j}(x),&
+\sum\limits_{j=1}^N \ph_{\alpha_j}(x) \neq 0,\\
+0,& \text{sonst},
+\end{cases}
+\end{align*}
+dann sind die geforderten Eigenschaften von \ref{prop:4.44} erfüllt, denn
+\begin{enumerate}[label=(\roman{*})]
+  \item $\forall x\in\R^n\;\forall j=1,\ldots,N\;:\; 0\le \psi_j(x)\le 1$,
+  \item Klar.
+  \item Klar, denn es gibt nur endlich viele $j$.
+  \item Sei $x\in M$, dann existiert ein $\alpha_j\in A$ mit $\ph_{\alpha_j} =
+  1$ auf $O_{\alpha_j}'$ also ist $\sum_j \ph_{\alpha_j} \ge 1$ und daher gilt,
+\begin{align*}
+\sum\limits_{j=1}^N \psi_j(x) =
+\frac{1}{\sum_j\ph_{\alpha_j}}\sum\limits_{j=1}^N \ph_j(x) = 1.
+\end{align*}
+\end{enumerate}
+$\partial\supp\left(\sum\limits_{j=1}^N \ph_{\alpha_j}\right)$ bildet jedoch
+eine Problemzone, denn es ist nicht garantiert, dass $\psi_j$ dort $C^\infty$
+ist. Wende daher \ref{prop:4.46} auf $K=M$, $O=\bigcup_{j=1}^N
+O_{\alpha_j}'\subseteq \supp\sum_j \ph_{\alpha_j}$ an und erhalte $\ph\in C^\infty(\R^n\to\R)$, $\ph=1$ auf $M$, $0\le\ph\le 1$ und $\supp\ph\subseteq \bigcup_{j=1}^N
+O_{\alpha_j}'$. Insbesondere ist $\ph=0$ in der Problemzone.
+
+Setze $\tpsi_j = \ph\psi_j$, dann hat $\setdef{\tpsi_j}{j=1,\ldots,N}$ alle
+gewünschten Eigenschaften.
+\item\label{proof:4.44:2} $M$ ist offen.
+
+Sei $M_j:=\setdef{x\in M}{\norm{x}\le j\text{ und }d(x,\R^n\setminus
+M)\ge\frac{1}{j}}$, dann ist $M=\bigcup_{j=1}^\infty$ und die $M_j$ sind
+kompakt.
+
+Für festes $j$ ist $\left\{O_\alpha\cap\left(M_{j+1}^\circ
+\cap(\R^n\setminus M_{j-2})\right)\right\}$ eine offene Überdeckung von
+$M_j\setminus M_{j-1}^\circ$.
+
+Nach \ref{proof:4.44:1} existiert eine endliche Zerlegung der 1
+$\setdef{\psi_{j_k}}{k=1,\ldots,N_j}$ bezüglich dieser Überdeckung.
+
+Setze $\sigma(x):=\sum\limits_{j=1}^\infty\sum\limits_{k=1}^{N_j}
+\psi_{j_k}(x)$. Nach Konstruktion existiert für jedes $x\in M$ eine Umgebung $U(x)$, so dass
+die Summe in $U(x)$ endlich ist, daher ist $\sigma\in\C^\infty(\R^n\to\R)$.
+Außerdem ist $\sigma(x) > 0$ für $x\in M$ und daher ist
+$\setdef{\frac{\psi_{j_k}}{\sigma}}{j\in\N\land k=1,\ldots,N_j}$ eine Zerlegung
+der 1.
+\item $M\subseteq\R^n$ ist beliebig.
+
+$M$ ist Teilmenge von $O:=\bigcup\limits_{\alpha\in\AA} O_\alpha$. Nach \ref{proof:4.44:2}
+existiert daher eine Zerlegung der Eins für $O$. Diese können wir auf $M$
+einschränken.\qedhere
+\end{enumerate}
+\end{bemn}
+\end{proof}
+
+\subsection{Satz von Stokes}
+
+\begin{defn}
+\label{defn:4.49}
+Eine Mannigfaltigkeit $S\subseteq\R^n$ heißt \emph{kompakt}, falls sie als
+Teilmenge des $\R^n$ kompakt ist.\fishhere
+\end{defn}
+
+\begin{bsp}
+\label{bsp:4.50}
+\begin{enumerate}[label=\arabic{*}.)]
+\item $S_1 =\setdef{x\in\R^n}{\norm{x}_2 = 1}$ ist kompakt, $\partial S =
+\varnothing$.
+\item $S_2 = K_1^{(n)}(0)$ ist nicht kompakt, $\partial S_2 = \varnothing$.
+\item $S_3 = \setdef{x\in\R^n}{\norm{x}_2 = 1 \land x_1\le 0}$ ist kompakt,
+\begin{align*}
+\partial S_3 = \setdef{x\in\R^n}{x_1 = 0 \land x_2^2+\ldots+x_n^2 \le
+1}.\fishhere
+\end{align*}
+\end{enumerate}
+\end{bsp}
+
+\begin{defn}
+\label{defn:4.51}
+Sei $O\subseteq \R^n$ offen, $S\subseteq O$ $k$-dimensionale, kompakte,
+orientierte $C^1$-Mannigfaltigkeit mit orientiertem Atlas
+$\{(\phi_1,U_1),\ldots,(\phi_M,U_N)\}$.
+
+Seien $O_1,\ldots,O_N\subseteq \R^n$ offen mit $O_j\cap S = U_j$, dann ist
+$\{O_1,\ldots,O_N\}$ offene Überdeckung von $S$. Sei $\psi_1,\ldots, \psi_N$
+eine dazugehörige Zerlegung der Eins. Für eine $k$-Form $\omega$ in $O$
+definieren wir,
+\begin{align*}
+\int_S \omega := \sum\limits_{j=1}^N \int_{U_j} \psi_j \omega
+= \sum\limits_{j=1}^N \int_D \psi_j(\phi_j(y)) \sum\limits_{I\in\GG^k} a_I
+\det\left(\frac{\partial \phi_j(y)}{\partial y} \right) \dy.\fishhere
+\end{align*}
+\end{defn}
+
+\begin{bemn}
+Die Zerlegung der 1 ist endlich, da $S$ kompakt ist,
+eine endliche offene Überdeckung ist hierfür noch nicht ausreichend.\maphere
+\end{bemn}
+
+\begin{prop}
+\label{prop:4.52}
+Die Definition von $\int_S \omega$ ist unabhängig von der Wahl der $O_j$ und
+der Zerlegung der Eins.\fishhere
+\end{prop}
+\begin{proof}
+Seien $O_j$ und $\psi_j$ wie vorausgesetzt, $\tilde{O}_j\subseteq\R^n$
+mit $\tilde{O}_j\cap S = U_j$ und $\{\tpsi_1,\ldots,\tpsi_N\}$ die dazugehörige Zerlegung der Eins.
+\begin{align*}
+\sum\limits_{j=1}^N \int_{U_j} 1\cdot\psi_j \omega
+&= \sum\limits_{j=1}^N \int_{U_j} \left(\sum\limits_{l=1}^N \tpsi_l \right)
+\cdot\psi_j\omega
+\overset{!}{=} \sum\limits_{l=1}^N\sum\limits_{j=1}^N \int_{U_l} \tpsi_l\psi_j \omega
+\\ &= \sum\limits_{l=1}^N\int_{U_l}
+\left(\sum\limits_{j=1}^N \psi_j \right)\tpsi_l \omega,
+\end{align*}
+wobei das Integral über $U_j$ gleich dem über $U_l$ ist, da $\supp \tpsi_l
+\subseteq U_l$.\qedhere
+\end{proof}
+
+\begin{prop}
+\label{prop:4.53}
+Die Definition $\int_S \omega$ ist unabhängig vom Atlas $A(S)$, solange die
+Orientierung nicht geändert wird.\fishhere
+\end{prop}
+\begin{proof}
+Seien $A(S)$ und $(\psi_j)$ wie vorausgesetzt,
+$\tilde{A}(S):=\setdef{(\tphi_j,\tilde{U}_j)}{j=1,\ldots,M}$ und
+$\{\tpsi_1,\ldots,\tpsi_M\}$ die entsprechende Zerlegung der Eins.
+\begin{align*}
+\sum\limits_{j=1}^N \int_{U_j} \psi_j \omega
+= \sum\limits_{j=1}^N\sum\limits_{l=1}^N \int_{U_j} \tpsi_l\psi_j \omega
+\overset{!}{=} \sum\limits_{l=1}^N \int_{\tilde{U}_l} \psi_l \omega,
+\end{align*}
+da $\supp \tpsi_l\psi_j\subseteq
+U_j\cap \tilde{U}_l$ und $(\phi_j,U_j)$, $(\tphi_l,\tilde{U}_l)$ gleich
+orientiert sind, ist $U_j$ durch $\tilde{U}_l$ nach entsprechender
+Koordinatentransformation ersetzbar.\qedhere
+\end{proof}
+
+\begin{defn}
+\label{defn:4.54}
+Sei $S$ eine $k$-dimensionale $C^1$-Mannigfaltigkeit mit orientiertem Atlas
+$A(S) = \{(\phi_1,U_1),\ldots,(\phi_N,U_N)\}$. Im Unterschied zu \ref{defn:4.3}
+sollen als Definitionsbereiche von $\phi_j$ zugelassen sein: $K_1^{(n)}(0)$
+oder $K_{1,-}^{(n)}(0) := \setdef{x\in K_1^{(n)}(0)}{x_1\le 0}$. Sei $A(S)$ so
+sortiert, dass $\phi_1,\ldots,\phi_l$ auf $K_{1,-}^{(n)}(0)$ und
+$\phi_{l+1},\ldots,\phi_N$ auf $K_1^{(n)}(0)$ definiert sind. Dann ist
+\begin{align*}
+A(\partial S) = \{(\tphi_1,\tilde{U}_1),\ldots,(\tphi_l,\tilde{U}_l)\}
+\end{align*}
+mit
+\begin{align*}
+&\tphi(y_1,\ldots,y_{k-1}) := \phi_j(0,y_1,\ldots,y_{k-1}),\\
+&\tilde{U}_j = \tphi_j(K_1^{n-1}(0)),
+\end{align*}
+ein orientierter Atlas von $\partial S$. Die so definierte Orientierung von
+$\partial S$ heißt \emph{verträglich} mit der Orientierung von $S$.
+
+Ist $\{\psi_1,\ldots,\psi_N\}$ Zerlegung der Eins wie in \ref{prop:4.53}, so
+passt sie auch zum Atlas $A(\partial S)$ und es gilt,
+\begin{align*}
+\int_{\partial S} \tomega = \sum\limits_{j=1}^l \int_{\tilde{U}_j} \psi_j
+\tomega = \sum\limits_{j=1}^l \int_{\partial U_j} \psi\tomega,
+\end{align*}
+für jede $k-1$-Form $\tomega$. Hierbei wird jedes $U_j$ als Mannigfaltigkeit
+mit Karte $(\phi_j,U_j)$ betrachtet.\fishhere
+\end{defn}
+
+\begin{prop}[Satz von Stokes]
+\label{prop:4.55}
+Sei $O\subseteq\R^n$ offen, $0\le k\le n-1$, $\omega$ eine $k$-Form in $O$ der
+Klasse $C^1$. Sei $S\subseteq O$ eine kompakte orientierte $(k+1)$-dimensionale
+$C^2$-Mannigfaltigkeit, dann gilt
+\begin{align*}
+\int_S \domega = \int_{\partial S}\omega.\fishhere
+\end{align*}
+\end{prop}
+\begin{proof}
+Sei $k\ge 1$.
+\begin{bemn}[Vereinfachung.]
+Sei ohne Einschränkung $\omega = a \dx_{i_1}\land \ldots\dx_{i_k}$.
+\end{bemn}
+\begin{bemn}[Lokalisierung.]
+Seien $A(S)$, $A(\partial S)$ und die Zerlegung der Eins wie in
+\ref{defn:4.54}, insbesondere sei der Definitionsbereich von $\ph_j =
+K_{1,-}^{(k+1)}(0)$ für $j=1,\ldots,l$.
+\begin{align*}
+\int_S \domega &= \sum\limits_{j=1}^N \int_{U_j} \psi_j \domega
+\\ &= \sum\limits_{j=1}^N \int_{U_j}  \diffd(\psi_j\omega) -
+\sum\limits_{i=1}^N\underbrace{\sum\limits_{j=1}^N \int_{U_j}
+(\partial_{x_i}\psi_j) a \dx_i \land \dx_{i_1}\land \ldots\dx_{i_k}}_{=0,\text{
+da }\sum_j \psi_j = 1}\\
+&= \sum\limits_{j=1}^N \int_{U_j}  \diffd(\psi_j\omega)
+\end{align*}
+\end{bemn}
+\begin{bemn}[Spezialfall.]
+Wir zeigen nun,
+\begin{align*}
+\int_{U_j} \diffd(\psi_j\omega) = \begin{cases}
+\int_{\partial U_j} \psi_j\omega,& 1\le j\le l,\\
+0, & j = l+1,\ldots,N,
+\end{cases}
+\end{align*}
+dann gilt
+\begin{align*}
+\int_S \domega = \sum\limits_{j=1}^l \int_{\partial U_j} \psi_j \omega =
+\int_{\partial S} \omega.
+\end{align*}
+\end{bemn}
+Sei nun $j$ fest,
+\begin{align*}
+\ph_j(y) = (g_1(y),\ldots,g_n(y))\\
+D = \begin{cases}
+K_{1,-}^{(k+1)}(0),& j\le l,\\
+K_{1}^{(k+1)}(0),& j\le l,
+\end{cases}
+\end{align*}
+
+\begin{align*}
+\int_{U_j} \diffd(\psi_j\omega) &= \sum\limits_{i=1}^n \int_{U_j}
+\partial_{x_i}(\psi_j\omega) \dx_{i}\land \dx_{i_1}\land \ldots\land\dx_{i_k}
+\\ &= \sum\limits_{i=1}^n \int_{D}
+\partial_{x_i}(\psi_ja)(\ph_j(y))
+\det\left(\frac{\partial(g_i,g_{i_1},\ldots,g_{i_k})}{\partial(y_i,y_{i_1},\ldots,y_{i_k})}
+\right) \dy.
+\end{align*}
+Wir können nun die Determinante nach der 1. Zeile Laplace entwickeln und dann
+die Kettenregel anwenden und erhalten,
+\begin{align*}
+\ldots &= \sum\limits_{\nu=1}^{k+1} (-1)^{\nu+1} \sum\limits_{i=1}^n
+\int_D \left(\partial_{x_i} (\psi_j a\right)(\ph_j(y)) \frac{\partial
+g_i}{\partial y_\nu}
+\underbrace{\abs{\frac{\partial(g_{i_1},\ldots,g_{i_k})}{\partial(\ldots,\cancel{y_\nu},\ldots)}}}_{:=\det(\ldots)}\dy\\
+&= \sum\limits_{\nu=1}^{k+1}
+(-1)^{\nu+1} \int_D \partial_{y_\nu} (\psi_j a)(\ph_j(y)\det(\ldots)\dy
+\end{align*}
+Nun können wir das Integral mit Fubini über $D^\nu$ und $I_\nu$ aufteilen, wobei
+\begin{align*}
+I_\nu = \begin{cases}
+\left[-\sqrt{1-\norm{y^{(\nu)}}^2},0\right], & 1\le \nu\le l,\\
+\left[-\sqrt{1-\norm{y^{(\nu)}}^2},\sqrt{1-\norm{y^{(\nu)}}^2}\right], & l+1\le
+\nu\le k+1,
+\end{cases}
+\end{align*}
+und erhalten somit,
+\begin{align*}
+&= \sum\limits_{\nu=1}^{k+1}
+(-1)^{\nu+1}
+\int_{D^\nu}
+\int_{I_\nu}
+\partial_{y_\nu} (\psi_j a(\ph_j(y))\det(\ldots)\dy.\tag{*}
+\end{align*}
+Für das innere Integral über $I_\nu$ sich durch partielle Integration,
+\begin{align*}
+\ldots =
+(\psi_ja)(\ph_j(y))\det(\ldots)\Huge|_{I_\nu} -
+\int_{I_\nu}
+\partial_{y_\nu}(\psi_ja)(\ph_j(y))(\partial_{y_\nu}\det(\ldots))
+\dy^{(\nu)}.
+\end{align*}
+%\underbrace{}_{\sum_{\nu=1}^{k+1}\ldots = 0}
+Somit ist der 2. Summand Null und der erste Summand ist nur ungleich Null, für
+$y_1 = 0$, also $\nu=1$, da $\supp \psi_j \subseteq U_j$ und daher $\psi_j$ auf
+dem Rand verschwindet. Das Integral hat somit den Wert
+\begin{align*}
+(*) &= (-1)^{1+1}\int_{D^1} (\psi_j a)(\ph_j(y)) \det(\ldots)\dy^\nu\\
+&= \int_{\partial U_j} \psi_j\omega.\qedhere
+\end{align*}
+\end{proof}
+
+\begin{bem}[Bemerkungen.]
+\label{bem:4.56}
+\begin{enumerate}[label=\arabic{*}.)]
+\item Im Fall $k=0$, $\omega = f(x)$, $\domega = \sum\limits_{j=1}^n \partial_j
+f(x) \dx_j$.
+
+Vereinfachung: $S=\ph([a,b])$, $\partial S = \{\ph(a),\ph(b)\}$
+\begin{align*}
+\int_S \domega &=
+\int_{y=a}^b \sum\limits_{j=1}^n \left((\partial_j f(x))(\ph(y))
+\frac{\partial \ph(y)}{\partial y}  \right) \dy \\ 
+&= \int_{y=a}^b \frac{\diffd}{\dy} (f\circ\ph)(y) \dy \\
+&= f(\ph(b))- f(\ph(a)) =: \int_{\partial S} \omega
+\end{align*}
+Orientierung von $\partial S$: $\ph(b)$ bekommt $+$, $\ph(a)$ bekommt $-$.
+\item Der Satz von Stokes gilt auch, falls $S\subseteq O$ abgeschwächt wird zu
+$S=\overline{O}$.\fishhere
+\end{enumerate}
+\end{bem}
+
+\subsection{Anwendungen}
+
+\begin{prop}[Satz von Gauß-Ostrogradski]
+\label{prop:4.57}
+Sei $S\subseteq\R^n$ kompakte orientierte $C^2$-Mannigfaltigkeit der Dimension
+$n$ ($k=n-1$), $f\in C^1(S\to\R^n)$. Dann gilt,
+\begin{align*}
+\int_S \div f \dmu = \int_{\partial S} \lin{f,n_0} \dV^{(2)},
+\end{align*}
+wobei $\lin{\nabla,f} = \div f = \partial_1 f_1 + \ldots + \partial_n f_n$,
+$n_0$ ins Äußere von $S$ weisender Normaleneinheitsvektor auf $\partial S$.\fishhere
+\end{prop}
+\begin{proof}
+Wir zeigen nur den Fall $n=3$. Seien
+\begin{align*}
+&\omega_1 := f_1 \dx_2\land\dx_3,\\
+&\omega_2 := f_2 \dx_1\land\dx_3,\\
+&\omega_3 := f_3 \dx_1\land\dx_2,
+\end{align*}
+dann ist $\domega_j = (-1)^{j-1} \partial_{x_j} f_j \dx_1\land \dx_2\land
+\dx_3$ und es gilt,
+\begin{align*}
+\int_S d(\omega_1-\omega_2+\omega_3) = \int_S \div f \dx_1\land\dx_2\land\dx_3
+= \int_S \div f \dmu
+\end{align*}
+Sei $\setdef{\phi_j,U_j}{1\le j\le N}$ Atlas von $\partial S$, dann gilt
+\begin{align*}
+\int_{\partial S} (\omega_1-\omega_2+\omega_3)
+&= \sum\limits_{j=1}^N \int_{K_1^2(0)} \big(f_1(\ph_j(y))
+\det\left(\frac{\partial(\ph_2,\ph_3)}{\partial y}\right)\\
+&-f_2(\ph_j(y)) \det\left(\frac{\partial(\ph_1,\ph_3)}{\partial y}\right)\\
+&+f_3(\ph_j(y)) \det\left(\frac{\partial(\ph_1,\ph_2)}{\partial y}\right)
+\big) \dy
+\end{align*}
+Der Normalenvektor in $\ph(y)$ ist gegeben durch,
+\begin{align*}
+n(y) &:= \begin{pmatrix}
+\det\left(\frac{\partial(\ph_2,\ph_3)}{\partial y}\right)\\
+-\det\left(\frac{\partial(\ph_1,\ph_3)}{\partial y}\right)\\
+\det\left(\frac{\partial(\ph_1,\ph_2)}{\partial y}\right)
+\end{pmatrix}
+= \frac{\partial\ph}{\partial y_2}\times \frac{\partial\ph}{\partial y_3},\\
+\norm{n(y)} &= \sqrt{\det\left(\frac{\partial\ph}{\partial y}^*
+\frac{\partial\ph}{\partial y}\right)}.
+\end{align*}
+Das Integral über $\partial S$ hat somit den Wert,
+\begin{align*}
+\int_{\partial S} (\omega_1-\omega_2+\omega_3) &= \sum\limits_{j=1}^N
+\int_{K_1^{2}(0)} \lin{f(\ph(y)),\frac{n(y)}{\norm{n(y)}}} \norm{n(y)} \dy
+\\ &=  \sum\limits_{j=1}^N \int_{\ph_j(K_1^{2}(0))}
+\lin{f,n_0} \dV^{(2)}.\qedhere
+\end{align*}
+\end{proof}
+\begin{bemn}[Bemerkung zur Orientierung von $n(y)$.]
+%TODO: Bild Orientierung
+$S$ hat besitzt einen orientierten Atlas, also ist $\phi$ mit den
+anderen Karten kompatibel, die anderen Karten sind so orientiert, dass
+ $\dx_1\land\dx_2\land\dx_3 = \dmu$ und
+\begin{align*}
+\left\{\frac{\partial\phi}{\partial y_1}, \frac{\partial\phi}{\partial y_2},
+\frac{\partial\phi}{\partial y_3}\right\}
+\end{align*}
+ist rechtsorientiert ($\det\{\ldots\}> 0$) und daher ist auch
+\begin{align*}
+\left\{\frac{\partial\phi}{\partial y_2}, \frac{\partial\phi}{\partial y_3},
+\frac{\partial\phi}{\partial y_2}\times\frac{\partial\phi}{\partial y_3}\right\}
+\end{align*}
+rechtsorientiert, also ist $\lin{\frac{\partial\phi}{\partial
+y_2}\times\frac{\partial\phi}{\partial y_3}, \frac{\partial\phi}{\partial
+y_1}} > 0$ und $\frac{\partial\phi}{\partial
+y_1}$ zeigt nach außen, also auch $\frac{\partial\phi}{\partial
+y_2}\times\frac{\partial\phi}{\partial y_3}$.\maphere
+\end{bemn}
+
+\begin{prop}[Physikalische Interpretation]
+\label{prop:4.58}
+\begin{align*}
+\int_{\partial S} \lin{f,n_0}\dV^{(2)}
+\end{align*}
+ist der Fluss durch $\partial S$ und dieser entspricht nun,
+\begin{align*}
+\int_S \div f\dmu,
+\end{align*} 
+dem Fluss aus $S$ hinaus.\fishhere
+\end{prop}
+
+\begin{bspn}
+Sei $f: \R^3\to\R^3,\; x\mapsto x$, dann ist $\div f = 3$. Aus jeder Kugel
+$K_1^{(3)}(x_0)$ ist der Fluss
+\begin{align*}
+\int_{K_1^{(3)}(x_0)} \div f \dmu = 4\pi.\bsphere
+\end{align*}
+%TODO: Bildchen
+\end{bspn}
+
+\begin{prop}[Greensche Formel]
+\label{prop:4.59}
+Seien $\ph,\psi\in C^2(S\to\R)$. Dann gilt
+\begin{align*}
+\int_S \psi\Delta \ph - \ph\Delta \psi \dmu = \int_{\partial S}
+\psi\frac{\partial \ph}{\partial n_0} - \ph\frac{\partial\psi}{\partial n_0}
+\dV^{(2)},
+\end{align*}
+wobei $\Delta = \partial_{x_1}^2+\ldots+\partial_{x_n}^2$ und
+$\frac{\partial\ph}{\partial n_0} = \D_{n_0}\ph :=\lim\limits_{h\to0}
+\frac{\ph(x_0+hn_0)-\ph(x_0)}{h}$.\fishhere
+\end{prop}
+\begin{proof} Da
+$\psi\Delta\ph - \ph\Delta\psi = \lin{\nabla,(\psi\nabla\ph - \ph\nabla\psi)}$,
+gilt
+\begin{align*}
+\int_S \left(\psi\Delta\ph - \ph\Delta\psi\right)\dmu
+&= \int_S \div (\psi\nabla\ph - \ph\nabla\psi)\dmu\\
+&\overset{\text{Gauß}}{=} \int_{\partial S} \lin{\psi\nabla\ph - \ph\nabla\psi,
+n_0}\dV^{(3)}\\
+&= \int_{\partial S}
+\psi\frac{\partial \ph}{\partial n_0} - \ph\frac{\partial\psi}{\partial n_0}
+\dV^{(2)},
+\end{align*}
+da $\lin{\nabla\ph,n_0} = \frac{\partial\ph}{\partial n_0}$.\qedhere
+\end{proof}
+
+\begin{prop}[Integralsatz von Stokes]
+\label{prop:4.60}
+Sei $S\subseteq\R^3$ kompakte, orientierte $C^2$-Mannigfaltigkeit der Dimension
+$2$ ($k=1$, $n=3$), $f\in C^1(S\to\R^3)$. Dann gilt
+\begin{align*}
+\int_S \lin{\nabla\times f,n_0} \dV^{(2)}
+= \int_{\partial S} \lin{f,t_0} \dV^{(1)},
+\end{align*}
+wobei $t_0$ der Tangenteneinheitsvektor an $\partial S$ passend orientiert zu
+$n_0$ ist.
+\end{prop}
+\begin{proof}
+Sei $\omega := f_1\dx_1 + f_2\dx_2+ f_3\dx_3$, dann folgt mit \ref{defn:4.24},
+\begin{align*}
+\int_{\partial S} \omega = \int_{\partial S} \lin{f,t_0} \dV^{(1)}.
+\end{align*}
+\begin{align*}
+\domega &= -\partial_{x_2} f_1 \dx_1\land\dx_2 -\partial_{x_3} f_1
+\dx_1\land\dx_3 + \partial_{x_1} f_2 \dx_1\land\dx_2 \\ &- \partial_{x_3} f_2
+\dx_2\land\dx_3 + \partial_{x_1} f_3 \dx_1\land\dx_3 + \partial_{x_2} f_3
+\dx_2\land\dx_3\\
+&= (\partial_{x_1} f_2-\partial_{x_2} f_1) \dx_1\land\dx_2 
+ + (\partial_{x_1} f_3-\partial_{x_3} f_1) \dx_1\land\dx_3 \\
+&+ (\partial_{x_2} f_3- \partial_{x_3} f_2) \dx_2\land\dx_3
+\end{align*}
+Analog zum Beweis von \ref{prop:4.57} folgt,
+\begin{align*}
+\int_{S} \domega = \int_S \lin{\rot f,n_0} \dV^{2}.\qedhere
+\end{align*}
+\end{proof}
+
+\begin{bsp}
+\label{bsp:4.61}
+\begin{align*}
+&f(x_1,x_2,x_3) := \begin{pmatrix}
+-x_2\\x_1\\x_1
+\end{pmatrix}\\
+&\rot f = \begin{pmatrix}
+\partial x_1\\\partial x_2\\\partial x_3
+\end{pmatrix}\times\begin{pmatrix}
+-x_2\\x_1\\x_1
+\end{pmatrix}
+= \begin{pmatrix}
+0 - 0\\ 0-1\\ 1-(-1)
+\end{pmatrix}
+= \begin{pmatrix}
+0\\-1\\-2
+\end{pmatrix}\\
+&S:= \setdef{(x_1,x_2,x_3)}{x_1^2+x_2^2+x_3^2 = 1 \land x_3\ge 0}.
+\end{align*}
+%TODO: Bild Halbkugel
+Der Integralsatz von Stokes besagt nun, dass
+\begin{align*}
+\int_S \lin{\rot f, n_0}\dV^{(2)} = \int_{\partial S} \lin{f,t_0} \dV^{(1)}.
+\end{align*}
+\begin{bemn}[Frage]
+Wie muss man $\partial S$ orientieren, dass es zu $n_0$ passt?
+\end{bemn}
+Eine Karte, die die Richtung von $n_0$ liefert wäre beispielsweise,
+\begin{align*}
+\phi_1(x_1,x_2) &= (x_1,x_2,\sqrt{1-x_1^2-x_2^2}),\\
+U_1 &= \im\phi_1.
+\end{align*}
+Gesucht ist nun eine dazu passende Parametrisierung des Randes. Eine Karte die
+den Rand beinhaltet wäre,
+\begin{align*}
+\phi_2(\ph,\th) &= (\cos\ph\cos\th,\sin\ph\cos\th,\sin\th),\\
+U_2 &= \im\phi_2.
+\end{align*}
+$\phi_1$ und $\phi_2$ sind verträglich, denn
+\begin{align*}
+&\phi_1^{-1}\circ\phi_2(\ph,\th) = (\cos\ph\cos\th,\sin\ph\cos\th),\\
+\Rightarrow\; & \det(\ldots) = \begin{vmatrix}
+-\sin\ph\cos\th & -\cos\ph\sin\th\\
+\cos\ph\cos\th & -\sin\ph\sin\th
+\end{vmatrix} = \cos\ph\sin\th > 0,
+\end{align*}
+da $\th >0$ im Schnitt $U_1\cap U_2$.
+Die verträgliche Parametrisierung des Randes erhalten wir durch
+\begin{align*}
+\tphi(\ph) := \phi_2(\ph,0) = (\cos\ph,\sin\ph,0).
+\end{align*}
+Für $0\le\ph\le 2\pi$ erhalten wir so den ganzen Rand.
+\begin{align*}
+\Rightarrow \int_{\partial S} \lin{f,t_0}\dv^{(1)}
+= \int_{\ph=0}^2\pi \lin{
+\begin{pmatrix}
+-\sin\ph\\\cos\ph\\\cos\ph
+\end{pmatrix},
+\begin{pmatrix}
+-\sin\ph,\cos\ph,0
+\end{pmatrix}
+}\dph = 2\pi.
+\end{align*}
+Der Integralsatz von Stokes besagt nun, dass für jede andere Mannigfaltigkeit
+$\tilde{S}$ mit demselben Rand $\partial S$ gilt,
+\begin{align*}
+\int_{\tilde{S}} \lin{\rot f,n_0}\dV^{(2)} = 2\pi.\bsphere
+\end{align*}
+\end{bsp}
+
+\begin{defn}
+\label{defn:4.62}
+Sei $O\subseteq\R^3$ offen, $v\in C(O\to\R^3)$. Falls eine Funktion $U\in
+C^1(O\to\R)$ existiert mit $v=\nabla U$, dann heißt $U$ \emph{Potential} von
+$v$ und $v$ heißt \emph{Gradientenfeld}.\fishhere
+\end{defn}
+\begin{bemn}
+Existiert ein solches $U$, dann ist es natürlich nicht eindeutig da man
+beliebige Konstanten addieren kann.\maphere
+\end{bemn}
+
+\begin{prop}
+\label{prop:4.63}
+Sei $v$ ein Gradientenfeld und $S$ ein Weg von $x_1$ nach $x_2$, dann
+entspricht die Arbeit entlang $S$ der Potentialdifferenz von $x_2$ nach $x_1$.
+Insbesondere ist die Arbeit wegunabhängig.\fishhere
+\end{prop}
+\begin{proof}
+Sei $v=\nabla U$, $x_1,x_2\in O$, $S=\ph([0,1])$, $\ph(0) = x_1$ und $\ph(1) =
+x_2$. Die Arbeit längs $S$ ist definiert als,
+\begin{align*}
+\int_S \lin{v,t_0}\dV^{(1)} &= \int_0^1 \lin{v(\ph(y)),\ph'(y)}\dy\\
+&= \int_0^1 \frac{\partial}{\partial y} U(\ph(y)) \dy\\
+&= U(\ph(1)) - U(\ph(0)) = U(x_2)-U(x_1).\qedhere
+\end{align*}
+\end{proof}
+
+\begin{prop}
+\label{prop:4.64}
+Sei $O\subseteq\R^3$ einfach zusammenhängend, $v\in C^1(O\to\R^3)$. Dann sind
+äquivalent,
+\begin{enumerate}[label=(\roman{*})]
+  \item\label{prop:4.64:1} $v$ ist Gradientenfeld.
+  \item\label{prop:4.64:2} $\rot v = 0$ in $O$.
+\end{enumerate}
+\end{prop}
+
+\begin{proof}[Beweisskizze]
+\ref{prop:4.64:1}$\Rightarrow$\ref{prop:4.64:2}: $\nabla\times v = \nabla\times
+(\nabla U) = 0$.
+
+\ref{prop:4.64:2}$\Rightarrow$\ref{prop:4.64:1}:
+ Wähle $x_0\in O$ fest. Zu
+$x_0\in O$ wähle $S=\ph([0,1])$ mit $\ph(0) = x_0$ und $\ph(1) = x$.
+
+Setze $U(x) = \int_S \lin{v,t_0}\dV^{(1)}$.
+\begin{enumerate}[label=\alph{*})]
+\item $U(x)$ ist unabhängig vom gewählten Weg:
+
+Sei $\tilde{S}=\tph([0,1])$ ein weiterer Weg und $\phi$ eine $C^2$-Homotopie
+zwischen $S$ und $\tilde{S}$.%TODO: Reicht hier einfach zusammenhängend? Ich
+% dachte für C^1 benötigt man schon Konvexität :S
+Betrachte die Mannigfaltigkeit $\phi([0,1]\times[0,1])$.
+%TODO: Bild
+\begin{align*}
+0 &= \int_{\im\phi} \lin{\rot v,n_0}\dV^{(2)} \overset{\text{Stokes}}{=}
+ \int_{\partial\im\phi} \lin{v,t_0} \dV^{(1)} \\ &= \int_S \lin{v,t_0} \dV^{(1)}
+ - \int_{\tilde{S}} \lin{v,t_0} \dV^{(1)}.  
+\end{align*}
+\item Wir können $S$ so wählen, dass 
+\begin{align*}
+\frac{\partial}{\partial x_j} U(x) &= \lim\limits_{h\to 0}
+\frac{1}{h}\left(U(x+h e_j) - U(x)\right)
+\\ &\overset{!}{=}
+\lim\limits_{h\to 0} \frac{1}{h}\int_0^h \lin{v(x+ye_j),e_j}\dy
+= v_j(x).
+\end{align*}
+Also ist $\nabla U = v$.
+\end{enumerate}
+\end{proof}
+
+\subsection{Koordinateninvariante Analysis auf Mannigfaltigkeiten}
+
+\begin{defn}
+\label{defn:4.66}
+Sei $L$ linearer Raum über $\R$, $k\in\N$ und $\dim L < \infty$. Eine
+\emph{alternierende Differentialform vom Grad $k$} oder \emph{$k$-Form}
+ist eine multilinear alternierende Abbildung $D: L^k\to\R$. Eine $0$-Form ist
+eine Konstante.
+\begin{align*}
+\DD_k := \setdef{D}{D\text{ ist $k$-Form auf $L$}}.\fishhere
+\end{align*}
+\end{defn}
+\begin{bemn}[Bemerkungen.]
+Spezialfall $D\in\DD_2$, dann ist $D(v_1,v_2) = -D(v_2,v_1)$.
+
+Ist $k>\dim L$, dann ist $D=0$ denn $k$ Vektoren sind dann linear
+abhängig.\maphere
+\end{bemn}
+
+\begin{prop}
+\label{prop:4.67}
+Für $D_1,D_2\in\DD_k$ und $\lambda\in\R$ sei,
+\begin{align*}
+&(D_1+D_2)(v_1,\ldots,v_k) = D_1(v_1,\ldots,v_k) + D_2(v_1,\ldots,v_k),\\
+&(\lambda D_1)(v_1,\ldots,v_k) = \lambda D_1(v_1,\ldots,v_k).
+\end{align*}
+Dann ist $\DD_k$ ein linearer Raum über $\R$.
+\end{prop}
+\begin{proof}
+Folgt direkt aus der Definition.\qedhere
+\end{proof}
+
+\begin{defn}[Alternierendes Produkt]
+\label{defn:4.68}
+Seien $D_1\in\DD_k$, $D_2\in\DD_l$. Dann setzen wir
+\begin{align*}
+(D_1\land D_2)(v_1,\ldots,v_{k+l}) :=
+\frac{1}{k!l!}\sum\limits_{\pi\in\sigma_{k+l}}
+D_1(v_{\pi(1)},\ldots,v_{\pi(k)})D_2(v_{\pi(k+1)},\ldots,v_{\pi(k+l)}).
+\end{align*}
+Dann ist $(D_1\land D_2)\in\DD_{k+l}$. Im Fall $k=0$, d.h. $D_1=c$ ist
+$D_1\land D_2 = c D_2$.
+\end{defn}
+
+\begin{bsp}
+\label{bsp:4.69}
+Seien $D_1,D_2\in\DD_1$, dann ist
+\begin{align*}
+(D_1\land D_2)(v_1,v_2) = D_1(v_1)D_2(v_2) - D_1(v_2)D_2(v_1).\bsphere
+\end{align*}
+\end{bsp}
+
+\begin{prop}[Basis]
+\label{prop:4.70}
+Sei $\{e_1,\ldots,e_N\}$ Basis von $L$, $k\le N$,
+\begin{align*}
+&\dx_j(v) := v_j, \text{für } v = \sum\limits_{j=1}^N v_j e_j,\\
+& G^{(k)} := \setdef{I=(i_1,\ldots,i_k)}{1\le i_1 < i_2 <\ldots <i_k \le N},\\
+&\dx_I := \dx_{i_1}\land \ldots \land \dx_{i_k}.
+\end{align*}
+Offensichtlich ist $\dx_j\in\DD_1$ und $\dx_I\in\DD_k$ für $I\in G^{(k)}$.
+\begin{align*}
+\BB_k = \setdef{\dx_I}{I\in G^{(k)}},
+\end{align*}
+ist eine Basis von $\DD_k$. Insbesondere ist $\dim\DD_k = \binom{N}{k}$.
+\end{prop}
+\begin{proof}[Beweisskizze]
+\begin{enumerate}[label=\arabic{*}.)]
+\item Lineare Unabhängigkeit
+$\dx_j(e_i) \delta_{ij}$ also gilt,
+\begin{align*}
+\dx_I(e_{j_1},\ldots,e_{j_k}) = \begin{cases}
+1,& (j_1,\ldots,j_k) = I,\\
+0,& \text{sonst},
+\end{cases}
+\end{align*} 
+für alle aufsteigenden Indizes $(j_1,\ldots,j_k)\in G^{(k)}$.
+Sei $\sum\limits_{I\in G^{(k)}} \alpha_I \dx_I = 0$, dann ist
+\begin{align*}
+0 = \sum\limits_{I\in G^{(k)}} \alpha_I \dx_I(e_{j_1},\ldots,e_{j_k}) =
+\alpha_{j_1,\ldots,j_k}
+\end{align*}
+und daher ist $\BB_k$ linear unabhängig.
+\item Zeige $\sp{\BB_k} = \DD_k$.
+
+Sei $k=2$ und $D\in\DD_2$.
+\begin{align*}
+D(v,w) &= D(\sum_j v_j e_j, \sum_i w_i e_i) = \sum_j\sum_i \underbrace{v_j w_j
+D(e_j,e_i)}_{=0\text{ für }i=j} \\
+&= \sum\limits_{1\le j < i \le N} D(e_j,e_i)(v_jw_i - v_i w_j)\\
+&= \sum\limits_{1\le j < i \le N} D(e_j,e_i)\underbrace{(\dx_j\land\dx_i)}_{=\dx_I}(v,w)
+\end{align*}
+Analog folgt für $k\in\N$,
+\begin{align*}
+D &=  \sum\limits_{I\in G^{(k)}} D(e_{j_1},\ldots,e_{j_k}) \dx_I.\qedhere
+\end{align*}
+\end{enumerate}
+\end{proof}
+\begin{prop}
+\label{prop:4.71}
+Sei $1\le k\le n$, $\omega$ $k$-Form über $\R^n$. Sei $L\leqslant\R^n$
+$k$-dimensionaler Unterraum, $\BB=\{f_1,\ldots,f_k\}$ Basis von $L$,
+$w_1,\ldots,w_k\in L$ mit Koordinatenvektoren $v_1,\ldots,v_k$ bezüglich $\BB$,
+\begin{align*}
+v_j = (v_{j_1},\ldots,v_{j_k}),\quad w_j = \sum\limits_{i=1}^k v_{ji} f_i.
+\end{align*}
+Dann gilt,
+\begin{align*}
+\omega(w_1,\ldots,w_k) = \det(v_1,\ldots,v_k)\omega(f_1,\ldots,f_k).
+\end{align*}
+D.h. $\omega$ definiert ein in $L$ ``orientiertes Volumen'', falls $\omega\neq
+0$ in $L$.\fishhere
+\end{prop}
+\begin{proof}
+Sei $k=1$, $\BB=\{f_1\}$, $w = \lambda f_1$, $\omega = \sum\limits_{j=1}^n
+\alpha_j \dx_j$.
+\begin{align*}
+\omega(w) = \omega(\lambda f_1) = \lambda\omega(f_1) =
+\lambda\sum\limits_{j=1}^n \alpha_j \underbrace{\dx_j(f_1)}_{=f_{1j}} =
+\lambda\lin{ \begin{pmatrix}\alpha_1\\\ldots\\\alpha_n\end{pmatrix}, f_1}.
+\end{align*}
+Sei nun allgemein $\omega\big|_L$ $k$-Form auf $L$.
+
+$\tomega(w_1,\ldots,w_k) = \det(v_1,\ldots,v_k)$ ist $k$-Form über $L$.\\
+$\dim L = k$, dann ist $\dim\DD_k = 1$ und $\omega\big|_L = 0$ oder $\omega\big|_L =
+c\tomega$, also gilt
+\begin{align*}
+\omega(f_1,\ldots,f_k) = c\tomega(f_1,\ldots,f_k) = c\det E_k = c.\qedhere
+\end{align*}
+\end{proof}
+\begin{cor}
+\label{prop:4.72}
+Sei $\{e_1,\ldots,e_k\}$ Basis des $\R^n$,
+\begin{align*}
+&v_j = \sum\limits_{i=1}^n v_{ji}e_i,\quad j=1,\ldots,k,\\
+&I = (i_1,\ldots,i_k)\in G^{(k)}.
+\end{align*}
+Dann ist
+\begin{align*}
+\dx_I(v_1,\ldots,v_k) = \det\begin{pmatrix}
+v_{1i_1} & \ldots & v_{ki_1}\\
+\vdots & \ddots & \vdots\\
+v_{1i_k} & \ldots & v_{ki_k}
+\end{pmatrix}.\fishhere
+\end{align*}
+\end{cor}
+\begin{proof}[Beweisskizze]
+Für $\nu\neq i_1,\ldots,i_k$ ist $\dx_I(\ldots,e_\nu,\ldots) = 0$. Setze
+$\tilde{v}_j = \sum\limits_{\mu=1}^k v_{ji_\mu}e_{i_\mu}$.
+Dann ist
+\begin{align*}
+\dx_I(v_1,\ldots,v_k) = \dx_I(\tilde{v}_1,\ldots,\tilde{v}_k)
+\overset{\ref{prop:4.71}}{=} \det\begin{pmatrix}
+v_{1i_1} & \ldots & v_{ki_1}\\
+\vdots & \ddots & \vdots\\
+v_{1i_k} & \ldots & v_{ki_k}
+\end{pmatrix}\underbrace{\dx_I(e_{i_1},\ldots,e_{i_k})}_{=1}.
+\end{align*}
+\end{proof}
+
+\begin{defn}[Vorläufige Definition]
+\label{defn:4.73}
+Sei $O\subseteq\R^n$ offen, $\omega: O\to\DD_k(\R^n)$, d.h. jedem $x\in O$ wir
+eine $k$-Form $\omega(x)$ über $\R^n$ zugeordnet. ($k$-Formen-Feld) FÜr eine
+kompakte Mannigfaltigkeit $S=\ph(D)\subseteq O$ der Dimension $k$ ist
+\begin{align*}
+\int_S \omega := \int_D
+\omega(\ph(y))(\partial_{y_1}\ph,\ldots,\partial_{y_k}\ph)\dy.
+\end{align*}
+In $\ph(y)$ ist der Tangentialraum an $S$, $T_{\ph(y)}S =
+\lin{\partial_1\ph,\ldots,\partial_k \ph}$.
+\end{defn}
+%TODO: Skizze Anschaulich
+
+\begin{bem}
+\label{bem:4.74}
+Diese Definition ist sehr allgemein, sie erfordert lediglich eine Karte
+$(\ph,U)$ und ein $k$-Formen-Feld. Insbesondere ist sie auch im unendlich
+dimensionalen Fall gültig.\maphere
+\end{bem}
+
+\begin{cor}
+\label{prop:4.75}
+Ist $\omega(x) = \sum\limits_{I\in G^{(k)}} a_I(x)\dx_I$. Dann gilt
+\begin{align*}
+\int_S \omega = \sum\limits_{I\in G^{(k)}}\int_D a_I(\ph(y))
+\det\left(\frac{\partial(\ph_{i_1},\ldots,\ph_{i_k})}{\partial y} \right).
+\end{align*}
+Insbesondere ist $\int_S \omega$ definiert, falls $a_I$ stetig.\fishhere
+\end{cor}
+\begin{proof}
+\begin{align*}
+\omega(\ph(y))(\partial_{y_1}\ph,\ldots,\partial_{y_k}\ph) &= 
+\sum\limits_{I} a_I(\ph(y))
+\dx_I\left(\partial_{y_1}\ph,\ldots,\partial_{y_k}\ph\right)\\
+&\overset{\ref{prop:4.72}}{=} \sum\limits_{I} a_I(\ph(y))
+\det(\ldots)\qedhere
+\end{align*}
+\end{proof}
+
+\begin{bem}
+\label{bem:4.76}
+Aus dem Transformationssatz folgt, dass die rechte Seite für verschiedene
+Karten gleich ist, wenn sie kompatibel sind.\maphere
+\end{bem}
+
+Dies ermöglicht eine endgültige Definition.
+\begin{defn}
+\label{defn:4.77}
+Sei $S\subseteq\R^n$ eine $C^m$-Mannigfaltigkeit, $T_xS$ der Tangentialraum von
+$S$ im Punkt $x\in S$.
+
+Eine Abbildung $\omega: S\to\DD_k(T_xS),\; x\mapsto \omega(x)$ heißt
+\emph{$k$-$C^m$-Form} auf $S$, falls
+\begin{align*}
+\omega(x) = \sum\limits_{I\in G^{(k)}} a_I(x)\dx_I,
+\end{align*}
+mit $a_I\in C^m(S\to\R)$.\fishhere
+\end{defn}
+
+\begin{bsp}
+\label{bsp:4.78}
+Sei $S=O=\R^n$, d.h. in jedem $x\in O$ gilt $T_xS = \R^n$. Für $f\in
+C^1(O\to\R)$ gilt
+\begin{align*}
+f(x) = f(x_0) + \lin{f'(x_0),x-x_0} + o(\norm{x-x_0}).
+\end{align*}
+\begin{align*}
+&\lin{f'(x_0),v} = \sum\limits_{j=1}^n (\partial_{x_i} f)(x_0) \dx_j(v) =:
+\df(v),\\
+&\df := \sum\limits_{j=1}^n \partial_{x_j}f \dx_j,\\
+\Rightarrow & f(x) = f(x_0) + \df(x-x_0) + o(\norm{x-x_0}).\bsphere
+\end{align*}
+\end{bsp}
+
+\begin{defn}
+\label{defn:4.79}
+Sei $S$ orientierte $C^1$-Mannigfaltigkeit der Dimension $k$, $\omega$ eine
+$k$-$C^0$-Form auf $S$ mit $\supp \omega $ kompakt. Endlich viele Karten
+$(\phi_1,U_1),\ldots,(\phi_N,U_N)$ überdecken $\supp\omega$. Wähle
+$\{\psi_1,\ldots,\psi_N\}$ als dazu passende Zerlegung der Eins. Definiere
+\begin{align*}
+\int_S \omega := \sum\limits_{j=1}^N \int_{U_j} \psi_j \omega =
+\sum\limits_{j=1}^N \int_D
+\psi_j(\phi_j(y))\omega(\phi_j(y))(\partial_{y_1}\phi_j,\ldots,\partial_{y_k}\phi_j)\dy.
+\end{align*}
+\end{defn}

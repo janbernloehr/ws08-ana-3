@@ -1,0 +1,689 @@
+\section{Grenzwerte}
+
+\subsection{Grundlagen}
+
+\begin{defn}
+\label{def:1.1}
+Eine \emph{Folge} in einer Menge $M$ ist eine Abbildung der Form
+\begin{align*}
+a : \N \to M,
+\end{align*}
+die man durch Aufzählen ihrer Funktionswerte als $(a_n)_{n\in\N}$
+angibt.\fishhere
+\end{defn}
+\begin{bemn}[Bemerkung zur Notation]
+Wir wollen eine Folge als Ganzes mit $(a_n)_{n\in\N}$ bezeichnen, um
+sie von dem \emph{n-ten Folgenglied} $a_n$ zu unterscheiden.\maphere
+\end{bemn}
+
+An einer Folge interessiert uns vor allem ihr asymptotisches Verhalten. Um
+dieses beschreiben zu können, benötigen wir einen Abstandsbegriff.
+
+\begin{defn}
+\label{def:1.2}
+Sei $M$ eine Menge, dann heißt eine Abbildung $d : M\times M\to\R$
+\emph{Metrik}, falls sie den folgenden Eigenschaften genügt:
+\begin{enumerate}
+  \item $\forall x,y\in M: d(x,y)\ge 0$ und $d(x,y) = 0 \Leftrightarrow x =y$.
+  \item $\forall x,y\in M: d(x,y) = d(y,x)$.
+  \item $\forall x,y,z\in M: d(x,z) \le d(x,y) + d(y,z)$.\fishhere
+\end{enumerate}
+\end{defn}
+
+Metriken sind ein allgemeineres Konzept als Normen, es gilt folgender
+Zusammenhang.
+
+\begin{propn}
+Sei $(V,\norm{\cdot})$ ein normierter Vektorraum, dann wird durch
+\begin{align*}
+d(x,y) = \norm{x-y},\quad x,y\in V,
+\end{align*}
+eine Metrik induziert.\fishhere
+\end{propn}
+\begin{proof}
+Die positive Definitheit sowie die Symmetrie sind klar. Um die
+Dreiecksungleichung zu zeigen bedienen wir uns eines beliebten Tricks,
+\begin{align*}
+d(x,y) &= \norm{x-y} = \norm{x-z+z-y} \le \norm{x-z}+\norm{z-y} \\ 
+&= d(x,z) + d(z,y).
+\end{align*}
+Womit alle Metrikeigenschaften nachgewiesen sind.\qedhere
+\end{proof}
+
+\begin{bsp}
+\label{bsp:1.3}
+\begin{enumerate}
+  \item $M=\R,\; d(x,y) = \abs{x-y}$.\\
+  Wie durch jede Norm, wird auch durch die Betragsnorm eine Metrik induziert.  
+  \item $M=\C^n,\; d(x,y) := \norm{x-y}_p := \left(\sum_{j=1}^n \abs{x_j-y_j}^p
+  \right)^{1/p}$.\\
+  Selbiges gilt für die $p$-Norm.
+  \item Für eine Menge $M$ ist die diskrete Metrik definiert als,
+  \begin{align*}
+ d(x,y)= \begin{cases}0, & x=y,\\1, & x\neq y.\bsphere\end{cases}
+  \end{align*}
+\end{enumerate}
+\end{bsp}
+
+\begin{defn}
+\label{def:1.4}
+Sei $(M,d)$ ein metrischer Raum, $(a_n)$ eine Folge in $M$.
+\begin{enumerate}
+  \item $(a_n)$ heißt \emph{konvergent gegen $a\in M$} bezüglich $d$, falls gilt
+\begin{align*}
+\forall\ep>0\exists N \in\N\forall n\ge N : d(a_n,a) < \ep.
+\end{align*}
+Schreibe $a_n\to a$ für $n\to\infty$ oder kurz $\lim\limits_{n\to\infty} a_n =
+a$. 
+  \item $(a_n)$ heißt \emph{konvergent}, falls ein solches $a$ existiert.
+  \item $(a_n)$ heißt \emph{Cauchyfolge}, falls
+\begin{align*}
+\forall \ep > 0 \exists N\in\N \forall n,m\ge N: d(a_n,a_m) < \ep.
+\end{align*}
+  \item  $(M,d)$ heißt \emph{vollständig}, falls jede Cauchyfolge
+konvergent ist.\fishhere
+\end{enumerate}
+\end{defn}
+
+Erst der folgende Satz erlaubt es uns überhaupt von einem Grenzwert zu sprechen.
+
+\begin{propn}
+Existiert der Grenzwert einer Folge, so ist er eindeutig bestimmt.\fishhere
+\end{propn}
+\begin{proof}
+Beweis siehe Skript Prof. Pöschel Seite 61f, man muss lediglich die Norm als
+Metrik interpretieren.\qedhere
+\end{proof}
+
+Wir wissen bereits, dass nicht jeder metrische Raum volltändig ist und nur in
+vollständigen Räumen folgt aus der Cauchyeigenschaft die Konvergenz. Die
+Umkehrung gilt aber immer.
+
+\begin{propn}
+Jede konvergente Folge ist eine Cauchyfolge.\fishhere
+\end{propn}
+\begin{proof}
+Beweis siehe Skript Prof. Pöschel Seite 72.\qedhere
+\end{proof}
+
+\begin{bsp}
+\label{bsp:1.5}
+\begin{enumerate}
+\item Der $\R^n$ ist mit jeder durch eine Norm induzierten Metrik
+vollständig.
+\item Der Raum $C([a,b],\R)$ mit der Metrik
+\begin{align*}
+d(f,g) = \norm{f-g}_2 := \left( \int\limits_a^b \abs{f(x)-g(x)}^2 \dx
+\right)^{1/2},
+\end{align*}
+ist nicht vollständig.
+\begin{proof}
+Um dies zu zeigen, genügt es eine Cauchyfolge in $C([a,b],\R)$ zu finden, die
+nicht in $C([a,b],\R)$ konvergiert. Dazu fixieren wir $a=0,\;b=2$ und betrachten
+die Funktionenfolge
+\begin{align*}
+f_n(x) =\begin{cases}x^n, & 0\le x\le 1,\\ 1, & 1<x\le 2.\end{cases}
+\end{align*}
+$f_n$ ist Cauchy, denn
+\begin{align*}
+\norm{f_n-f_m}_2^2 &= \int\limits_0^1 \abs{x^n-x^m}^2\dx = \int\limits_0^1
+\abs{x^{2n}-2x^{n+m}+x^{2m}}\dx
+\\ &= \frac{1}{2n+1} - \frac{2}{n+m+1} + \frac{1}{2m+1} \le \frac{1}{2n+1}+
+\frac{1}{2m+1} \\& \le \frac{1}{n}+\frac{1}{m} < \ep \text{ für } n,m >
+\frac{2}{\ep}.
+\end{align*}
+Die Grenzfunktion dieser Funktionenfolge ist nicht stetig und damit nicht in
+$C([a,b],\R)$, denn angenommen $\exists f\in C([0,2],\R) : d(f,f_n) \to 0$,
+dann gilt
+\begin{align*}
+\Rightarrow \begin{cases} \int\limits_0^1 \abs{f_n(x)-f(x)}^2 \dx \to 0
+\Rightarrow f(x) = 0 & \text{für } 0\le x\le 1,\\
+\int\limits_1^2 \abs{f_n(x)-f(x)}^2 \dx \to 0
+\Rightarrow f(x) = 1 & \text{für } 1< x\le 2.\\
+\end{cases}
+\end{align*}
+Dies impliziert
+\begin{align*}
+\int\limits_0^1 \abs{f_n(x)-f(x)}^2 \dx = \int\limits_0^1 x^{2n}
+\dx = \frac{1}{2n+1} \to 0,
+\end{align*}
+also kann $f$ nicht stetig sein.\qedhere\bsphere
+\end{proof}
+\end{enumerate}
+\end{bsp}
+
+\begin{defn}[Definition/Satz]\label{def:1.6} Sei $(a_n)$ eine Folge in $(M,d)$.
+\begin{enumerate}
+  \item Ist $(n_k)$ eine streng monoton wachsende Folge in $\N$, so heißt $(a_{n_k})$
+\emph{Teilfolge} von $(a_n)$.
+  \item Sei $a\in M$ ein \emph{Häufungspunkt} von $(a_n)$, dann sind folgende Aussagen
+äquivalent
+\begin{enumerate}
+  \item Es existiert eine Teilfolge $(a_{n_k})\to a$.
+  \item $\forall\ep>0\forall N\in\N\exists m\ge N: d(a_m,a) < \ep$.\fishhere
+\end{enumerate}
+\end{enumerate}
+\end{defn}
+\begin{proof}
+Der Beweis ist eine leichte Übung.\qedhere
+\end{proof}
+
+\begin{defnn}
+Die \emph{Menge der Häufungspunkte} einer Folge $(a_n)$ bezeichnen wir mit
+\begin{align*}
+HP\left((a_n)\right) = \setdef{a\in M}{a \text{ ist Häufungspunkt von }
+(a_n)}.\fishhere
+\end{align*}
+\end{defnn}
+
+\begin{bsp}
+\label{bsp:1.7}
+\begin{enumerate}
+\item $a_n = (-1)^n \dfrac{n^2-n}{2n^2+1} \Rightarrow HP\left((a_n)\right) =
+\{1/2,-1/2\}$.
+
+\item $a_n = 2e^{in \pi/6}$.
+\begin{center}
+\psset{unit=0.5cm}
+\begin{pspicture}(-4.5,-4.5)(4.5,4.5)
+% \psline[linecolor=framecolor](-1,-1)(-1,6.5)(6.5,6.5)(6.5,-1)(-1,-1)
+ 
+ \psaxes[labels=none,ticks=none]{->}%
+ (0,0)(-4,-4)(4,4)[\color{gdarkgray}$\Re$,-90][\color{gdarkgray}$\Im$,0]
+ 
+\pscircle[linestyle=dotted](0,0){3}
+ 
+ \psxTick(3){\color{gdarkgray}$1$}
+ \psyTick(3){\color{gdarkgray}$1$}
+ 
+ \psdots[dotstyle=o,fillstyle=solid,%
+		   fillcolor=darkblue,%
+	       linecolor=darkblue](3,0)(2.6,1.5)(1.5,2.6)(0,3)(-1.5,2.6)(-2.6,1.5)
+	       (-3,0)(-2.6,-1.5)(-1.5,-2.6)(0,-3)(1.5,-2.6)(2.6,-1.5)
+ 
+\end{pspicture}
+\end{center}
+Die 12 Häufungspunkte liegen auf einem Kreis mit
+Radius 2 um den Ursprung und haben den Winkelabstand $\pi/6$.
+\item Für eine Abzählung $(a_n)$ von $\Q$ in $\R$ gilt $HP\left((a_n) \right) =
+\R$.\bsphere
+\end{enumerate}
+\end{bsp}
+
+\begin{defn}
+\label{defn:1.8}
+Sei $(a_n)$ eine Folge in $(\R,\abs{\cdot})$, dann sind \emph{limes
+superior} und \emph{inferior} wie folgt definiert.
+\begin{enumerate}
+  \item Ist $(a_n)$ nach oben beschränkt und $\HP{(a_n)}\neq\varnothing$, so
+  ist
+  \begin{align*}
+  \limsup a_n = \sup \HP{(a_n)}.
+  \end{align*}
+  \item Ist $(a_n)$ nach oben beschränkt und $\HP{(a_n)}=\varnothing$, so
+  ist $\limsup a_n = -\infty$.
+  \item Ist $(a_n)$ nach oben unbeschränkt, so ist $\limsup a_n =
+  \infty$.
+\end{enumerate}
+Analoges gilt für den $\liminf a_n$. \fishhere 
+\end{defn}
+
+\begin{bsp}
+\label{bsp:1.9}
+\begin{enumerate}
+\item $a_n = (-1)^n \dfrac{n^2-n}{2n^2+1} \Rightarrow \limsup a_n = 1/2,\;
+\liminf a_n = -1/2$.
+\item $a_n = n \Rightarrow \limsup a_n = \liminf a_n = \infty$.
+\item $a_n = \begin{cases}(1/2)^n & \text{für $n$ ungerade},\\ 2^n & \text{für
+$n$ gerade}.\end{cases}$
+
+$\liminf a_n = 0, \limsup a_n = \infty$.\bsphere
+\end{enumerate}
+\end{bsp}
+
+\begin{prop}
+\label{prop:1.10}
+\label{limsupsatz}
+Sei $(a_n)$ reell, nach oben beschränkt und
+$\HP{(a_n)}\neq\varnothing$, dann gilt
+\begin{align*}
+\forall \ep>0 \exists N_\ep \in\N \forall n\ge N_\ep : a_n \le \limsup a_n +
+\ep.\fishhere
+\end{align*}
+\end{prop}
+\begin{proof}
+Angenommen, die Aussage gilt nicht, also
+\begin{align*}
+\exists \ep > 0 \forall N \in\N\exists n\ge N : a_n > \limsup a_n + \ep,
+\end{align*}
+dann existiert eine Teilfolge $(a_{n_k})$ mit $a_{n_k} > \limsup a_n + \ep$.
+Da $(a_n)$ beschränkt ist, existiert eine konvergente Teilfolge $(a_{n_k}')$ von
+$(a_{n_k})$ mit Grenzwert
+\begin{align*}
+a:=\lim_{k\to\infty} a_{n_k}' \ge \limsup a_n + \ep.
+\end{align*}
+Dann ist aber $a\in\HP{(a_n)}$ und $a\ge \sup\HP{(a_n)} + \ep$, ein
+Widerspruch.\qedhere
+\end{proof}
+
+\begin{prop}
+\label{prop:1.11}
+Sei $(a_n)$ Folge in $(\R,\abs{\cdot})$. Dann ist $(a_n)$ konvergent genau
+dann, wenn $(a_n)$ beschränkt ist und gilt $\limsup a_n = \liminf a_n$.\fishhere
+\end{prop}
+\begin{proof}
+``$\Rightarrow$'': $(a_n)$ ist konvergent, also beschränkt und es
+gilt $\HP{(a_n)} = \{\lim a_n\}$. Daher ist $\limsup a_n = \liminf a_n = \lim
+a_n$.
+
+``$\Leftarrow$'': Sei $a:= \limsup\limits_{n\to\infty} a_n =
+\liminf\limits_{n\to\infty} a_n$. Da $(a_n)$ beschränkt ist, ist
+$\HP{(a_n)}\neq\varnothing$. Sei nun $\ep > 0 $ beliebig aber fest, dann
+existieren nach \ref{limsupsatz} $N,N'\in\N$ so, dass gilt:
+\begin{align*}
+&\forall n\ge N: a_n \le \limsup a_n + \ep,\\
+&\forall n\ge N': a_n \ge \liminf a_n - \ep.
+\end{align*}
+Für alle $n \ge N_0 = \max\{N,N'\}$ gilt daher $a - \ep \le a_n \le a + \ep$,
+also $a_n\to a$.\qedhere
+\end{proof}
+
+Funktionenfolgen spielen in vielen Gebieten der Analysis eine Rolle. Hier
+können ganz unterschiedliche Arten von Konvergenz auftreten. Die
+Konvergenz einer Funktionenfolge kann davon abhängen, welcher Punkt aus dem
+Definitionsbereich gerade betrachtet wird, weshalb man beispielsweise in
+Funktionenräumen ein allgemeineres Konzept als Metriken benötigt, um diese
+Konvergenz zu erfassen. Mithilfe der Konvergenz lässt sich auch oft
+feststellen, wie sich Eigenschaften wie Stetigkeit oder Differenzierbarkeit
+aller Folgenglieder auf die Grenzfunktion vererben.
+
+\begin{defn}
+\label{defn:1.12}
+Sei $D$ Menge, $(M,d)$
+metrischer Raum, $(f_n)$ eine Folge von Abbildungen $f_n: D\to M$ und $f: D\to M$.
+\begin{enumerate}
+  \item $(f_n)$ heißt \emph{punktweise konvergent} auf $D$ gegen $f$, falls
+  \begin{align*}
+  \forall x\in D \forall \ep > 0 \exists N\in \N \forall n\ge N :
+  d(f_n(x), f(x)) < \ep.
+  \end{align*}
+  \item $(f_n)$ heißt \emph{gleichmäßig konvergent} auf $D$ gegen $f$, falls
+  \begin{align*}
+  \forall \ep > 0 \exists N\in\N \forall n\ge N, x\in D  : d(f_n(x), f(x)) <
+  \ep.\fishhere
+  \end{align*}
+\end{enumerate}
+\end{defn}
+
+Nicht überraschend ist folgender Zusammenhang.
+
+\begin{prop}
+\label{prop:1.13}
+Konvergiert eine Funktionenfolge $(f_n)$ gleichmäßig gegen eine Grenzfunktion
+$f$, so konvergiert sie auch punktweise.\fishhere
+\end{prop}
+\begin{proof}
+Der Beweis sei als Übung überlassen.\qedhere
+\end{proof}
+
+Im Folgenden wollen wir durch $f_n\unito f$ ausdrücken, dass die Folge $(f_n)$
+gleichmäßig gegen $f$ konvergiert.
+
+\begin{bsp}
+\label{bsp:1.13}
+\begin{enumerate}
+\item $f_n(x) = x + \frac{1}{n}\sin x$ konvergiert gleichmäßig gegen
+$f(x) = x$, denn
+\begin{align*}
+\abs{f_n(x)-f(x)} = \frac{1}{n}\abs{\sin x} \le \frac{1}{n} < \ep \text{ für }
+n > \frac{1}{\ep}.
+\end{align*}
+\item Auf $D=[0,2]$ konvergiert die Funktionenfolge
+\begin{align*}
+f_n(x) = \begin{cases} x^n
+& 0\le x\le 1,\\ 1 & 1< x \le 2,\end{cases}
+\end{align*}
+lediglich punktweise gegen die Grenzfunktion
+\begin{align*}
+f(x) = \begin{cases} 0 & 0\le x \le 1 \\ 1 & 1 < x \le 2\end{cases}.
+\end{align*}
+Wie wir noch sehen werden, kann die Konvergenz
+nicht gleichmäßig gewesen sein, da $f$ nicht stetig ist.\bsphere
+\end{enumerate}
+\end{bsp}
+
+\subsection{Vertauschung von Grenzwerten}
+
+\begin{bsp}
+\label{bsp:1.15}
+\begin{enumerate}
+\item Für die Doppelfolge $(a_{np})_{n,p\in \N}$ mit $a_{np} = \dfrac{n}{n+p+1}
++ \dfrac{1}{n} + \dfrac{2}{p}$ gilt
+\begin{align*}
+&\lim\limits_{n\to\infty}\lim\limits_{p\to\infty} a_{np} =
+\lim\limits_{n\to\infty} \frac{1}{n} = 0,\\
+&\lim\limits_{p\to\infty}\lim\limits_{n\to\infty} a_{np} =
+\lim\limits_{p\to\infty} \left(1+\frac{2}{p}\right) = 1.
+\end{align*}
+Offensichtlich hängt der Grenzwert von der Reihenfolge ab, in der die Indizes
+nach Unendlich laufen.\bsphere
+\end{enumerate}
+\end{bsp}
+
+\begin{prop}
+\label{prop:1.16}
+Sei $(M,d)$ ein vollständiger metrischer Raum, $a : \N\times\N \to M$ so, dass
+gilt
+\begin{align*}
+&\lim\limits_{n\to\infty} a_{np} = u(p) \quad \text{ für } p\in\N,\\
+&\lim\limits_{p\to\infty} a_{np} = v(n) \quad \text{ für } n\in\N,
+\end{align*}
+Gilt $a_{np}\twoheadrightarrow u(p)$ bzw. $a_{np}\twoheadrightarrow v(n)$, dann
+existieren die Grenzwerte $\lim\limits_{p\to\infty} u(p)$ und
+$\lim\limits_{n\to\infty} v(n)$ und stimmen überein.\fishhere
+\end{prop}
+
+\begin{proof}
+ObdA können wir annehmen $a_{np}\twoheadrightarrow u(p)$, dann gilt
+\begin{align*}
+d(u(p),u(q)) \le d(u(p),a_{np}) + d(a_{np},a_{nq}) + d(a_{nq},u(q)).
+\end{align*}
+Für $n_0$ hinreichend groß folgt aus der gleichmäßigen Konvergenz von $a_{np}$
+\begin{align*}
+d(u(p),u(q)) < \frac{2\ep}{3} + d(a_{n_0p},a_{n_0q}) < \ep,
+\end{align*}
+für $p,q > P_\ep$. Somit ist $u(p)$ Cauchyfolge, also konvergent mit Grenzwert
+$u$.
+
+Es bleibt noch zu zeigen, dass $v(n)$ ebenfalls den Grenzwert $u$ hat.
+\begin{align*}
+d(v(n),u) &\le d(v(n),a_{np}) + d(a_{np},u(p)) + d(u(p),u)\\
+&< d(v(n),a_{np}) + \frac{\ep}{3} + d(u(p),u),
+\end{align*}
+für $n> N_\ep$. Wählt man nun $n_0 > N_\ep$ beliebig aber fest, folgt daher
+\begin{align*}
+d(v(n_0),u) < \frac{\ep}{3} + \underbrace{d(v(n_0),a_{n_0p})}_{< \frac{\ep}{3}
+\text{ für } p > P_{\ep,n_0}} + \underbrace{d(u(p),u)}_{< \frac{\ep}{3} \text{ für } 
+p > P_\ep'} < \ep,
+\end{align*}
+für $p > \max\{P_{\ep,n_0}, P_\ep'\}$.
+
+Da $n_0>N_\ep$ beliebig war, gilt
+für alle $n>N_\ep$ und $p > \max\{P_{\ep,n_0}, P_\ep'\}$, dass $d(v(n),u) <
+\ep$.\qedhere
+\end{proof}
+
+\begin{bem}[Festlegung]
+\label{bem:1.17}
+Im Folgenden seien $(X,d_X)$ und $(Y,d_Y)$ metrische Räume.\maphere
+\end{bem}
+
+\begin{defn}
+\label{defn:1.18}
+Sei $D\subseteq X$, dann heißt $x_0\in X$ \emph{Häufungspunkt} von $D$, falls
+\begin{align*}
+\forall \ep > 0 \exists y\in D: (y\neq x_0) \land (d(y,x_0)< \ep),
+\end{align*}
+oder äquivalent
+\begin{align*}
+\exists (x_n) \text{ in } D : (x_n \to x_0) \land (\forall n\in \N : x_n \neq
+x_0).
+\end{align*}
+Die Menge aller Häufungspunkte von $D$ bezeichnen wir mit $D'$, den Abschluss
+von $D$ mit $\overline{D} = D\cup D'$.\fishhere
+\end{defn}
+
+\begin{bsp}
+\label{bsp:1.19}
+\begin{enumerate}
+\item Sei $D = \N$, dann ist $D' = \varnothing$ und  $\overline{D} = \N$.
+\item Sei $D = \setdef{\frac{1}{n}}{n\in\N}$, dann ist $D' = \{0\}$ und 
+$\overline{D} = D\cup\{0\}$.
+\item Sei $D = \Q$, dann ist $D' =\R$ und $\overline{D} = \R$.
+\end{enumerate}
+Die Menge der Häufungspunkte kann also leer, ``größer'' oder ``kleiner'' als die Menge
+selbst sein.\bsphere
+\end{bsp}
+
+\begin{defn}
+\label{defn:1.20}
+Sei $D\subseteq X, f: D\to Y$
+\begin{enumerate}
+  \item $f$ heißt \emph{stetig} in $x_0\in D$, falls
+  \begin{align*}
+  \forall \ep > 0 \exists \delta > 0 \forall x\in D : d_X(x,x_0) < \delta 
+  \Rightarrow d_Y(f(x_0), f(x)) < \ep.
+  \end{align*}
+  Äquivalent lässt sich Stetigkeit mit einem Folgenkriterium definieren. $f$
+  ist stetig in $x_0$, falls für alle Folgen $(x_n)$ in $D$ mit $x_n \to x_0$
+  und $x_n\neq x_0$ gilt $f(x_n)\to f(x_0)$.
+  \item $f$ heißt \emph{stetig auf $D$}, wenn $f$ in jedem Punkt aus $D$ stetig
+  ist.
+  \item Der Raum der stetigen Funktionen $f: D\to Y$ wird mit \emph{$C(D\to Y)$}
+  bezeichnet.
+  \item Sei $\xi\in D'$, dann schreiben wir $\lim\limits_{x\to\xi} f(x) = \eta$
+  bzw. $f(x)\to \eta$ für $x\to \xi$, falls
+  \begin{align*}
+  \forall \ep > 0 \exists \delta > 0 \forall x\in D : d_X(x,\xi) < \delta
+  \Rightarrow d_Y(f(x),\eta) < \ep,
+  \end{align*}
+  oder äquivalent dazu, falls für jede Folge $(x_n)$ in $D$ gilt
+  \begin{align*}
+  x_n\to\xi \Rightarrow f(x_n)\to\eta.\fishhere
+  \end{align*}
+\end{enumerate}
+\end{defn}
+
+\begin{prop}
+\label{prop:1.21}
+Sei $Y$ vollständig, $D\subseteq X$, $f_n,f: D\to Y$. Gilt $f_n\unito f$ auf
+$D$ und sind alle $f_n$ stetig auf $D$, so ist auch $f$ stetig auf $D$.\fishhere
+\end{prop}
+\begin{proof}
+Sei $x_0\in D$, $(x_p)$ Folge in $D$ mit $x_p\to x_0$. Setze $a_{np} :=
+f_n(x_p)$. Dann gilt $a_{np} \unito f(x_p)$ bezüglich $p$ und
+$\lim\limits_{p\to\infty} a_{np} = f_n(x_0)$. Nun folgt mit \ref{prop:1.16}
+\begin{align*}
+\lim\limits_{n\to\infty} \underbrace{\lim\limits_{p\to\infty}
+f_n(x_p)}_{f_n(x_0)} =
+\lim\limits_{p\to\infty}\underbrace{\lim\limits_{n\to\infty} f_n(x_p)}_{f(x_p)},
+\end{align*}
+also gilt $f(x_0) = \lim\limits_{p\to\infty} f(x_p)$ und $f$ ist stetig.\qedhere
+\end{proof}
+Ein analoges Ergebnis erhalten wir für Häufungspunkte:
+\begin{prop}
+\label{prop:1.22}
+Sei $Y$ vollständig, $D\subseteq X$, $\xi\in D'$ und $f_n,f: D\to Y$. Gilt
+$f_n\unito f$ auf $D$ und gilt für $n\in\N : f_n(x) \to a(n)$ für $x\to\xi$,
+dann existiert $\lim\limits_{x\to\xi} f(x)$ und es gilt
+\begin{align*}
+\lim\limits_{x\to\xi} f(x) = \lim\limits_{n\to\infty} a(n).\fishhere
+\end{align*}
+\end{prop}
+\begin{proof}
+Sei $(x_p)$ Folge in $D$, $x_p\to\xi$. Setze $a_{np}:=f_n(x_p)$, dann folgt
+\begin{align*}
+&a_{np}\unito f(x_p),\quad n\to \infty,\\
+&a_{np} \to a(n),\quad p\to\infty.
+\end{align*}
+Mit \ref{prop:1.16} erhalten wir,
+\begin{align*}
+&\lim\limits_{n,p\to\infty} a_{np} = \lim\limits_{p,n\to \infty} a_{np},\\
+&\lim\limits_{p\to\infty} f(x_p) = \lim\limits_{n\to\infty} a(n).
+\end{align*}
+Da $(x_p)$ beliebig war, folgt $\lim\limits_{x\to\xi} f(x) =
+\lim\limits_{n\to\infty} a(n)$.\qedhere
+\end{proof}
+
+\begin{bem}
+\label{bem:1.23}
+Die selben Sätze gelten für Reihen, man muss sie nur als Folge von
+Partialsummen lesen.\\
+Sei z.B. $f_n(x)\in C(D\to Y)$, $Y$ Bannachraum und $\sum\limits_{n=1}^\infty
+f_n(x)$\footnote{Achtung: Mit $\sum\limits_{n=1}^\infty a_n$ kann sowohl
+Reihe selbst, als auch ihr Grenzwert gemeint sein.} gleichmäßig konvergent auf $D$, dann folgt auch
+$\sum\limits_{n=1}^\infty f_n(x) \in C(D\to Y)$.\maphere
+\end{bem}
+
+\begin{bsp}
+\label{bsp:1.24}
+Sei $(a_n)$ Folge in $\C$, $\sum\limits_{n=1}^\infty a_n$ absolut konvergent,
+dann ist
+\begin{align*}
+f(x) := \sum\limits_{n=1}^\infty a_n\sin(nx),
+\end{align*}
+gleichmäßig konvergent auf $\R$, also $f\in C(\R\to \C)$.
+\begin{proof}
+\begin{align*}
+\abs{f(x) -  \sum\limits_{n=1}^N a_n\sin(nx)} = \abs{\sum\limits_{n=N+1}^\infty
+a_n\sin(nx)} \le \sum\limits_{n=N+1}^\infty \abs{a_n} < \ep,
+\end{align*}
+für $N\ge N_\ep$, also konvergiert die Reihe gleichmäßig.\qedhere
+\end{proof}
+Die wenigsten Funktionenfolgen sind auf ganz $\R$ gleichmäßig konvergent. Hier
+ist die Beschränktheit des Sinus ausschlaggebend.\bsphere
+\end{bsp}
+
+\begin{prop}
+\label{prop:1.25}
+Sei $(Y,\norm{\cdot})$ Banachraum, $f_n\in C([a,b]\to Y)$, $f_n\unito f$ auf
+$[a,b]$. Dann gilt
+\begin{align*}
+\lim\limits_{n\to\infty} \int\limits_a^b f_n(x) \dx = \int\limits_a^b
+\lim\limits_{n\to\infty} f_n(x) \dx.\fishhere
+\end{align*}
+\end{prop}
+\begin{proof}
+Mit \ref{prop:1.21} folgt, dass $f\in C([a,b],Y)$, also gilt
+\begin{align*}
+&\norm{\int\limits_a^b f(x)\dx - \int\limits_a^b f_n(x)\dx} =
+\norm{\int\limits_a^b f(x)-f_n(x) \dx} \\ & \le \int\limits_a^b
+\norm{f(x)-f_n(x)} \dx \le \ep \int\limits_a^b \dx = \ep(b-a), 
+\end{align*}
+für $n>N_\ep$.\qedhere
+\end{proof}
+
+\begin{prop}
+\label{prop:1.26}
+Sei $f_n\in C^1([a,b]\to Y)$, $(Y,\norm{\cdot})$ Bannachraum. Existieren
+$x_0\in[a,b]$ und $\ph\in C([a,b]\to Y)$ so, dass $(f_n(x_0))$ konvergent ist
+und gilt $f_n'\unito \ph$ auf $[a,b]$, dann folgt:
+\begin{enumerate}
+  \item $f_n$ konvergiert gleichmäßig auf $[a,b]$.
+  \item Sei $f(x) := \lim\limits_{n\to \infty} f_n(x)$. Dann ist $f\in
+  C^1([a,b]\to Y)$ und $f' = \ph$ also $\left(\lim\limits_{n\to \infty}
+  f_n(x)\right)' = \lim\limits_{n\to \infty} f_n'(x)$.\fishhere
+\end{enumerate}
+\end{prop}
+\begin{proof}
+$f_n'$ ist stetig, also gilt nach dem Hauptsatz $f_n(x) = f_n(x_0) +
+\int\limits_{x_0}^x f_n'(t)\dt$.
+\begin{align*}
+&\norm{f_n(x)-f_m(x)} = \norm{\int\limits_{x_0}^x f_n'(t) - f_m'(t) \dt + 
+f_n(x_0) - f_m(x_0)} \\
+&\le \abs{\int\limits_{x_0}^x \norm{f_n'(t) - f_m'(t)}\dt} + \norm{f_n(x_0) -
+f_m(x_0)} \\
+&\le \abs{\int\limits_{x_0}^x \norm{f_n'(t) - \ph(t)} + \norm{\ph(t)-
+f_m'(t)}\dt} + \ep \\
+&\le 2\ep\abs{x-x_0} + \ep \le 2\ep\abs{b-a} + \ep,
+\end{align*}
+für $n\ge N_\ep$ und unabhängig von $x$. Somit ist $(f_n)$ Cauchyfolge also
+konvergent. Da die obige Abschätzung auch für $m\to\infty$ gilt, ist $(f_n)$
+sogar gleichmäßig konvergent, es gilt also $\norm{f_n(x) - f(x)} < \ep$
+unabhängig von $x$.
+
+Es ist $f_n(x) = f_n(x_0) + \int\limits_{x_0}^x f_n'(t)\dt$ und alle Summanden
+konvergieren. Durch Grenzübergang erhalten wir nach \ref{prop:1.25}
+\begin{align*}
+f(x) = f(x_0) + \int\limits_{x_0}^x \ph(t)\dt,
+\end{align*}
+und damit folgt $f' = \ph\in C([a,b]\to Y)$.\qedhere
+\end{proof}
+
+\begin{prop}[Definition/Satz]
+\label{prop:1.27}
+Sei $(a_n)$ eine Folge in $\C$ und
+\begin{align*}
+R := \begin{cases}
+     \infty, & \text{ falls } \limsup a_n = 0,\\
+     0, & \text{ falls } \limsup a_n = \infty,\\
+     \frac{1}{\limsup\limits_{n\to\infty}
+\sqrt[n]{\norm{a_n}}}, & \text{ sonst}.
+     \end{cases}
+\end{align*}
+Dann gilt für die \emph{Potenzreihe}
+\begin{align*}
+f(z) = \sum\limits_{n=1}^\infty a_n (z-z_0)^n,
+\end{align*}
+\begin{enumerate}[label=(\roman{*})]
+  \item\label{prop:1.16:1} $f(z)$ konvergiert absolut, falls $\abs{z-z_0} < R$,
+  \item\label{prop:1.16:2} $f(z)$ divergiert, falls $\abs{z-z_0} > R$,
+  \item\label{prop:1.16:3} $f(z)$ konvergiert gleichmäßig auf der Menge
+  $\setdef{z\in\C}{\abs{z-z_0} \le R'}$ für jedes $R'\in (0,R)$,
+  \item\label{prop:1.16:4} $f(z)$ ist stetig auf $\setdef{z}{\abs{z-z_0} < R}$.
+\end{enumerate}
+$R$ nennt man den \emph{Konvergenzradius} der Potenzreihe.\fishhere
+\end{prop}
+\begin{proof}
+Sei $\limsup\limits_{n\to\infty}
+\sqrt[n]{\norm{a_n}} \in (0,\infty)$
+\begin{enumerate}[label=(\roman{*})]
+  \item Mit Satz \ref{prop:1.10} folgt für $z\in\C$ mit $\abs{z-z_0}<R$,
+  \begin{align*}
+  \sqrt[n]{\abs{a_n(z-z_0)^n}} &= \sqrt[n]{\abs{a_n}}\abs{z-z_0} \le \left(
+  \underbrace{\limsup \sqrt[n]{\abs{a_n}}}_{=1/R} + \ep
+  \right)\underbrace{\abs{z-z_0}}_{< R} \\ &=
+  \underbrace{\frac{\abs{z-z_0}}{R}}_{<1} + \ep\abs{z-z_0} < 1,
+  \end{align*}
+für $n > N_\ep$, wenn $\ep$ hinreichend klein. Also konvergiert
+$\sum\limits_{n=1}^\infty a_n(z-z_0)^n$ absolut.
+  \item Sei $z\in\C$ mit $\abs{z-z_0}>R$ und $(a_{n_k})$ Teilfolge mit
+  $\sqrt[n_k]{\abs{a_{n_k}}} \to \limsup \sqrt[n]{\abs{a_n}}$, dann folgt
+  \begin{align*}
+  \abs{a_{n_k}(z-z_0)^{n_k}} &=
+  \left(\sqrt[n_k]{\abs{a_{n_k}}}\abs{z-z_0}\right)^{n_k} \\
+  &>   \abs{\left(
+  \limsup \sqrt[n]{\abs{a_n}} - \ep\right)\abs{z-z_0}}^{n_k} \\ &= \abs{\frac{\abs{z-z_0}}{R} - \ep\abs{z-z_0}}^{n_k} > 1,
+  \end{align*}
+für $\ep$ hinreichend klein. Damit divergiert die Potenzreihe.
+  \item Aus \ref{prop:1.16:1} folgt $\sum\abs{a_n} {R'}^n$ ist konvergent. 
+  Für $z\in\C$ mit $\abs{z-z_0} \le R'$ folgt damit für $N>N_\ep$,
+  \begin{align*}
+  \sum\limits_{n=N}^\infty \abs{a_n(z-z_0)^n} \le \sum\limits_{n=N}^\infty
+  \abs{a_n}{R'}^n < \ep.
+  \end{align*}
+  \item 
+  Sei $z\in\C$ mit $\abs{z-z_0}<R$, und $R'\in(\abs{z-z_0},R)$ beliebig aber
+  fest, dann folgt aus \ref{prop:1.21} die Stetigkeit von $f$ auf
+  \begin{align*}
+  \setdef{\zeta\in\C}{\abs{\zeta-z_0} \le R'},
+  \end{align*}
+  also insbesondere in $z$.\qedhere
+\end{enumerate}
+\end{proof}
+
+\begin{prop}
+\label{prop:1.28}
+Sei $(a_n)$ reelle Folge, $R$ wie in \ref{prop:1.27}. Dann ist die Potenzreihe
+\begin{align*}
+f(x) = \sum\limits_{n=1}^\infty a_n(x-x_0)^n,
+\end{align*}
+für $x\in(x_0-R,x_0+R)$ beliebig oft differenzierbar und es gilt,
+\begin{align*}
+f^{(k)}(x) = \sum\limits_{n=k}^\infty n(n-1)\ldots(n-k+1)
+a_n(x-x_0)^{n-k}.\fishhere
+\end{align*}
+\end{prop}
+\begin{proof}
+Da $f$ für $\abs{x} < R$ gleichmäßig konvergiert, kann man Summation und
+Differentiation vertauschen. Der Konvergenzradius der Ableitung stimmt mit dem
+von $f(x)$ überein, denn
+\begin{align*}
+\limsup \sqrt[n]{n(n-1)\ldots(n-k+1) a_n} = \limsup
+\sqrt[n]{a_n},
+\end{align*}
+da $\sqrt[n]{n}\to 1, \sqrt[n]{n-1} \to 1,$ usw.
+
+Daraus folgt für $0<R'<R$ gleichmäßige Konvergenz für jede Ableitung im
+Intervall $(x_0-R,x_0+R)$.\qedhere
+\end{proof}

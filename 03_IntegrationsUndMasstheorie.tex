@@ -1,0 +1,2608 @@
+\section{Einführung in Integrations und Maßtheorie}
+
+\subsection{Falsche Erwartungen}
+
+Wir wissen bereits, dass $C^1([a,b]\to\R)$ bezüglich der Supremumsnorm
+vollständig ist, es existiert jedoch kein Skalarprodukt, das die Supremumsnorm
+induziert, also für das gilt $\norm{f} = \sqrt{\lin{f,f}}$. Für die
+durch ein Skalarprodukt induzierte $L_2$-Norm
+\begin{align*}
+\norm{f}_2 := \sqrt{\lin{f,f}} = \sqrt{\int\limits_a^b \left(\abs{f}^2\right)\dx},
+\end{align*}
+ist $C^1([a,b]\to\R)$ hingegen nicht mehr vollständig. Nun sind sowohl
+Orthogonalität als auch Vollständigkeit wichtige Konzepte in der Analysis, auf
+die wir auch in Funktionenräumen nicht verzichten wollen. Die Intuition rät,
+den $C^1([a,b]\to\R)$ bezüglich der $L_2$-Norm ``zu
+vervollständigen'', wie wir $\Q$ zu $\R$ bezüglich der euklidischen Norm
+vervollständigt haben. Dies ist mit Hilfe des \emph{Lebesgue-Integrals} möglich.
+
+Bis dahin müssen wir jedoch noch etwas arbeiten. Zuerst wollen wir uns damit
+beschäftigen Mengen zu ``messen''. Wir kennen für einen Quader
+$Q=X_{j=1}^n [a_j,b_j]$ im $\R^n$ das Volumen $V(Q) = \prod_{j=1}^n
+\abs{b_j-a_j}$.\\
+Zunächst wollen wir die Frage klären, ob der
+Volumenbegriff für beliebige Mengen $M\subseteq\R^n$ Sinn macht.\\
+Für einen allgemeinen Volumenbegriff sollte gelten, dass eine Translation,
+Spiegelung oder Rotation der Menge das Volumen nicht ändert. Außerdem sollte das
+Volumen des Einheitsquaders stets 1 sein. Und betrachtet man die Vereinigung zweier
+disjunkter Mengen $M_1$ und $M_2$, dann sollte das Volumen der Vereinigung der
+Summe der Einzelvolumina entsprechen.
+
+\begin{defn}[Erster Versuch]
+\label{defn:3.1}
+Seien $A,B\subseteq\R^n$. Eine Abbildung $\mu: \PP(\R^n)\to[0,\infty]$ heißt
+\emph{Inhalt}, falls sie den folgenden Eigenschaften genügt.
+\begin{enumerate}[label=(\roman{*})]
+  \item\label{defn:3.1:1} $\mu(A\dot{\cup} B) = \mu(A)+\mu(B)$.
+  \item Sei $\beta: \R^n\to\R^n$ eine Translation, Spiegelung oder Rotation,
+  dann ist $\mu(\beta(A)) = \mu(A)$.
+  \item $\mu((0,1]^n)=1$.
+  \par
+$\mu$ heißt \emph{Maß}, falls statt \ref{defn:3.1:1} gilt
+\item $\mu(\dot{\bigcup}_{j\in\N} A_j) = \sum_{j=1}^\infty \mu(A_j)$.\fishhere
+\end{enumerate}
+\end{defn}
+
+\begin{bsp}
+\label{bsp:3.2}
+Gegenbeispiel (Vitali 1905): Es gibt kein Maß $\mu: \PP(\R)\to[0,\infty]$ auf
+$\R$.
+
+Zerlege $(0,1]$ in abzählbar viele gleichgroße disjunkte Mengen. Sei $\sim$
+eine Äquivalenzrelation auf $(0,1]$ und
+\begin{align*}
+x\sim y\Leftrightarrow x-y\in\Q.
+\end{align*}
+Sei $(q_j)_{j\in\N}$ eine Abzählung von $\Q\cap(0,1]$.
+
+Sei $A_0\subseteq(0,1]$ so definiert, dass $A_0$ aus jeder
+Äquivalenzklasse genau ein Element enthält\footnote{Dass das funktioniert,
+garantiert das Auswahlaxiom}.
+
+$A_j:= (A_0+q_j)\mod 1$.
+\begin{enumerate}[label=(\alph{*})]
+  \item Es gilt $\bigcup_{j=1}^\infty A_j = (0,1]$.
+  
+  ``$\subseteq$'' gilt per
+  definitionem. Sei nun $x\in(0,1]$, dann gibt es ein $y\in A_0: x\in[y]$, also
+  ist $x-y\in\Q\cap(-1,1)$.
+  
+  Falls $x=y$, dann ist $x\in A_0\subseteq A_0 + 1\mod 1$.
+  
+  Falls $x-y\in\Q\cap (0,1)$, existiert ein $j\in\N : x-y=q_j$, also ist $x\in
+  (A_0 + q_j)\mod 1$.
+  
+  Falls $x-y\in\Q\cap(-1,0)$, existiert ein $j\in\N : x-y + 1 = q_j$, also ist
+  $x\in (A_0+q_j)\mod 1$.
+  
+  Also ist $(0,1]\subseteq \bigcup_{j=1}^n A_j$.
+  \item Es ist $A_j\cap A_k = \varnothing$, falls $j\neq k$.
+  
+Sei $x\in A_j\cap A_k$ für $j\neq k$, dann gilt
+\begin{align*}
+x &= (y_1+q_j)\mod 1, && y_1\in A_0,\\
+x &= (y_2+q_k)\mod 1, && y_2\in A_0,\\
+\Rightarrow &= y_1-y_2\in\Q,
+\end{align*}  
+also ist $[y_1]=[y_2]$ und daher auch $y_1=y_2$, da $A_0$ genau einen Vertreter
+jeder Äquivalenzklasse enthält und damit ist $q_j=q_k\mod 1$ und $A_j=A_k$, ein
+Widerspruch, also ist $A_j\cap A_k = \varnothing$.
+\item Angenommen $\mu$ sei ein Maß, dann gilt für jedes $j\in\N$,
+\begin{align*}
+\mu(A_j) &= \mu\left((A_0 + q_j)\cap (0,1]\right) + \mu\left((A_0+q_j)\cap (1,2]
+-1 \right) \\
+&= \mu\left((A_0 + q_j)\cap (0,1]\right) + \mu\left((A_0+q_j)\cap (1,2]
+\right) \\
+&= \mu\left(((A_0 + q_j)\cap (0,1]) \cup ((A_0+q_j)\cap (1,2])
+\right) \\
+&= \mu\left((A_0+q_j)\cap (0,2]\right) = \mu(A_0 + q_j) = \mu(A_0).
+\end{align*}
+Aber es ist $\mu((0,1]) = \sum\limits_{j=1}^\infty \mu(A_j) =
+\sum\limits_{j=1}^\infty \mu(A_0)\neq 1$, ein Widerspruch.\bsphere
+\end{enumerate}
+\end{bsp}
+
+\begin{bem}
+\label{bem:3.3}
+\begin{enumerate}[label=\arabic{*}.)]
+  \item Hausdorff (1914): Man kann keinen Inhalt auf dem $\R^n$ für $n\ge3$
+  definieren.
+  \item Banach-Tarski (1924): Sei $n\ge 3$, dann existieren
+  $C_1,\ldots,C_k\subseteq\R^n$ und Bewegungen $\beta_1,\ldots,\beta_k$, sodass
+  $K_1(0) = \dot{\bigcup}_{j=1}^k C_j$ und
+  $\dot{\bigcup}_{j=1}^k \beta_j(C_j) = K_1(0) \cup K_1(3)$.
+  \item Banach (1923): Auf $\R$ und $\R^2$ existieren verschiedene
+  Inhalte.\maphere
+\end{enumerate}
+\end{bem}
+
+\subsection{Messbare Mengen}
+
+\begin{defn}
+\label{defn:3.4}
+Sei $\Omega$ Menge.
+\begin{enumerate}[label=\arabic{*}.)]
+  \item $h\subseteq \PP(\Omega)$ heißt \emph{Halbring}, falls
+  \begin{enumerate}[label=(\roman{*})]
+    \item $\varnothing\in h$,
+    \item $A,B\in h \Rightarrow A\cap B\in h$,
+    \item $A,B\in h,\;A\subseteq B \Rightarrow \exists k\in \N \exists
+    C_1,\ldots,C_k\in h : B\setminus A = \dot{\bigcup}_{i=1}^k C_i$.
+  \end{enumerate}
+  \item $\Sigma\subseteq\PP(\Omega)$ heißt \emph{$\sigma$-Algebra}, falls
+  \begin{enumerate}[label=(\roman{*})]
+    \item $\varnothing\in \Sigma$,
+    \item $A\in\Sigma\Rightarrow A^c\in\Sigma$,
+    \item $A_j\in\Sigma \Rightarrow \bigcup_{j\in\N} A_j \in \Sigma$.
+  \end{enumerate}
+  $(\Omega,\Sigma)$ heißt \emph{messbarer Raum}, $\Sigma$ \emph{Menge der
+messbaren Mengen}.
+\item Zu $M\subseteq\PP(\Omega)$ ist $\sigma(M) := \bigcap_{\Sigma\supseteq M}
+\Sigma$, eine $\sigma$-Algebra, denn Schnitte von $\sigma$-Algebren sind
+$\sigma$-Algebren. Sie heißt die \emph{von $M$ erzeugte $\sigma$-Algebra}.
+\item Sei $X$ Menge, dann heißt $\OO_X\subseteq\PP(X)$ \emph{Topologie} auf
+$X$, falls es den folgenden Eigenschaften genügt:
+\begin{enumerate}[label=(\roman{*})]
+  \item $\varnothing,X\in\OO_X$,
+  \item $A,B\in\OO_X\Rightarrow A\cap B\in\OO_X$,
+  \item $\TT\subseteq \OO_X \Rightarrow \bigcup_{O\in\TT} O \in \OO_X$.
+\end{enumerate}
+$\BB(X) := \sigma(\OO_X)$ heißt \emph{Borel $\sigma$-Algebra}.\fishhere
+\end{enumerate}
+\end{defn}
+
+\begin{cor}
+\label{prop:3.5}
+\begin{enumerate}[label=\arabic{*}.)]
+  \item Sei $\Sigma$ eine $\sigma$-Algebra und für $j\in\N$ sei $A_j\in\Sigma$,
+  dann ist,
+  \begin{align*}
+  \bigcap_{j\in\N} A_j \in \Sigma.
+  \end{align*}
+  \item Ist $\OO_X$ Topologie auf $X$, $\AA_X=\setdef{O^c}{O\in\OO_X}$ das
+  System aller abgeschlossener Mengen in $X$, so gilt $\sigma(\OO_X) =
+  \sigma(\AA_X)$.\fishhere
+\end{enumerate}
+\end{cor}
+\begin{proof}
+\begin{enumerate}[label=\arabic{*}.)]
+  \item Wir wissen, dass Komplemente und abzählbare Vereinigungen in $\Sigma$
+  sind,
+  \begin{align*}
+  A_j\in\Sigma \Rightarrow A_j^c \in\Sigma \Rightarrow \bigcup_{j\in\N}
+  A_j^c\in\Sigma \Rightarrow \bigcap_{j\in\N} A_j = \left(\bigcup_{j\in\N}
+  A_j^c\right)^c \in \Sigma.
+  \end{align*}
+\item Ist $M\subseteq \Sigma$, dann ist auch $\sigma(M)\subseteq\Sigma$, also
+gilt
+\begin{align*}
+A\in\AA_X &\Rightarrow \exists O\in\OO_X : A=X\setminus O \Rightarrow
+A\in\sigma(\OO_X) \\ &\Rightarrow \AA_X\subseteq \sigma(\OO_X) \Rightarrow
+\sigma(\AA_X)\subseteq \sigma(\OO_X).
+\end{align*}
+Analog folgt $\sigma(\OO_X)\subseteq\sigma(\AA_X)$.\qedhere
+\end{enumerate}
+\end{proof}
+
+\begin{prop}
+\label{prop:3.6}
+\begin{enumerate}[label=\arabic{*}.)]
+  \item Die Borel $\sigma$-Algebra $\BB(\R)$ wird von jeder der folgenden Mengen
+erzeugt,
+\begin{align*}
+&M_1 = \setdef{A\subseteq\R}{A\in\AA_\R},\\
+&M_2 = \setdef{O\subseteq\R}{O\in\OO_\R},\\
+&M_3 = \setdef{(a,b)\subseteq\R}{a,b\in\R},\\
+&M_4 = \setdef{(a,b]}{a,b\in\R},\\
+&M_5 = \setdef{[a,b)}{a,b\in\R},\\
+&M_6 = \setdef{[a,b]}{a,b\in\R},\\
+&M_7 = \setdef{[a,\infty)}{a\in\R},\\
+&M_8 = \setdef{(a,\infty)}{a\in\R},\\
+&M_9 = \setdef{(-\infty,a]}{a\in\R},\\
+&M_{10} = \setdef{(-\infty,a)}{a\in\R},\\
+&M_{11} = \setdef{(a,b)}{a\in\Q}.
+\end{align*}
+Entsprechendes gilt für $\BB(\R^n)$. Insbesondere wird $\BB(\R^n)$ von
+folgendem Halbring erzeugt
+\begin{align*}
+h = \setdef{X_{i=1}^\infty (a_i,b_i]}{a_i,b_i\in\R}.
+\end{align*}
+\item
+$\BB(\R)$ enthält alle endlichen und abzählbaren Teilmengen von $\R$.\fishhere
+\end{enumerate}
+\end{prop}
+
+\begin{proof}
+\begin{enumerate}[label=\arabic{*}.)]
+  \item $(a,b] = \underbrace{(a,\infty)}_{\in\OO_\R}\cap
+  \underbrace{(b,\infty)^c}_{\in\AA_\R} \in\BB(\R)$, also ist
+  $M_4\subseteq\BB(\R)$ und damit ist $\sigma(M_4)\subseteq \BB(\R)$.
+  \item Sei $O\subseteq\R$ offen, dann ist $O$ abzählbare Vereinigung offener
+  Intervalle, also
+  \begin{align*}
+  &O = \bigcup_{j=1}^\infty (a_j,b_j),\\
+  &(a_j,b_j) = \bigcup_{k=1}^\infty \left(a_j,b_j -
+  \frac{1}{k}\right]\in\sigma(M_4),
+  \end{align*}
+und damit ist $O\in\sigma(M_4)$.\qedhere
+\end{enumerate}
+\end{proof}
+
+\begin{prop}
+\label{prop:3.7}
+Sei $M\subseteq\PP(\Omega')$ und $f:\Omega\to\Omega'$, dann ist
+\begin{align*}
+f^{-1}(\sigma(M)) = \setdef{f^{-1}(A)}{A\in\sigma(M)},
+\end{align*}
+eine $\sigma$-Algebra und wird von $f^{-1}(M)$ erzeugt.\fishhere
+\end{prop}
+\begin{proof}
+\begin{enumerate}[label=(\roman{*})]
+  \item\label{proof:3.7:1} $\varnothing = f^{-1}(\varnothing) \in
+  f^{-1}(\sigma(M))$,
+  \item\label{proof:3.7:2} $f^{-1}(A^c) = f^{-1}(\Omega'\setminus A) = \Omega
+  \setminus f^{-1}(A)$. Sei also $B\in f^{-1}(\sigma(M))$, dann existiert ein $A\in
+  \sigma(M) : B = f^{-1}(A)$. Damit gilt $B^c = f^{-1}(A)^c =
+  f^{-1}(A^c) \in f^{-1}(\sigma(M))$.
+  \item\label{proof:3.7:3} Die ``Urbildabbildung'' ist inklusionserhaltend, also
+  gilt
+  \begin{align*}
+  f^{-1}\left(\bigcup_{j\in\N} A_j\right)  = \bigcup_{j\in\N} f^{-1}(A_j),
+  \end{align*}
+  ist also $B_j\in f^{-1}(\sigma(M))$, dann folgt $\bigcup_{j\in\N} B_j \in
+  f^{-1}(\sigma(M))$.
+  \par
+  aus \ref{proof:3.7:1} bis \ref{proof:3.7:3} folgt, $f^{-1}(\sigma(M))$ ist
+$\sigma$-Algebra.
+\item $f^{-1}(M) \subseteq f^{-1}(\sigma(M))$ also ist auch
+$\sigma(f^{-1}(M))\subseteq f^{-1}(\sigma(M))$.
+
+Betrachte $\Sigma = \setdef{A\in\PP(\Omega)}{f^{-1}(A)\in\sigma(f^{-1}(M))}$,
+also ist $\Sigma$ eine $\sigma$-Algebra auf $\Omega$ (Beweis analog zu oben).
+ 
+Offensichtlich ist $M\subseteq\Sigma$, also ist auch $\sigma(M)\subseteq
+\Sigma$ und damit ist
+\begin{align*}
+f^{-1}(\sigma(M)) \subseteq f^{-1}(\Sigma) = \sigma(f^{-1}(M)).
+\end{align*}
+Also ist $f^{-1}(\sigma(M)) = \sigma(f^{-1}(M))$ die von $f^{-1}(M)$ erzeugte
+$\sigma$-Algebra.\qedhere
+\end{enumerate}
+\end{proof}
+
+\subsection{Maße}
+
+Sei nun stets $h$ ein Halbring und $\Sigma$ eine $\sigma$-Algebra.
+
+\begin{defn}
+\label{defn:3.8}
+$\mu: h\to[0,\infty]$ heißt \emph{Prämaß}, $\mu: \Sigma\to[0,\infty]$ heißt
+\emph{Maß}, falls
+\begin{enumerate}[label=(\roman{*})]
+  \item $\mu(\varnothing) = 0$, (Definitheit)
+  \item $\mu(A)\ge 0$, (Positivität)
+  \item $\mu\left(\dot{\bigcup}_{j\in\N} A_j \right) = \sum\limits_{j=1}^\infty
+  \mu(A_j)$, ($\sigma$-Additivität)
+  
+  falls $\dot{\bigcup}_{j\in\N} A_j\in h$ bei Prämaß. 
+\end{enumerate}
+$(\Omega,\Sigma,\mu)$ heißt \emph{Maßraum}.
+
+Falls $\Omega=\bigcup_{n\in\N} A_n$ mit $\mu(A_n)<\infty$, dann heißt $\mu$
+\emph{$\sigma$-endlich}.
+
+Ist $\mu(\Omega) <\infty$, dann heißt $\mu$ \emph{endliches Maß}.
+
+Ist $\mu(\Omega) = 1$, dann heißt $\mu$ \emph{Wahrscheinlichkeitsmaß}.\fishhere
+\end{defn}
+
+\begin{prop}[Forsetzungssatz]
+\label{prop:3.9}
+Ein Prämaß $\mu_0$ auf $h$ besitzt eine Fortsetzung $\mu$ zu einem Maß auf
+$\sigma(h)$. Ist $\mu_0$ $\sigma$-endlich, dann ist $\mu$ eindeutig.\fishhere
+\end{prop}
+\begin{proof}
+Elstrodt, Kapitel III, $\mathsection\mathsection$ 4.5.\qedhere
+\end{proof}
+
+\begin{cor}
+\label{prop:3.10}
+Es gibt genau ein Maß $\mu^{(n)}$ auf der Borel $\sigma$-Algebra $\BB(\R^n)$ mit
+\begin{align*}
+\mu(X_{j=1}^n (a_j,b_j]) = \prod_{j=1}^n \abs{b_j-a_j}.
+\end{align*}
+$\mu^{n}$ heißt \emph{Lebesgue-Borel-Maß} und ist
+translationsinvariant.\fishhere
+\end{cor}
+\begin{proof}
+Durch $\mu$ wird ein Prämaß auf dem Halbring
+\begin{align*}
+h = \setdef{X_{j=1}^n (a_j,b_j]}{a_j,b_j\in\R},
+\end{align*}
+definiert. $\mu$ ist $\sigma$-endlich, denn $\R^n = \bigcup_{j=1}^\infty
+W(z_j)$, mit $(z_j)$ einer Abzählung von $\Z^n$ und $W(z_j)$ ein halboffener
+Würfel mit Mittelpunkt $z_j$ und Seitenlänge $1$.
+
+Dann ist $\mu(W(z_j)) = 1$ und die Fortsetzung eindeutig. $\mu$ ist auf $h$
+translationsinvariant, also ist auch die Fortsetzung
+translationsinvariant.\qedhere
+\end{proof}
+
+\begin{prop}[Weitere Eigenschaften]
+\label{prop:3.11}
+Sei $\mu$ Maß, $A_j\in\Sigma$, dann gilt
+\begin{enumerate}[label=(\roman{*})]
+  \item $A_1\subseteq A_2\Rightarrow \mu(A_1)\le \mu(A_2)$. (Monotonie)
+  \item $A_1\subseteq A_2\subseteq A_3\subseteq \ldots,\;
+  A:=\left(\bigcup_{j=1}^\infty A_j\right)\in\Sigma$, dann ist
+  
+  $\mu(A) = \lim\limits_{j\to\infty} \mu(A_j)$.
+  \item $A_1\supseteq A_2\supseteq A_3\supseteq \ldots, A:=\left(
+  \bigcap_{j=1}^\infty A_j \right)\in\Sigma$, dann ist
+  
+  $\mu(A) = \lim\limits_{j\to\infty} \mu(A_j)$.
+  \item $\mu\left(\bigcup_{j=1}^\infty A_j\right)\le \sum\limits_{j=1}^\infty 
+  \mu(A_j)$.\fishhere
+\end{enumerate}
+\end{prop}
+
+\begin{proof}
+\begin{enumerate}[label=(\roman{*})]
+  \item $A_2 = A_1\dot{\cup} (A_2 \cap A_1^c) \Rightarrow \mu(A_2) = \mu(A_1) +
+  \underbrace{\mu(A_2\cap A_1^c)}_{\ge 0}$.
+  \item Schreibe $A$ als $A = A_1\dcup (A_2\setminus A_1) \dcup (A_3\setminus
+  A_2) \dcup \ldots$,
+\begin{align*}
+\mu(A) &= \mu(A_1) + \sum\limits_{j=2}^\infty \mu(A_j \setminus A_{j-1})\\
+&= \lim\limits_{k\to\infty} \mu(A_1) + \sum\limits_{j=2}^k \mu(A_j
+\setminus A_{j-1})\\
+&= \lim\limits_{k\to\infty} \mu\left(
+A_1\dcup (A_2\setminus A_1) \dcup \ldots \dcup (A_k\setminus A_{k-1})
+ \right)\\
+&= \lim\limits_{k\to\infty} \mu(A_k).
+\end{align*}
+%   \begin{align*}
+%   \mu(A) &= \mu(A_1) + \sum\limits_{n=2}^\infty \mu(A_j \setminus A_{j-1}) \\ &=
+%   \mu(A_1) + \sum\limits_{n=2}^\infty \mu(A_j \cap A_{j-1}^c) =
+%   \mu(A_1) + \lim\limits_{k\to \infty}\sum\limits_{n=2}^k \mu(A_j \cap
+%   A_{j-1}^c) \\ &=
+%   \lim\limits_{k\to \infty} \mu(A_1) + \sum\limits_{n=2}^k \mu(A_j \cap
+%   A_{j-1}^c) \\ &=
+%   \lim\limits_{k\to \infty} \mu(A_1\dcup (A_2\setminus A_1^c) \dcup \ldots
+%   \dcup (A_k \setminus A_{k-1}^c) = \lim\limits_{k\to\infty} \mu(A_k). 
+%   \end{align*}
+  \item $A\subseteq A_1$, also ist
+  \begin{align*}
+  A_1 = A\dcup (A_1\setminus A) = A\dcup \left(A_1 \setminus
+  \bigcap_{j=1}^\infty A_j\right) = A\dcup \bigcup_{j=1}^\infty A_1\setminus
+  A_j.
+  \end{align*}
+ Für das Maß von $A_1$ gilt also
+ \begin{align*}
+ \mu(A_1) &= \mu(A) + \mu\left(\bigcup_{j=1}^\infty A_1\setminus
+  A_j\right) = \mu(A) + \lim\limits_{j\to\infty} \mu(A_1\setminus A_j)
+  \\ &= \mu(A) + \mu(A_1) - \lim\limits_{j\to\infty}  \mu(A_j)\\
+  \Rightarrow \mu(A) &= \lim\limits_{j\to\infty}  \mu(A_j).
+ \end{align*}
+\item 
+\begin{align*}
+\bigcup_{j=1}^\infty A_j &= A_1 \dcup \dot{\bigcup}_{j=1}^\infty \left(A_j
+\setminus \bigcup_{k=1}^{j-1} A_k\right),\\
+& A_j \supseteq A_j
+\setminus \bigcup_{k=1}^{j-1} A_k,
+\end{align*}
+also gilt für das Maß
+\begin{align*}
+\mu\left(\bigcup_{j=1}^\infty A_j \right) &= \mu(A_1) +
+\sum\limits_{j=2}^\infty \mu\left(A_j
+\setminus \bigcup_{k=1}^{j-1} A_k\right)
+\le \mu(A_1) +
+\sum\limits_{j=2}^\infty \mu(A_j) \\ &=\sum\limits_{j=1}^\infty
+\mu(A_j).\qedhere
+\end{align*}
+\end{enumerate}
+\end{proof}
+
+\begin{defn}
+\label{defn:3.12}
+Sei $(\Omega,\Sigma,\mu)$ ein Maßraum.
+\begin{enumerate}[label=\arabic{*}.)]
+  \item $N\in\Sigma$ heißt \emph{Nullmenge}, falls $\mu(N) = 0$. Eine
+  Eigenschaft $E(x)$ für $x\in\Omega$ gilt \emph{fast überall}, wenn es eine
+  Nullmenge $N\subseteq\Omega$ gibt, sodass
+  \begin{align*}
+  \forall x\in \Omega\setminus N : E(x)\text{ ist wahr}.
+  \end{align*}
+  \item $(\Omega,\Sigma,\mu)$ heißt \emph{vollständiger Maßraum}, falls
+  $\Sigma$ mit einer Nullmenge $N$ auch jede Teilmenge von $N$ 
+  enthält.\fishhere
+\end{enumerate}
+\end{defn}
+\begin{prop}[Vervollständigung eines Maßraums]
+Sei $(\Omega,\Sigma,\mu)$ ein Maßraum. Setze
+\begin{align*}
+\Sigma^* = \setdef{B\subseteq\Omega}{\exists A,C\in\Sigma: (A\subseteq
+B\subseteq C)\land \mu(C\setminus A) = 0},
+\end{align*}
+und für $B\in\Sigma^*$, $\mu^*(B) = \mu(A) (=\mu(C))$. Insbesondere ist dann
+jede Teilmenge einer Nullmenge in $\Sigma^*$ enthalten.
+
+Dann gilt
+\begin{itemize}
+  \item $\Sigma^*$ ist eine $\sigma$-Algebra.
+  \item $\mu^*$ ist ein Maß auf $\Sigma^*$.
+  \item $\mu^*$ ist eindeutige Fortsetzung von $\mu$.
+  \item $(\Omega,\Sigma^*,\mu^*)$ ist vollständig.\fishhere
+\end{itemize}
+\end{prop}
+\begin{proof}
+$\Sigma^*$ ist eine $\sigma$-Algebra, denn
+\begin{enumerate}[label=\arabic{*}.)]
+  \item $\varnothing\in\Sigma\subseteq\Sigma^*$.
+  \item Sei $B\in\Sigma^*$, und $A\subseteq B\subseteq C$, mit $C\setminus
+  A = N$, dann gilt
+  \begin{align*}
+  &C^c \subseteq B^c \subseteq A^c,\\
+  &C^c, A^c \in \Sigma,\\
+  &A^c \setminus C^c = A^c \cap (C^c)^c = A^c \cap C = C\setminus A,\\
+  \Rightarrow &\mu(A^c\setminus C^c) = 0,\\
+  \Rightarrow &B^c\in \Sigma^*.
+  \end{align*}
+  \item Sei 
+  $B_j\in\Sigma^*$ für jedes $j\in\N$, dann gibt es $A_j,B_j\in \Sigma$, sodass
+  $A_j\subseteq B_j\subseteq C_j$ und $\mu(C_j\setminus A_j) = 0$. Es gilt dann
+  \begin{align*}
+  A = \bigcup_{j\in\N} A_j \subseteq B = \bigcup_{j\in\N} B_j  \subseteq C =
+  \bigcup_{j\in\N} C_j,
+  \end{align*}
+  und für $A,C\in\Sigma$ folgt,
+  \begin{align*}
+  C\setminus A &= C\cap A^c = \left( \bigcup_{j\in\N} C_j \right) \cap
+  \left(\bigcup_{j\in\N} A_j\right)^c =
+  \left( \bigcup_{j\in\N} C_j \right) \cap
+  \left(\bigcap_{j\in\N} A_j^c\right) \\ &
+  \subseteq   \left( \bigcup_{j\in\N} C_j \cap A_j^c \right)\\
+  \overset{\ref{prop:3.11}}{\Rightarrow} &\mu(C\setminus A) \le
+  \sum\limits_{k=1}^\infty \mu(C_k\setminus A_k) = 0.
+  \end{align*}
+\item $\mu^*$ ist Maß: Übung.
+\item $\mu^*$ ist eindeutig: $\mu^*$ ist Maß, also monoton,
+\begin{align*}
+&\underbrace{\mu^*(A)}_{=\mu(A)} \le \mu^*(B) \le
+\underbrace{\mu^*(C)}_{=\mu(C)},\\
+\Rightarrow\; & \mu^*(B) = \mu(A), 
+\end{align*}
+also ist $\mu^*$ eindeutig.\qedhere
+\end{enumerate}
+\end{proof}
+
+\begin{defn}
+\label{defn:3.14} Die Vervollständigung $\lambda^{(n)}$ des
+Lebesgue-Borel-Maßes $\mu^{(n)}$ heißt \emph{Lebesguemaß} auf $\R^n$.\fishhere
+\end{defn}
+
+\begin{bsp}
+\label{bsp:3.15}
+\begin{enumerate}[label=\arabic{*}.)]
+  \item\label{bsp:3.15:1} Sei $x\in\R^n$, dann ist $\lambda^{(n)}(\{x\}) = 0$,
+  denn sei
+  \begin{align*}
+  W_j := X_{k=1}^n \left(x_k- \frac{1}{j},x_k\right] \Rightarrow \{x\} 
+  \subseteq \bigcap_{j=1}^\infty W_j,\\
+  \Rightarrow \lambda^{(n)}(\{x\}) = \lim\limits_{j\to\infty}
+  \lambda^{(n)}(W_j) = \lim\limits_{j\to \infty} \frac{1}{j^n} = 0
+  \end{align*}
+  \item Aus \ref{bsp:3.15:1} folgt für $M\subseteq\R^n$ abzählbar, dass
+  $\lambda^{(n)}(M) = 0$ ist.
+  \item Die Cantor-Menge ist ein Beispiel für eine überabzählbare Nullmenge.
+  \item Für $a\in\R$ ist eine Hyperebene im $\R^n$ gegeben durch
+  \begin{align*}
+  H := \setdef{x\in\R^n}{x_1 = a}.
+  \end{align*}
+Falls $n\ge 2$, ist $\lambda^{(n)}(H) = 0$, denn
+\begin{align*}
+H=\bigcup_{k=1}^\infty H_k,\; H_k = \{a\}\times(-k,k]\times\ldots\times(-k,k],
+\end{align*}
+offensichtlich ist $H_k\subseteq H_{k+1}$, also folgt mit \ref{prop:3.11}, dass
+$\lambda^{(n)}(H) = \lim\limits_{k\to\infty} \lambda^{(n)}(H_k)$,
+\begin{align*}
+H_k &= \bigcap_{l=1}^\infty
+\underbrace{(a-\frac{1}{l},a)\times(-k,k]\times\ldots\times(-k,k]}_{\lambda^{(n)}(\ldots)
+= \frac{1}{l}(2k)^{n-1}\to 0},\\
+\Rightarrow &\lambda^{(n)}(H_k) = 0,\\
+\Rightarrow &\lambda^{(n)}(H) = 0.\bsphere
+\end{align*}
+\end{enumerate}
+\end{bsp}
+
+\subsection{Messbare Funktionen}
+\begin{defn}
+\label{defn:3.16}
+Seien $(\Omega,\Sigma)$ und $(\Omega',\Sigma')$ messbare Räume. Dann heißt $f:
+\Omega\to\Omega'$ \emph{messbar}, falls gilt
+\begin{align*}
+\forall B\in\Sigma' : f^{-1}(B)\in\Sigma,
+\end{align*}
+oder anders geschrieben $f^{-1}(\Sigma')\subseteq\Sigma$. Man schreibt $f:(\Omega,\Sigma)\to(\Omega',\Sigma')$ ist messbar.
+
+Falls $\Sigma' = \BB(\Omega') = \sigma(\OO_{\Omega'})$ Borel-$\sigma$ Algebra auf
+$\Omega'$ ist, heißt $f: (\Omega,\Sigma) \to \Omega'$
+\emph{Borel-messbar}.\fishhere
+\end{defn}
+
+\begin{prop}[Vereinfachung]
+\label{prop:3.17}
+Ist $M'\subseteq \PP(\Omega')$ mit $\Sigma' = \sigma(M')$, dann sind äquivalent
+\begin{enumerate}[label=(\roman{*})]
+  \item $f: (\Omega,\Sigma)\to(\Omega',\Sigma')$ messbar.
+  \item $\forall B\in M' : f^{-1}(B) \in \Sigma$.\fishhere
+\end{enumerate}
+\end{prop}
+\begin{proof}
+\begin{enumerate}[label=(\roman{*})]
+  \item $\Rightarrow f^{-1}(M')\subseteq f^{-1}(\sigma(M')) =
+  f^{-1}(\Sigma')\subseteq \Sigma$.
+  \item $\Rightarrow f^{-1}(\Sigma') = f^{-1}(\sigma(M'))  =
+  \sigma(f^{-1}(M'))\subseteq \sigma(\Sigma) = \Sigma$,
+  
+  da $\sigma(f^{-1}(M'))$ die kleinste $\sigma$-Algebra ist, die $f^{-1}(M')$
+  als Teilmenge enthält.\qedhere
+\end{enumerate}
+\end{proof}
+
+\begin{cor}
+\label{prop:3.18}
+\begin{enumerate}[label=\arabic{*}.)]
+  \item Ist $f: X\to Y$ stetig, dann ist $f$ Borel-messbar.
+  \item Sei $(\Omega,\Sigma)$ ein messbarer Raum. Für $A\subseteq\Omega$ ist
+  \begin{align*}
+  \chi_A : \Omega\to\R,\;x\mapsto \begin{cases}
+                                       1, & x\in A,\\
+                                       0, & x\notin A,
+                                       \end{cases}
+  \end{align*}
+die \emph{charakteristische Funktion } von $A$.
+
+Es gilt $A\in\Sigma$ genau dann, wenn $\chi_A : (\Omega,\Sigma)\to\R$
+Borel-messbar ist.\fishhere
+\end{enumerate}
+\end{cor}
+\begin{proof}
+\begin{enumerate}[label=\arabic{*}.)]
+  \item Die Borel-$\sigma$ Algebra auf $X$ ist $\Sigma = \sigma(\OO_X)$, die
+  auf $Y$ ist $\Sigma' = \sigma(\OO_Y)$. Wendet man nun \ref{prop:3.17} an mit
+  $M' = \OO_Y$ folgt aufgrund der Stetigkeit von $f$, dass $f^{-1}{O}\in\OO_X$
+  für $O\in\OO_Y$.
+  \item Wähle $\BB(\R) = \sigma(\setdef{(a,b]}{a,b\in\R})$.
+  
+  ``$\Rightarrow$'': Sei $A\in\Sigma$, dann ist
+  \begin{align*}
+  \chi_A^{-1}((a,b]) &= \begin{cases}
+                       \varnothing, & 0,1\notin(a,b],\\
+                       A, & 1\in (a,b], 0\notin (a,b],\\
+                       \Omega\setminus A & 1\notin(a,b], 0\in (a,b],\\
+                       \Omega, 0,1\in(a,b]
+                       \end{cases}\\ &\in \Sigma
+  \end{align*}
+
+``$\Leftarrow$'': Sei $A=\chi_A^{-1}((\frac{1}{2},1])$, dann ist $A\in\Sigma$.
+\end{enumerate}
+\end{proof}
+
+\begin{prop}[Erweiterung von $\R$]
+\label{prop:3.19}
+Seien $\overline{\R} = \R\cup\{\infty\}\cup\{-\infty\}$,
+\begin{align*}
+\BB(\overline{\R}) = \setdef{B\cup E}{B\in\BB(\R)\text{ und }
+E\in\{\varnothing, \{\infty\}, \{-\infty\}, \{\infty,-\infty\}},
+\end{align*}
+dann ist $\BB(\overline{\R})$ eine $\sigma$-Algebra, die Borel-$\sigma$-Algebra
+von $\overline{\R}$.
+
+Eine Funktion $f: \Omega\to\overline{\R}$ heißt \emph{numerische
+Funktion}.\fishhere
+\end{prop}
+
+\begin{cor}
+\label{prop:3.20}
+$f: (\Omega,\Sigma)\to\overline{\R}$ ist Borel-messbar genau dann, wenn eine
+der Bedingungen erfüllt ist,
+\begin{enumerate}[label=(\roman{*})]
+  \item $f^{-1}((a,\infty])\in\Sigma, a\in\RA$,
+  \item $f^{-1}((a,b])\in\Sigma,\; a,b\in\RA$.\fishhere
+\end{enumerate}
+\end{cor}
+\begin{proof}
+$\setdef{(a,\infty]}{a\in\RA}$ erzeugt $\BB(\RA)$.\qedhere
+\end{proof}
+
+\begin{prop}[Bildmaß]
+\label{prop:3.21}
+Sei $f:(\Omega,\Sigma)\to(\Omega',\Sigma')$ messbar und $\mu:
+\Sigma\to[0,\infty]$ ein Maß auf $(\Omega,\Sigma)$. Dann ist $\nu:
+\Sigma'\to[0,\infty]$ mit
+\begin{align*}
+\nu(B) = \mu(f^{-1}(B)) \text{ für } B\in\Sigma',
+\end{align*}
+ein Maß auf $(\Omega',\Sigma')$, das sogenannte \emph{Bildmaß}. Schreibe
+$\nu:=f(\mu)$.\fishhere
+\end{prop}
+\begin{proof}
+\begin{enumerate}[label=(\roman{*})]
+  \item $\nu(\varnothing) = \mu(f^{-1}(\varnothing)) = \mu(\varnothing) = 0$.
+  \item Sei $B\in\Sigma'$, dann ist $\nu(B) = \mu(f^{-1}(B)) \ge 0$, da
+  $f^{-1}(B)\in\Sigma$.
+  \item Sei $\dot{\bigcup}_{j=1}^n B_j$ disjunkte Vereinigung von
+  $B_j\in\Sigma'$ für $1\le j\le n$, dann ist
+  \begin{align*}
+  \nu\left(\dot{\bigcup}_{j=1}^n B_j \right)
+  &= \mu\left(f^{-1}\left(\dot{\bigcup}_{j=1}^n B_j \right)\right)
+  = \mu\left(\dot{\bigcup}_{j=1}^n f^{-1}(B_j)\right)
+  \\ &= \sum\limits_{j=1}^n \mu\left(f^{-1}(B_j)\right) = \sum\limits_{j=1}^n
+  \nu(B_j),
+  \end{align*}
+da $f^{-1}$ inklusionserhalten ist und die Urbilder disjunkter Mengen ebenfalls
+disjunkt sind.\qedhere
+\end{enumerate}
+\end{proof}
+
+\begin{prop}
+\label{prop:3.22}
+Seien $f: (\Omega,\Sigma)\to(\Omega',\Sigma')$ und $g: (\Omega',\Sigma')\to
+(\Omega'',\Sigma'')$ messbar, dann ist auch $g\circ f:
+(\Omega,\Sigma)\to(\Omega'',\Sigma'')$ messbar.\fishhere
+\end{prop}
+\begin{proof}
+Sei $C\in\Sigma''$, dann ist
+\begin{align*}
+(g\circ f)^{-1}(C) = (f^{-1}\circ g^{-1})(C) = f^{-1}\circ
+\underbrace{g^{-1}(C)}_{\in\Sigma'}\in\Sigma.\qedhere
+\end{align*}
+\end{proof}
+
+\begin{prop}
+\label{prop:3.23}
+\begin{enumerate}[label=\arabic{*}.)]
+  \item Sei $f:\Omega\to\R^n$, $f=(f_1,\ldots,f_n)$, dann
+  sind folgende Aussagen äquivalent \begin{enumerate}[label=(\roman{*})]
+    \item\label{prop:3.23:1:1} $f:(\Omega,\Sigma)\to\R^n$ ist Borel-messbar.
+    \item\label{prop:3.23:1:2} $f_1,\ldots,f_n: (\Omega,\Sigma)\to\R$ sind alle
+    Borel-messbar.
+\end{enumerate}
+\item $f:(\Omega,\Sigma)\to\C$ ist Borel-messbar genau dann, wenn $\Re f, \Im f
+: (\Omega,\Sigma)\to\R$ beide Borel-messbar sind.\fishhere
+\end{enumerate}
+\end{prop}
+\begin{proof}
+\begin{enumerate}[label=\arabic{*}.)]
+  \item ``\ref{prop:3.23:1:2}$\Rightarrow$\ref{prop:3.23:1:1}'': Folgt direkt 
+ aus $f^{-1}\left(X_{j=1}^n (a_j,b_j]\right) = \bigcap_{j=1}^n
+  f_j^{-1}((a_j,b_j])$.
+  \item ``\ref{prop:3.23:1:1}$\Rightarrow$\ref{prop:3.23:1:2}'': Wähle $\R$
+  statt $(a_j,b_j]$ für $j=2,\ldots,n$ dann folgt
+  \begin{align*}
+  f^{-1}\left((a_1,b_1]\times X_{j=2}^n \R] \right)= f_1^{-1}((a_1,b_1]),
+  \end{align*}
+und die $(a_1,b_1]$ erzeugen $\BB(\R)$, also ist $f_1$ messbar.
+\item $\C$ ist homöomorph zum $\R^2$.\qedhere
+\end{enumerate}
+\end{proof}
+
+\begin{prop}
+\label{prop:3.24}
+\begin{enumerate}[label=\arabic{*}.)]
+  \item Seien $f,g: (\Omega,\Sigma)\to\RA$ Borel-messbar, dann sind es auch
+  \begin{enumerate}[label=(\roman{*})]
+    \item $\lambda f$ für $\lambda\in\RA$.
+    \item $f+g$, falls $\forall x\in\Omega : f(x) = \pm\infty \Rightarrow g(x)\neq
+  \mp\infty$.
+  \item  $f\cdot g$, wobei $0\cdot\infty = 0$ zu setzen ist.
+  \item $f_+ := \max\{f,0\}$.
+  \item $f_- := \max\{-f,0\}$.
+  \item $\abs{f} = f_+ + f_-$.
+  \end{enumerate}
+  \item Sei $(f_n)$ eine Funktionenfolge und alle $f_n:(\Omega,\Sigma)\to\R^n$
+  Borel-messbar, dann sind auch $\sup_{n} f_n,\;\inf_n
+  f_n,\; \limsup_{n\to\infty} f_n,\; \liminf_{n\to\infty} f_n$ und falls der
+  Grenzwert existiert $\lim_{n\to\infty} f_n$ messbar.\fishhere
+  \end{enumerate}
+\end{prop}
+
+\begin{proof}
+\begin{enumerate}[label=\arabic{*}.)]
+  \item Wir zeigen die Behauptung nur für $f+g$ und $\max\{f,g\}$, die anderen
+  Fälle folgen analog.
+  
+  Seien $\phi: \Omega\to\RA^2,\;x\mapsto (f(x),\ g(x))$ und  
+$P: \RA^2\to
+  \RA,\;(x,y)\mapsto x+y$. Offensichtlich ist $P$ stetig, also Borel-messbar und
+  daher gilt
+  \begin{align*}
+  (f+g)^{-1}((0,\infty]) &= (f+g)^{-1}((0,\infty))\cup (f+g)^{-1}(\{\infty\})
+  \\&= \phi^{-1}(P^{-1}(0,\infty))\cup g^{-1}(\{\infty\})\cup f^{-1}(\{\infty\})
+   \in\Sigma.
+  \end{align*}
+% \\&= f^{-1}(P^{-1}(0,\infty))\cap g^{-1}(P^{-1}(0,\infty)) \\ &
+%   \cup g^{-1}(\{\infty\})\cup f^{-1}(\{\infty\})
+\begin{align*}
+\max\{f,g\}^{-1}((a,\infty]) = f^{-1}((a,\infty])\cup
+g^{-1}((a,\infty])\in\Sigma.
+\end{align*}
+\item Sei $\tilde{f}(x) := \sup \setdef{f_n(x)}{n\in\N}$ für $x\in\Omega$,
+dann ist
+\begin{align*}
+\tilde{f}^{-1}((a,\infty]) = \bigcup_{n\in\N}
+\underbrace{f_n^{-1}((a,\infty])}_{\in\Sigma}\in \Sigma,
+\end{align*}
+und daher ist
+\begin{align*}
+\limsup_{n\to\infty} f_n(x) = \inf_{n\ge 1}\sup_{k\ge n} f_k(x),
+\end{align*}
+messbar. Ist $\limsup_{n\to\infty} f_n = \liminf_{n\to\infty} f_n$, ist auch
+$\lim_{n\to\infty} f_n$ messbar, dabei ist auch $\infty$ zugelassen.\qedhere
+\end{enumerate}
+\end{proof}
+
+\subsection{Lebesgue Integral}
+
+\begin{defn}
+\label{defn:3.25} $f:\Omega\to\R$ heißt \emph{einfache Funktion}, falls $f$
+Borell-messbar ist und nur endlich viele Werte annimmt, d.h. $f$ ist genau dann
+einfach, wenn $f$ Linearkombination\footnote{Diese sind per definitionem
+endlich.} von charakteristischen Funktionen messbarer Mengen ist.\fishhere
+\end{defn}
+
+\begin{defn}[Vorläufige Definition]
+\label{defn:3.26}
+Sei $(\Omega,\Sigma,\mu)$ Maßraum und $E\in\Sigma$. Für eine einfache Funktion 
+\begin{align*}
+f = \sum\limits_{j=1}^n \lambda_j \chi_{A_j},\quad \text{mit } A_j \text{
+messbar},
+\end{align*}
+definieren wir
+\begin{align*}
+\int_E f\dmu := \sum\limits_{j=1}^n \lambda_j\mu(A_j\cap E),
+\end{align*}
+wobei wir im Fall $\lambda_j = 0$ und $\mu(A_j) =\infty$, $\lambda_j\cdot
+\mu(A_j) = 0$ setzen.\fishhere
+\end{defn}
+
+\begin{bspn}
+\begin{enumerate}[label=\arabic{*}.)]
+  \item Sei
+  \begin{align*}
+  f: (\R,\BB(\R)) \to \R,\; x\mapsto \begin{cases}
+                    1, & 0\le x\le 2,\\
+                    0, & \text{sonst},
+                    \end{cases}
+  \end{align*}
+  dann lässt sich $f$ schreiben als $f =
+                    1\cdot\chi_{[0,2]} + 0\cdot\chi_{\R\setminus[0,2]}$ und
+                    damit ist $\int_\R f \dmu = 2$.
+\item Sei
+\begin{align*}
+g(x) = \begin{cases}
+       0, & x <0,\\
+       1, & x \ge 0,
+       \end{cases}
+\end{align*}
+dann ist $\int_\R g \dmu = \infty$.
+\item Sei
+\begin{align*}
+h(x) &= \begin{cases}
+       1, & x\in \Q,\\
+       0, & x\in\R\setminus\Q,
+       \end{cases}\\
+&= 1 \cdot \chi_\Q + 0 \cdot \chi_{\R\setminus\Q},
+\end{align*}
+dann ist $\int_\R h \dmu = 1\cdot\mu(\Q) + 0\cdot\mu (\R\setminus \Q) =
+0$.\bsphere
+\end{enumerate}
+\end{bspn}
+
+\begin{prop}
+\label{prop:3.27}
+Sei $f: (\Omega,\Sigma)\to\RA$ Borel-messbar und positiv\footnote{Wir sagen $x$
+ist positiv, falls $x\ge 0$ und ist echt positiv, falls $x > 0$.}, dann
+existiert eine Folge $(s_n)$ einfacher Funktionen mit den Eigenschaften
+\begin{enumerate}[label=(\roman{*})]
+  \item $0\le s_1\le s_2\le \ldots$,
+  \item $\forall x\in\Omega: \lim_{n\to\infty} s_n(x) = f(x)$.
+\end{enumerate}
+Ist $f$ beschränkt, so konvergiert $s_n$ auf $\Omega$ gleichmäßig gegen
+$f$.\fishhere
+\end{prop}
+\begin{proof}
+Sei
+\begin{align*}
+E_{n,j} := \setdef{x\in\Omega}{\frac{j-1}{2^n}\le f(x)< \frac{j}{2^n}},
+\end{align*}
+für $j=1,\ldots,2^n\cdot n$, und
+\begin{align*}
+F_n := \setdef{x\in\Omega}{f(x)\ge n} = f^{-1}([n,\infty]),
+\end{align*}
+dann sind $F_n$ und $E_{n,j}$ messbar. Sei
+\begin{align*}
+s_n(x) &:= \begin{cases}
+          \frac{j-1}{2^n}, & \text{für } x\in E_{n,j}, 1\le j\le 2^n,\\
+          n, & \text{für } x\in F_n,
+          \end{cases}\\
+&= \sum\limits_{j=1}^{2^nn} \frac{j-1}{2^n}\chi_{E_{n,j}} + n\chi_{F_n},
+\end{align*}
+dann ist $s_n$ messbar und einfach. $s_n(x)$ ist außerdem monoton wachsend, denn
+\begin{align*}
+E_{n+1,2j} \dcup E_{n+1,2j+1} = E_{n,j},
+\end{align*}
+mit $s_{n+1}(x) = \dfrac{2j}{2^{n+1}} =
+\dfrac{j}{2^n}$ und $s_n(x) = \dfrac{j-1}{2^n}$ auf $E_{n+1,2j+1}$.
+
+Sei nun $x\in\Omega$ fest,
+\begin{itemize}
+\item falls $f(x) <\infty$, folgt $\abs{s_n(x) - f(x)} < \frac{1}{2^n}$ für 
+$n>f(x)$,
+\item falls $f(x) = \infty$, ist $s_n(x) = n\to\infty$ für $n\to\infty$.
+\end{itemize}
+
+Ist $f$ beschränkt, also $f(x) \le c\in\R$, dann existiert ein $N\in\N$ mit
+$N\ge c$, so dass $\norm{f-s_n}_\infty\le \frac{1}{2^n}$ für $n\ge N$ und damit
+konvergiert $s_n$ gleichmäßig gegen $f$.\qedhere
+\end{proof}
+
+\begin{cor}
+\label{prop:3.28}
+Sei $f: (\Omega,\Sigma)\to\RA$, dann sind folgende Aussagen äquivalent
+\begin{enumerate}[label=(\roman{*})]
+  \item\label{prop:3.28:1} $f$ ist Borel-messbar.
+  \item\label{prop:3.28:2} $f$ ist punktweiser limes einfacher
+  Funktionen.\fishhere
+\end{enumerate}
+\end{cor}
+\begin{proof}
+\ref{prop:3.28:1}$\Rightarrow$\ref{prop:3.28:2}: $f$ ist Borel-messbar, also
+auch $f_+$ und $f_-$.  $f_+$ und $f_-$ sind positiv, also nach
+\ref{prop:3.27} punktweiser limes einfacher Funktionen und  da $f = f_+ - f_-$
+ist damit auch $f$ punktweiser Limes einfacher Funktionen.
+
+\ref{prop:3.28:2}$\Rightarrow$\ref{prop:3.28:1}: Einfache Funktionen sind
+messbar, und damit ist $f$ als Grenzwert messbarer Funktionen messbar.\qedhere
+\end{proof}
+
+\begin{defn}
+\label{defn:3.29}
+Sei $(\Omega,\Sigma,\mu)$ Maßraum und $E\in\Sigma$.
+\begin{enumerate}[label=(\roman{*})]
+  \item Sei $f:(\Omega,\Sigma)\to\RA$ Borel-messbar und positiv, dann ist
+  \begin{align*}
+  \int_E f\dmu = \sup\setdef{\int_E s \dmu}{s \text{ einfach und }\forall
+  x\in\Omega : 0\le s(x)\le f(x)},
+  \end{align*}
+\item Sei $f:(\Omega,\Sigma)\to\RA$ Borel-messbar mit $f = f_+ - f_-$.\\
+Falls $\int_E f_+\dmu = \int_E f_-\dmu = \infty$, dann ist $\int_E f \dmu$
+nicht definiert. Andernfalls ist
+\begin{align*}
+\int_E f\dmu = \int_E f_+ \dmu - \int_E f_- \dmu.
+\end{align*}
+\item
+Falls $\int_E f_+\dmu, \int_E f_- \dmu <\infty$, was äquivalent zu $\int_E
+\abs{f} \dmu <\infty$ ist, dann heißt $f$ \emph{Lebesgue integrierbar} und man
+schreibt $f\in L_1(\Omega,\Sigma,\mu)$.\fishhere
+\end{enumerate}
+\end{defn}
+
+
+\newpage
+\begin{prop}[Eigenschaften des Lebesgue Integrals]
+\label{prop:3.30}
+Seien $(\Omega,\Sigma,\mu)$ Maßraum, $f,g: \Omega\to\RA$ Borel-messbar und
+$A\in\Sigma$, dann gilt
+\begin{enumerate}[label=(\roman{*})]
+  \item\label{prop:3.30:1} $f\in L_1(\Omega,\Sigma,\mu)\Leftrightarrow
+  \abs{f}\in L_1(\Omega,\Sigma,\mu)$, in diesem Fall gilt
+  \begin{align*}
+  \abs{\int_A f\dmu} \le \int_A \abs{f}\dmu.
+  \end{align*}
+\item\label{prop:3.30:2} Sei $f\in L_1(\Omega,\Sigma,\mu)$ und $\lambda\in\R$,
+dann ist $\lambda f\in L_1(\Omega,\Sigma,\mu)$ und 
+\begin{align*}
+\int_A \lambda f \dmu = \lambda\int_A f\dmu.
+\end{align*}
+\item\label{prop:3.30:3} Sei $f\in L_1(\Omega,\Sigma,\mu)$ und $\abs{g}\le f$,
+dann ist $g\in L_1(\Omega,\Sigma,\mu)$ und
+\begin{align*}
+  \abs{\int_A g\dmu}\le \int_A f\dmu.
+\end{align*}
+\item\label{prop:3.30:4} Sei $\mu(A)<\infty$ und $f\big|_A$ beschränkt, dann ist 
+\begin{align*}
+\chi_A\cdot f\in
+L_1(\Omega,\Sigma,\mu).
+\end{align*}
+\item\label{prop:3.30:5} Seien $f,g\in L_1(\Omega,\Sigma,\mu)$ und $f\le g$,
+dann ist
+\begin{align*}
+\int_A f\dmu \le \int_A g\dmu.
+\end{align*}
+\item\label{prop:3.30:6} Sei $f\in L_1(\Omega,\Sigma,\mu)$, dann ist
+\begin{align*}
+\int_A f\dmu = \int_\Omega
+\chi_A f \dmu.
+\end{align*}
+\item\label{prop:3.30:7} Sei $\mu(A) = 0$, dann ist
+\begin{align*}
+ \int_A f\dmu = 0.      
+\end{align*}
+\item\label{prop:3.30:8} Sei $A_1\subseteq A_2$ und $\mu(A_2\setminus A_1) =
+0$, dann ist
+\begin{align*}
+\int_{A_1} f\dmu = \int_{A_2} f\dmu.
+\end{align*}
+\item\label{prop:3.30:9} Sei $f\in L_1(\Omega,\Sigma,\mu)$,
+dann ist
+\begin{align*}
+\mu\left(\setdef{\omega\in\Omega}{f(\omega) = \pm \infty} \right) = 0.
+\end{align*}
+\item\label{prop:3.30:10} Sei $f\in L_1(\Omega,\Sigma,\mu)$ und positiv,
+$A_1\subseteq A_2$, dann ist
+\begin{align*}
+\int_{A_1} f\dmu \le \int_{A_2} f\dmu.\fishhere
+\end{align*}
+\end{enumerate}
+\end{prop}
+\begin{proof}
+``\ref{prop:3.30:1}'': Ist $f$ numerisch, dann ist $f = f_+ -f_-$ und $\abs{f} =
+f_+ + f_-$, die Äquivalenz folgt aus der Definition. Für das Integral gilt
+\begin{align*}
+\int_A f\dmu &= \int_A f_+ \dmu - \underbrace{\int_a f_- \dmu}_{\ge 0}
+\le \int_A f_+\dmu + \int_A f_- \dmu  \\ &= \sup\setdef{\int_A s\dmu}{0\le s\le
+f_+} + \sup\setdef{\int_A t \dmu}{0\le t\le f_-} \\ &= \sup\setdef{\int_A
+\sigma}{0\le\sigma\le f_++f_-} = \int_A (f_+ + f_-)\dmu.
+\end{align*}
+``\ref{prop:3.30:2},\ref{prop:3.30:3}'': Übung.
+
+``\ref{prop:3.30:4}'': $\abs{f(x)} \le C$ für $x\in A$, also sind auch
+$\abs{f_+},\abs{f_-}\le C$. Sei $s$ einfach mit $0\le s\le \chi_A f_+$, dann ist
+\begin{align*}
+\int_A s\dmu \le C\mu(A) \Rightarrow \int_\Omega (\chi_A f)_+ \dmu \le C\mu(A).
+\end{align*}
+
+``\ref{prop:3.30:5}'': Aus $f\le g$ folgt,
+\begin{align*}
+&f_+\le g_+ \Rightarrow \int_A f_+ \dmu \le \int_A g_+ \dmu,\\
+&g_-\le f_- \Rightarrow \int_A g_- \dmu \le \int_A f_-\dmu.
+\end{align*}
+
+``\ref{prop:3.30:6},\ref{prop:3.30:7}'': Klar, vergleiche auf
+\ref{prop:3.30:4}.
+
+``\ref{prop:3.30:8}'': Für jede einfache Funktion auf $A_2$ gilt Gleichheit.
+
+``\ref{prop:3.30:9}'': Falls
+$\mu\left(\setdef{\omega\in\Omega}{f(\omega)=\infty}\right)>0$, gilt für
+\begin{align*}
+s_n(x) = \begin{cases}
+0, & \Omega\setminus A,\\
+n, & A=\setdef{\omega}{f(\omega)=\infty},
+\end{cases}
+\end{align*}
+und damit $0\le s_n\le f$, also auch
+\begin{align*}
+&\int_\Omega s_n\dmu = n\mu(A) \to \infty,\\
+\Rightarrow\;&\int_\Omega f_+\dmu = \infty.
+\end{align*}
+
+``\ref{prop:3.30:10}'': $f\chi_{A_1}, f\chi_{A_2}\in L_1$ und $f\chi_{A_1}\le
+f\chi_{A_2}$.
+\end{proof}
+
+\subsection{Konvergenzsätze und mehr}
+
+\begin{prop}
+\label{prop:3.31}
+Seien $s_n,\sigma: \Omega\to\R$ einfache Funktionen mit $0\le s_1\le s_2\le
+\ldots$ und $0\le \sigma\le \lim_{n\to\infty} s_n$. Dann gilt
+\begin{align*}
+\int_\Omega \sigma\dmu \le \lim\limits_{n\to \infty} \int_\Omega
+s_n\dmu.\fishhere
+\end{align*}
+\end{prop}
+\begin{proof}
+$\sigma$ ist einfach, also Linearkombination charaktersitischer Funktionen,
+\begin{align*}
+\sigma = \sum\limits_{j=1}^N \alpha_j \chi_{A_j},\quad \forall A_j \exists
+\alpha_j \in\R : \sigma^{-1}(\alpha_j) = A_j,
+\end{align*}
+also sind die $A_j$ messbar und $A_i\cap A_k =\varnothing$ für $i\neq k$.
+
+Sei nun $\beta>1$ und $B_n = \setdef{\omega\in\Omega}{\sigma(\omega) \le \beta
+s_n(\omega)}$ eine Folge von Mengen, dann existiert für jedes $\omega\in\Omega$
+ein $n\in\N$, so dass $\omega\in B_n$ und daher gilt
+\begin{itemize}
+  \item $B_k \subseteq B_l$ für $l\ge k$,
+  \item $\bigcup_{n\in\N} B_n = \Omega$, $\Rightarrow A_j = A_j\cap\Omega =
+  \bigcup_{n\in\N} (A_j\cap B_n)$
+  \item $\sigma \chi_{B_n} \le \beta s_n$,
+\end{itemize}
+Also gilt
+\begin{align*}
+\int_\Omega \sigma \dmu &= \sum\limits_{j=1}^n \alpha_j \mu(A_j) 
+= \sum\limits_{j=1}^n \alpha_j \lim\limits_{m\to\infty} \mu(A_j\cap B_m)
+= \lim\limits_{m\to\infty} \sum\limits_{j=1}^n \alpha_j \mu(A_j\cap B_m)
+\\ &= \lim\limits_{m\to\infty} \int_\Omega \sigma \chi_{B_m}\dmu
+\le  \lim\limits_{m\to\infty} \int_\Omega \beta s_m \dmu
+= \beta\lim\limits_{m\to\infty} \int_\Omega s_m \dmu. 
+\end{align*}
+Da für $\beta >1$ beliebig gilt $\int_\Omega \sigma\dmu \le \beta
+\lim\limits_{m\to\infty} \int_\Omega s_m \dmu$, folgt die Behauptung.\qedhere 
+\end{proof}
+
+\begin{prop}[Satz von der monotonen Konvergenz (B. Levi 1906)]
+\label{prop:3.32}
+Seien $f_n: \Omega\to\RA$ messbare numerische Funktionen mit $0\le f_1\le f_2\le
+\ldots$, dann gilt
+\begin{align*}
+\lim\limits_{n\to\infty} \int_\Omega f_n \dmu = \int_\Omega
+\lim\limits_{n\to\infty} f_n \dmu.\fishhere
+\end{align*}
+\end{prop}
+\begin{proof}
+\begin{enumerate}[label=\arabic{*}.)]
+  \item $f(x) = \lim\limits_{n\to\infty} f_n(x)$ ist wohldefiniert und nach
+  \ref{prop:3.24} messbar.
+  \item $f_n\le f \Rightarrow \int_\Omega f_n \dmu\le \int_\Omega f\dmu$ und
+  daher gilt insbesondere,
+  \begin{align*}
+  \lim\limits_{n\to\infty}  \int_\Omega f_n \dmu\le
+  \int_\Omega f\dmu.
+  \end{align*}
+  \item Sei $s$ einfach mit $0\le s\le f$, $\beta > 1$ und $B_n =
+  \setdef{\omega\in\Omega}{s(\omega) \le \beta\ f_n(\omega)}$, dann gilt
+  \begin{itemize}
+    \item $B_1\subseteq B_2\subseteq \ldots$,
+    \item $s\ \chi_{B_n} \le \beta\ f_n$ und $s\ \chi_{B_n}$ einfach,
+    \item $0\le s\ \chi_{B_1} \le s\ \chi_{B_2} \le \ldots$.
+  \end{itemize}
+  Offensichtlich ist $s = \lim\limits_{n\to\infty} s\chi_{B_n}$, also gilt
+\begin{align*}
+\int_\Omega s\dmu \le \lim\limits_{n\to\infty} \int_\Omega s\chi_{B_n}\dmu
+\le \beta \lim\limits_{n\to\infty} \int_\Omega f_n\dmu.
+\end{align*}
+und da $\beta > 1$ beliebig war, folgt
+\begin{align*}
+\int_\Omega s\dmu \le \lim\limits_{n\to\infty} \int_\Omega f_n\dmu,
+\end{align*}
+insbesondere gilt dann
+\begin{align*}
+\int_\Omega f\dmu = \sup \setdef{\int_\Omega s\dmu}{0\le s\le f, s \text{
+einfach}} \le \lim\limits_{n\to\infty} \int_\Omega f_n\dmu.\qedhere
+\end{align*}
+\end{enumerate}
+\end{proof}
+
+\begin{prop}[Additivität]
+\label{prop:3.33}
+Seien $f,g\in L_1(\Omega,\Sigma,\mu)$, dann ist $f+g\in L_1(\Omega,\Sigma,\mu)$
+und es gilt für $A\in\Sigma$,
+\begin{align*}
+\int_A (f+g) \dmu = \int_A f\dmu + \int_A g\dmu.\fishhere 
+\end{align*}
+\end{prop}
+\begin{proof} 
+\begin{enumerate}[label=\arabic{*}.)]
+  \item Seien $f,g\ge 0$, dann ist $f+g$ nach \ref{prop:3.24} messbar.
+  
+  Es existieren also Folgen $(s_n), (t_n)$ einfacher Funktionen mit $0\le s_1\le
+  s_2\le \ldots$ und $0\le t_1\le t_2\le \ldots$, sodass
+  \begin{align*}
+  f(x) = \lim\limits_{n\to\infty} s_n(x),\quad   g(x) = \lim\limits_{n\to\infty} t_n(x),
+  \end{align*}
+Sei $\sigma_n = s_n+t_n$, dann ist $\sigma_n$ einfach und monoton steigend und
+es gilt $(f+g)(x) = \lim_{n\to\infty} \sigma_n(x)$.
+
+Es folgt daher mit \ref{prop:3.32}, dass
+\begin{align*}
+\int_\Omega (f+g) \dmu &= \lim\limits_{n\to\infty}\int_\Omega \sigma_n \dmu
+= \lim\limits_{n\to\infty}\int_\Omega s_n \dmu +
+\lim\limits_{n\to\infty}\int_\Omega t_n \dmu
+\\ &= \int_\Omega f \dmu + \int_\Omega g\dmu.
+\end{align*}
+Sei nun $A\in\Sigma$, dann ist
+\begin{align*}
+\int_A (f+g)\dmu &= \int_\Omega (f+g)\ \chi_A \dmu = \int_\Omega f\ \chi_A\dmu +
+\int_\Omega g\ \chi_A \dmu \\ &= \int_A f \dmu + \int_A g\dmu.
+\end{align*}
+\item Seien nun $f,g\in L_1(\Omega,\Sigma,\mu)$, und
+\begin{align*}
+A_1 &:= \setdef{\omega\in\Omega}{f(\omega)\ge 0 \text{ und } g(\omega) < 0
+\text{ und } (f+g)(\omega) \ge 0}\\
+&= f^{-1}([0,\infty]) \cap g^{-1}([-\infty,0])\cap (f+g)^{-1}([0,\infty]),
+\end{align*}
+dann ist
+\begin{align*}
+&\int_{A_1} f\dmu = \int_{A_1} \underbrace{f+g}_{\ge 0} + \underbrace{-g}_{\ge
+0} \dmu,\\
+\Rightarrow\; & \int_{A_1} (f+g)\dmu = \int_{A_1} f\dmu + \int_{A_1} g\dmu.
+\end{align*}
+Entsprechend für
+\begin{align*}
+A_2 := \setdef{\omega\in\Omega}{f(\omega)\ge 0 \text{ und } g(\omega) < 0
+\text{ und } (f+g)(\omega) < 0},
+\end{align*}
+usw.\qedhere
+\end{enumerate}
+\end{proof}
+
+\begin{cor}
+\label{prop:3.34}
+Seien $f_n: (\Omega,\Sigma)\to \RA$ messbar und $f_n\ge 0$, dann gilt
+\begin{align*}
+\int_\Omega \left( \sum\limits_{n=1}^\infty f_n  \right) \dmu
+= \sum\limits_{n=1}^\infty \int_\Omega f_n \dmu.\fishhere
+\end{align*}
+\end{cor}
+\begin{proof}
+Zum Beweis betrachten wir die Reihe als Grenzwert ihrer Partialsummen
+\begin{align*}
+\int_\Omega \left( \sum\limits_{n=1}^\infty f_n  \right) \dmu
+&= \int_\Omega \left( \lim\limits_{N\to\infty} \sum\limits_{n=1}^N f_n 
+\right) \dmu
+\overset{\ref{prop:3.32}}{=}
+\lim\limits_{N\to\infty} \int_\Omega \left(  \sum\limits_{n=1}^N f_n 
+\right) \dmu
+\\ &\overset{\ref{prop:3.33}}{=} \lim\limits_{N\to\infty} \sum\limits_{n=1}^N
+\int_\Omega f_n \dmu
+= \sum\limits_{n=1}^\infty \int_\Omega f_n\dmu.\qedhere
+\end{align*}
+\end{proof}
+
+\begin{bsp}
+\label{bsp:3.35}
+Sei $\Omega = \N,\;\Sigma = \PP(\N)$ und $\mu(A) = \card A$, dann gilt:
+\begin{enumerate}[label=\arabic{*}.)]
+  \item Jede Funktion $f: \N\to[0,\infty]$ ist messbar und es gilt
+  \begin{align*}
+  \int_\N f \dmu = \sum\limits_{n=1}^\infty f(n),
+  \end{align*}
+denn betrachten wir $f_n:= f\cdot\chi_{\{n\}}$, dann ist $f_n \ge 0$ und $f =
+\sum\limits_{n=1}^\infty f_n$ und wir können \ref{prop:3.34} anwenden.
+\item
+Sei $f_n: \N\to[0,\infty]$ und $a_{nk} = f_n(k)$, dann gilt
+\begin{align*}
+\sum\limits_{n=1}^\infty \sum\limits_{k=1}^\infty a_{nk} =
+\sum\limits_{k=1}^\infty \sum\limits_{n=1}^\infty a_{nk},  
+\end{align*}
+denn $\sum\limits_{k=1}^\infty a_{nk} = \int_\N f_n \dmu$ und wir können erneut
+\ref{prop:3.34} anwenden.\bsphere
+\end{enumerate}
+\end{bsp}
+
+\begin{lem}[Lemma von Fatou (1906)]
+\label{prop:3.36}
+Sei $f_n:(\Omega,\Sigma)\to\RA$ messbar, $f_n\ge 0$, dann gilt
+\begin{align*}
+\int_\Omega \left(\liminf\limits_{n\to\infty} f_n \right) \dmu
+\le \liminf\limits_{n\to\infty} \int_\Omega f_n \dmu.
+\end{align*}
+Ist darüber hinaus $f_n\in L_1(\Omega,\Sigma,\mu)$ und gibt es ein $M\in\R$,
+sodass $\int_\Omega f_n \dmu \le M$ für alle $n\in\N$, dann ist
+$\liminf\limits_{n\to\infty} f_n\in L_1(\Omega,\Sigma,\mu)$ und es gilt
+\begin{align*}
+\int_\Omega \left(\liminf\limits_{n\to\infty} f_n \right) \dmu \le M.\fishhere
+\end{align*}
+\end{lem}
+\begin{proof}
+Sei $f := \liminf\limits_{n\to\infty} f_n$, dann ist $f$ positiv und nach
+\ref{prop:3.24} messbar, ebenso ist $g_n := \inf\setdef{f_j}{j\ge n}$ messbar.
+Nun gilt
+\begin{itemize}
+  \item $g_n\le f_j$ für $j\ge n$,
+  \item $0\le g_1\le g_2 \le \ldots$,
+  \item $g_n\to f$ punktweise,
+\end{itemize}
+also ist auch
+\begin{align*}
+\int_\Omega g_n\dmu \le \inf\setdef{\int_\Omega f_j \dmu}{j\ge n}.
+\end{align*}
+Aus dem Satz über monotone Konvergenz folgt somit die Behauptung,
+\begin{align*}
+\int_\Omega f\dmu &= \int_\Omega \left(\lim\limits_{n\to\infty} g_n \right)
+\overset{\ref{prop:3.32}}{=} \lim\limits_{n\to\infty}  \int_\Omega g_n\dmu
+\le \lim\limits_{n\to\infty} \inf \setdef{\int_\Omega f_j \dmu}{j\ge n}
+\\ &= \liminf\limits_{n\to\infty} \int_\Omega f_n\dmu.\qedhere
+\end{align*}
+\end{proof}
+
+\begin{prop}[Satz von der Majorisierten Konvergenz (Lebesgue 1910)]
+\label{prop:3.37}
+Seien $f_n,f: (\Omega,\Sigma)\to\RA$ und $f_n\to f$. Existiert ein $g\in
+L_1(\Omega,\Sigma,\mu)$ mit $\abs{f_n}\le g$ für $n\in\N$, dann sind $f_n,f\in
+L_1(\Omega,\Sigma,\mu)$ und es gilt
+\begin{align*}
+\int_\Omega \abs{f_n-f} \dmu \to 0,\quad
+\int_\Omega f_n\dmu \to \int_\Omega f\dmu.\fishhere  
+\end{align*}
+\end{prop}
+\begin{proof}
+Aus \ref{prop:3.30} folgt, dass $f_n\in L_1(\Omega,\Sigma,\mu)$. Nun ist
+$\abs{f} = \lim\limits_{n\to\infty} \abs{f_n} \le g$, also ist auch $f\in
+L_1(\Omega,\Sigma,\mu)$.
+
+Wegen $\abs{f_n-f} \le \abs{f_n}+\abs{f} \le 2g$ gilt
+\begin{align*}
+g_n := 2g - \abs{f_n-f} \ge 0,\quad
+ g_n\to 2g,
+\end{align*}
+und damit erhalten wir, 
+\begin{align*}
+\int_\Omega 2 g \dmu &= \int_\Omega
+\left(\lim\limits_{n\to\infty} g_n\right) \dmu
+\le \liminf\limits_{n\to\infty} \int_\Omega g_n\dmu \\ &= \int_\Omega 2g\dmu +
+\liminf\limits_{n\to\infty} \int_\Omega -\abs{f_n-f}\dmu
+\\ &= \int_\Omega 2g \dmu - \underbrace{\limsup\limits_{n\to\infty} \int_\Omega
+\abs{f_n-f}\dmu}_{\ge 0},
+\end{align*}
+und daher ist $\limsup\limits_{n\to\infty} \int_\Omega \abs{f_n-f} \dmu = 0$.
+Nun sind die $f_n$ nichtnegativ, also existiert auch der Grenzwert und stimmt
+mit dem limes superior überein, es gilt also,
+\begin{align*}
+\lim\limits_{n\to\infty} \int_\Omega \abs{f_n-f} = 0.
+\end{align*}
+Mithilfe der Dreiecksungleichung für Integrale folgt daher die übrige
+Behauptung,
+\begin{align*}
+\abs{\int_\Omega f_n\dmu - \int_\Omega f \dmu} \le \int_\Omega \abs{f_n-f}\dmu
+\to 0.\qedhere
+\end{align*}
+\end{proof}
+
+\begin{prop}[Tschebyscheff-Ungleichung]
+\label{prop:3.38}
+Sei $f\in L_1(\Omega,\Sigma,\mu)$ und $f\ge 0$, dann gilt für
+jedes $C\in(0,\infty]$,
+\begin{align*}
+\mu\left(\setdef{\omega\in\Omega}{f(\omega)\ge C}\right)
+\le \frac{1}{C} \int_\Omega f\dmu.\fishhere
+\end{align*}
+\end{prop}
+\begin{proof}
+$\Omega' = \setdef{\omega\in\Omega}{f(\omega)\ge C} =
+f^{-1}([C,\infty])\in\Sigma$
+\begin{align*}
+\int_\Omega f\dmu = \int_{\Omega'} f\dmu + \int_{\Omega\setminus\Omega'} f\dmu
+\ge \int_{\Omega'} f\dmu  \ge \int_{\Omega'} C \dmu  = C\mu(\Omega').\qedhere   
+\end{align*}
+\end{proof}
+
+\begin{cor}
+\label{prop:3.39}
+\begin{enumerate}[label=\arabic{*}.)]
+  \item Ist $\int_\Omega \abs{f} \dmu = 0$, dann folgt $f=0$ fast überall.
+  \item Ist $f\ge 0$ und $\int_\Omega f \dmu < \infty$, dann ist $f(\omega)
+  <\infty$ fast überall auf $\Omega$.
+\end{enumerate}
+\end{cor}
+\begin{proof}
+\begin{enumerate}[label=\arabic{*}.)]
+  \item Sei $A_n = \abs{f}^{-1}([\frac{1}{n},\infty])$, dann ist $A_n\in\Sigma$
+  und da $A_n\subseteq A_{n+1}$, gilt
+\begin{align*}
+&\mu(A_n)\le n \underbrace{\int_\Omega \abs{f}\dmu}_{=0},\\
+&\mu(\setdef{\omega\in\Omega}{f(\omega)\neq0}) = 
+\mu\left(\bigcup_{n=1}^\infty A_n \right)
+= \lim\limits_{n\to\infty} \mu(A_n) = 0.
+\end{align*}
+  \item Folgt direkt aus \ref{prop:3.38}.\qedhere
+\end{enumerate}
+\end{proof}
+
+\begin{cor}
+\label{prop:3.40}
+Seien $f,g:(\Omega,\Sigma)\to\RA$ messbar.
+\begin{enumerate}[label=(\roman{*})]
+\item\label{prop:3.40:1}
+Gilt $f=g$ fast überall, dann ist $\int_A f\dmu = \int_A g\dmu$ für alle
+$A\in\Sigma$.
+\item\label{prop:3.40:2}
+Sind $f,g$ integrierbar und $\int_A f\dmu = \int_A g\dmu$ für alle
+$A\in\Sigma$, dann ist $f=g$ fast überall.\fishhere 
+\end{enumerate}
+\end{cor}
+\begin{proof}
+``\ref{prop:3.40:1}'': trivial.
+
+``\ref{prop:3.40:2}'': Sei ohne Einschränkung $g = 0$, dann ist für alle
+$A\in\Sigma$, $\int_A f\dmu = 0$.
+
+Wähle $A=f^{-1}([0,\infty])\in\Sigma$, dann ist
+\begin{align*}
+\int_\Omega f_+ \dmu = \int_A f \dmu = 0,
+\end{align*}
+und aus \ref{prop:3.39} folgt, $f_+ = 0$ fast überall. Analog verfährt man mit
+$f_-$ und da $f = f_+-f_- = 0$ fast überall, ist auch $f=g$ fast
+überall.\qedhere
+\end{proof}
+
+\begin{bem}
+\label{bem:3.41}
+Für $f,g:(\Omega,\Sigma)\to\RA$ messbar ist
+\begin{align*}
+f\sim g \Leftrightarrow f = g \text{ fast überall},
+\end{align*}
+eine Äquivalenzrelation.
+
+Zu jedem $f\in L_1(\Omega,\Sigma,\mu)$ existiert ein
+$\tilde{f}\in L_1(\Omega,\Sigma,\mu)$ so, dass $\tilde{f}\sim f$ und
+$\tilde{f}(x) <\infty, \forall x\in\Omega$. Insbesondere gilt für jedes $A\in\Sigma$,
+\begin{align*}
+\int_A f\dmu = \int_A \tilde{f}\dmu.
+\end{align*}
+denn nach \ref{prop:3.39} gilt $\mu(f^{-1}(\{-\infty,\infty\})) = 0$.\maphere
+ %TODO: was soll das hier :)
+\end{bem}
+
+\begin{defn}
+\label{defn:3.42}
+Sei $f:(\Omega,\Sigma)\to\RA$ messbar, dann heißt die Funktion
+\emph{$\mu$-messbar}, falls $f$ messbar bezüglich
+$(\Omega,\Sigma^*,\mu^*)$, d.h. der Vervollständigung von
+$(\Omega,\Sigma,\mu)$, ist.\fishhere
+\end{defn}
+
+\begin{bem}
+\label{bem:3.43}
+\begin{enumerate}[label=\arabic{*}.)]
+  \item Sei $f\in L_1(\Omega,\Sigma^*,\mu^*)$ und $f=g$ fast überall, dann ist
+  auch $g\in L_1(\Omega,\Sigma^*,\mu^*)$.
+  \item Alle Konvergenzsätze gelten auch für $\mu$-messbare Funktionen, wobei
+  die Voraussetzungen nur fast überall gelten müssen.\maphere
+\end{enumerate}
+\end{bem}
+
+\begin{bspn}
+Seien $f,f_n$ messbar, $f=\lim\limits_{n\to\infty} f_n$ fast überall,
+$\abs{f_n}\le g$ fast überall und $\int_\Omega g \dmu < \infty$, dann gilt
+\begin{align*}
+\lim\limits_{n\to\infty} \int_\Omega \abs{f_n-f}\dmu = 0.\bsphere
+\end{align*}
+\end{bspn}
+
+\subsection{Riemann- und Lebesgueintegral}
+\begin{prop}
+\label{prop:3.44}
+Seien $a,b\in\R$, $f:[a,b]\to\R$ beschränkt, dann sind äquivalent
+\begin{enumerate}[label=(\roman{*})]
+  \item $f$ ist Riemann-integrierbar,
+  \item Das Lebesgue-Maß $\lambda^{(1)}$ der Unstetigkeitsstellen von $f$ ist 0.
+\end{enumerate}
+Sind beide Voraussetzungen erfüllt, dann gilt
+\begin{align*}
+\int_{[a,b]} f\dlamb{(1)} =\int_a^b f(x)\dx.\fishhere
+\end{align*}
+\end{prop}
+\begin{proof}
+Ohne Einschränkung sind $a=0,\;b=1$. Wir sagen $f$ ist genau dann
+Riemann-integrierbar, wenn Ober- und Untersumme gegen denselben Wert
+konvergieren.
+
+\begin{enumerate}[label=\arabic{*}.)]
+  \item Für das Riemann-Integral benötigen wir eine Unterteilung des 
+Intervalls $[0,1]$, für $n\in\N$ seien also
+\begin{align*}
+&Y_1 = \left[0,\frac{1}{2^n}\right], Y_j =
+\left(\frac{j-1}{2^n},\frac{j}{2^n}\right],
+\\ &m_j = \inf \setdef{f(x)}{x\in
+Y_j},\\ &M_j = \sup \setdef{f(x)}{x\in Y_j},
+\end{align*}
+für $j=2,3,\ldots,2^n$. Nun können wir $f$ durch folgende Funktionenfolgen von
+unten und von oben annähern,
+\begin{align*}
+g_n(x) := \begin{cases}m_j, & \text{für }x\in Y_j,\\0, &
+  x\in\R\setminus[0,1],\end{cases}\quad G_n(x) := \begin{cases}M_j, & \text{für }x\in Y_j,\\0, &
+  x\in\R\setminus[0,1],\end{cases}
+\end{align*}
+wobei $g_n$ und $G_m$ per definitionem einfach sind. Aufgrund der Konstruktion
+gilt $g_n \le g_{n+1} \le G_{n+1} \le G_n$.
+
+``Unter''- und ``Obersumme'' können wir also wie folgt definieren,
+\begin{align*}
+&U_n = \int_{[0,1]} g_n \dlamb{(1)},\\
+&O_n = \int_{[0,1]} G_n \dlamb{(1)}.
+\end{align*}
+
+Seien $g = \lim\limits_{n\to\infty} g_n,\; G = \lim\limits_{n\to\infty} G_n$,
+beide Grenzwerte existieren, da $g_n$ und $G_n$ monoton sind. $g$ und $G$ sind
+als Grenzwerte einfacher Funktionen messbar und beschränkt, da $f$ beschränkt
+ist. Nun ist
+\begin{align*}
+\inf_{[0,1]} f \le g_n(x) \le g(x) \le G(x) \le G_n(x) \le \sup_{[0,1]} f.
+\end{align*}
+Nach \ref{prop:3.30} sind
+$g\cdot \chi_{[0,1]},\; G\cdot \chi_{[0,1]} \in
+L_1(\RA,\BB(\RA)^*,\lambda^{(1)}). $
+\item Sei $D$ die Menge der Unstetigkeitsstellen von $f$, dann ist
+\begin{align*}
+D \subseteq\underbrace{\setdef{\frac{j}{2^n}}{n\in\N\text{ und
+}j=0,\ldots,2^n}}_{\text{abzählbar, also Nullmenge}}\cup\setdef{x}{g(x)\neq
+G(x)}
+\end{align*}
+\item ``$\Rightarrow$'': Sei $f$ Riemann-integrierbar und $I$ der Wert des
+Integrals, dann ist $\lim\limits_{n\to\infty} U_n = \lim\limits_{n\to\infty} O_n
+= I$,
+
+Majorisierte Konvergenz: $\abs{g_n},\abs{G_n} \le \max\left\{ \abs{\inf f},
+\abs{\sup f} \right\}$
+\begin{align*}
+&I = \int_{[0,1]} g\dlambda^{(1)} = \int_{[0,1]} G\dlambda^{(1)}\\
+\Rightarrow\;& \int_{[0,1]} (G-g)\dlambda^{(1)} = 0,
+\end{align*}
+also ist $G=g$ fast überall und daher ist $\lambda^{(1)}(D) = 0$. Da $g\le
+f\le G$, ist $g=f=G$ fast überall und es gilt
+\begin{align*}
+\int_{[0,1]} f\dlamb{(1)} = \int_{[0,1]} g\dlamb{(1)} = I = \int_0^1 f(x)\dx. 
+\end{align*}
+\item ``$\Leftarrow$'': Sei $\lambda^{(1)}(D) = 0$, dann ist $g=G$ fast überall
+und damit auch $g=f=G$ fast überall. Damit gilt
+\begin{align*}
+\lim\limits_{n\to\infty} U_n = \int_{[0,1]} g\dlamb{(1)} = \int_{[0,1]}
+G\dlamb{(1)} = \lim\limits_{n\to\infty} O_n,
+\end{align*}
+und $f$ ist Riemann-integrierbar\footnote{Dieser Beweis ist eigentlich
+unvollständig, da man zeigen müsste, dass jede Riemannsumme konvergiert, man
+kann den allgemeinen Fall aber aus dem hier konstruierten Spezialfall
+herleiten.}.
+\end{enumerate}
+\end{proof}
+
+\begin{prop}
+\label{prop:3.45}
+Sei $I=(a,b)$ und $-\infty\le a<b\le\infty$, $f: I\to\R$ sei
+Riemann-integrierbar über jedem $[c,d]\subseteq I$, dann sind äquivalent
+\begin{enumerate}[label=(\roman{*})]
+  \item\label{prop:3.45:1} $f$ ist Lebesgue-integrierbar über $I$,
+  \item\label{prop:3.45:2} $\abs{f}$ ist uneigentlich Riemann-integrierbar über
+  $I$, d.h.
+  \begin{align*}
+  \lim_{d\uparrow b} \lim_{c\downarrow a} \int_c^d \abs{f(x)}\dx \text{
+  existiert}.
+  \end{align*}
+\end{enumerate}
+Falls beide Aussagen gelten, ist $\int_a^b f(x)\dx = \int_I f\dmu$.\fishhere 
+\end{prop}
+\begin{proof}
+Seien $(a_n),(b_n)$ Folgen mit $a<a_n<b_n<b$ und $b_n\uparrow b$,
+$a_n\downarrow a$ monoton.
+\begin{enumerate}[label=\arabic{*}.)]
+  \item\label{proof:3.45:1}  Aus \ref{prop:3.44}
+  folgt, dass $\abs{f}\chi_{[a_n,b_n]}$ Lebesgue-integrierbar ist, also ist
+  auch $\abs{f} = \lim\limits_{n\to\infty} \abs{f}\chi_{[a_n,b_n]}$ Lebesgue-messbar.
+  
+  Außerdem ist $\abs{f}\chi_{[a_n,b_n]}\le \abs{f}\chi_{[a_{n+1},b_{n+1}]}$,
+  also gilt
+\begin{align*}
+\lim\limits_{n\to\infty} \int_{a_n}^{b_n} \abs{f(x)}\dx
+= \lim\limits_{n\to\infty} \int_\R \abs{f}\chi_{[a_n,b_n]}\dmu
+\overset{\ref{prop:3.33}}{=} \int_\R \abs{f}\dmu.  
+\end{align*}
+\item ``\ref{prop:3.45:2}$\Rightarrow$\ref{prop:3.45:1}'':
+Aus \ref{prop:3.45:2} folgt, $\lim\limits_{n\to\infty} \int_{a_n}^{b_n}
+\abs{f(x)}\dx$ existiert und $=\int_\R \abs{f}\dmu<\infty$, also ist $f$
+Lebesgue-integrierbar.
+\item ``\ref{prop:3.45:1}$\Rightarrow$\ref{prop:3.45:2}'': $\int_\R
+\abs{f}\dmu<\infty$, also existiert $\lim\limits_{n\to\infty} \int_{a_n}^{b_n}
+\abs{f(x)}\dx$ und daraus folgt \ref{prop:3.45:1}. 
+\item Die selben Überlegungen wie in \ref{proof:3.45:1} für $f$ statt $\abs{f}$
+und majorisierter statt monotoner Konvergenz mit
+\begin{align*}
+\abs{f \chi_{[a_n,b_n]}} \le \abs{f},
+\end{align*}
+im Fall dass \ref{prop:3.45:1} und \ref{prop:3.45:2} gelten, liefert
+\begin{align*}
+\int_a^b f(x)\dx =\int_I f\dmu.\qedhere 
+\end{align*}
+\end{enumerate}
+\end{proof}
+
+\begin{bsp}
+\label{bsp:3.46}
+$f(x) = \dfrac{\sin x}{x},\; I = (0,\infty)$. Bei $x=0$ ist $f$ stetig
+ergänzbar durch $f(0) = 1$
+\begin{align*}
+\int_1^d \frac{\sin x}{x} \dx = -\underbrace{\frac{1}{x}\cos x\big|_1^d}_{\to
+\cos 1} - \int_1^d \underbrace{\frac{\cos x}{x^2}}_{\abs{\cdot}\le
+\frac{1}{x^2}}\dx < \infty,
+\end{align*}
+also ist $f$ über $I$ Riemann-integrierbar, aber
+\begin{align*}
+\int_\pi^{(n+1)\pi} \abs{\frac{\sin x}{x}} \dx
+&= \sum\limits_{j=1}^n \int_{j\pi}^{(j+1)\pi} \abs{\frac{\sin x}{x}} \dx
+\\ &\ge \sum\limits_{j=1}^n \frac{1}{(j+1)\pi} \int_{j\pi}^{(j+1)\pi} \abs{\sin
+x}\dx \\ &= \left(\sum\limits_{j=1}^n \frac{1}{(j+1)\pi} \right)\int_0^\pi
+\abs{\sin x}\dx \to \infty \text{ für } N\to\infty,
+\end{align*}
+also ist $\abs{\dfrac{\sin x}{x}}$ nicht uneigentlich Riemann-integrierbar über
+$I$ also auch nicht Lebesgue-integrierbar.
+
+Allgemeiner: $f(x) = \dfrac{\sin x}{x^\alpha}$.
+\begin{align*}
+\begin{cases}
+\alpha\le 0, & f \text{ ist weder Riemann- noch Lebesgue-integrierbar},\\
+0<\alpha \le 1, & f \text{ ist Riemann- aber nicht Lebesgue-integrierbar},\\
+1<\alpha<2, & f \text{ ist sowohl Riemann- als auch Lebesgue-integrierbar},\\
+\alpha \ge 2, & f \text{ ist weder Riemann- noch Lebesgue-integrierbar}.\bsphere 
+\end{cases}
+\end{align*}
+\end{bsp}
+
+\subsection{Produktmaße}
+
+\begin{prop}[Definition/Satz]
+\label{prop:3.47}
+Seien $(\Omega,\Sigma)$ und $(\Omega',\Sigma')$ Maßräume, dann ist
+\begin{align*}
+h = \setdef{A\times B}{A\in\Sigma, B\in\Sigma'},
+\end{align*}
+ein Halbring und $\Sigma\otimes\Sigma':= \sigma(h)$ eine $\sigma$-Algebra,
+die \emph{Produkt $\sigma$-Algebra}.
+
+Für $M\in\Sigma\otimes\Sigma'$ und $a\in\Omega,b\in\Omega'$ seien die
+Schnitte
+\begin{align*}
+&M_a = \setdef{y\in\Omega'}{(a,y)\in M}\subseteq\Omega',\\
+&M^b = \setdef{x\in\Omega}{(x,b)\in M}\subseteq\Omega,
+\end{align*}
+dann gilt $M_a\in\Sigma'$ und $M^b\in\Sigma$.\fishhere
+\end{prop}
+\begin{proof}
+\begin{enumerate}[label=(\roman{*})]
+  \item\label{proof:3.47:1} $\MM:= \setdef{M\subseteq
+  \Omega\times\Omega'}{M_a\in\Sigma', M^b\in\Sigma, a\in\Omega,b\in\Omega'}$ ist $\sigma$-Algebra.
+  \item\label{proof:3.47:2} $h\subseteq \MM$: $A\times B\in h\Rightarrow
+  (A\times B)_a =
+  \begin{cases}
+  B, &a\in A,\\
+  \varnothing, & a\notin A,
+  \end{cases}$
+\end{enumerate}
+\label{proof:3.47:1} und \label{proof:3.47:1} $\Rightarrow$
+$\Sigma\otimes\Sigma' \subseteq \MM$.\qedhere
+\end{proof}
+
+\begin{corn}
+Sei $f: \Omega\times\Omega'\to\RA$ messbar, dann sind auch die Schnitte
+$f(x,\cdot) : \Omega'\to\RA$ und $f(\cdot,y): \Omega\to\RA$ für $x\in\Omega$,
+$y\in\Omega'$ messbar.\fishhere
+\end{corn}
+\begin{proof}
+Sei $C\subseteq\RA$ messbar, dann ist
+\begin{align*}
+(f(x,\cdot))^{-1}(C)
+= \setdef{y\in\Omega'}{f(x,y)\in C} = f^{-1}(C)_x.\qedhere
+\end{align*}
+\end{proof}
+
+\begin{prop}[Definition/Satz]
+\label{prop:3.48}
+Seien $(\Omega,\Sigma,\mu)$, $(\Omega',\Sigma',\mu')$ $\sigma$-endliche
+Maßräume und $h$ wie in \ref{prop:3.47}. Dann ist $\rho(A\times B) :=
+\mu(A)\mu'(B)$ mit $0\cdot\infty = 0$ ein $\sigma$-endliches Prämaß auf
+$(\Omega\times\Omega',h)$, das \emph{Prä-Produktmaß}.\fishhere
+\end{prop}
+\begin{proof}
+\begin{enumerate}[label=(\roman{*})]
+  \item\label{proof:3.48:1} $\rho(\varnothing) = 0$,
+  \item\label{proof:3.48:2} $\rho(A\times B) = \mu(A)\mu'(B) \ge 0$,
+  \item\label{proof:3.48:3} $\sigma$-Additivität: $\rho(\dot{\bigcup}_{i=1}^n
+  A_i\times B_i) = \sum\limits_{i=1}^n \rho(A_i\times B_i)$
+  
+  Sei $A\times B = \dot{\bigcup}_{n\in\N} A_n\times B_n$, dann gilt
+  insbesondere für $k\neq n$, dass
+\begin{align*}
+(A_n\times B_n)\cap (A_k\times B_k) = \varnothing \Rightarrow (A_n\cap A_k =
+\varnothing)\lor (B_n\cap B_k = \varnothing).
+\end{align*}
+\begin{align*}
+\rho(A\times B) &= \mu(A)\mu'(B) = \int_\Omega \mu'(B)\chi_A \dmu
+= \int_\Omega \mu'((A\times B)_x)\dmu(x)
+\\ &= \int_\Omega \mu'\left(\dot{\bigcup}_{n\in\N}(A_n\times
+B_n)_x\right)\dmu(x) \\ &= \int_\Omega \sum\limits_{n\in\N} \mu'((A_n\times B_n)_x)\dmu(x)
+= \int_\Omega \sum\limits_{n\in\N} \underbrace{\mu'(B_n)\chi_{A_n}}_{\ge
+0}\dmu
+\\ &= \sum\limits_{n\in\N} \int_\Omega \mu'(B_n)\chi_{A_n} \dmu
+= \sum\limits_{n\in\N} \mu(A_n)\mu'(B_n).
+\end{align*}
+\ref{proof:3.48:1}-\ref{proof:3.48:3} $\Rightarrow$ $\rho$ ist Prämaß.
+\item $\mu,\mu'$ sind $\sigma$-endlich, es gilt daher
+\begin{align*}
+&\Omega = \bigcup_{m\in\N} A_m,\;\mu(A_m)<\infty,\\
+&\Omega' = \bigcup_{n\in\N} B_n,\;\mu'(B_n)<\infty.
+\end{align*}
+Nun ist $\Omega\times\Omega' = \bigcup_{m,n\in\N} A_m\times B_n$ und
+\begin{align*}
+\rho(A_m\times B_n) = \mu(A_m)\mu'(B_n) < \infty,
+\end{align*}
+also ist $\rho$ ebenfalls $\sigma$-endlich.\qedhere
+\end{enumerate}
+\end{proof}
+
+\begin{prop}[Definition/Satz]
+\label{prop:3.49}
+Seien $(\Omega_j,\Sigma_j,\mu_j)$, $\sigma$-endliche Maßräume für
+$1\le j\le n$, dann existiert genau ein Maß auf
+$\bigotimes_{j=1}^n \Sigma_j$, das \emph{Produktmaß} $\rho$, mit
+$\rho(X_{j=1}^n A_j) = \prod_{j=1}^n \mu_j(A_j)$ für
+$A_j\in\Sigma_j$.\fishhere 
+\end{prop}
+\begin{proof}
+Der Beweis für zwei Maßräume wird analog zum Forsetzungssatz \ref{prop:3.9}
+geführt, danach Induktion.\qedhere 
+\end{proof}
+
+\begin{prop}[Spezialfall]
+\label{prop:3.50}
+Seien $\Omega_j = \R$, $\Sigma_j = \BB(\R)$ die Borel $\sigma$-Algebra und
+$\mu_j$ das Borel-Maß mit $\mu((a,b]) = \abs{b-a}$, dann ist $\mu^{(n)}:=
+\bigotimes_{j=1}^n \mu_j$ das Lebesgue-Borel-Maß auf $\R^n$. Die
+Vervollständigung $\lambda^{(n)}$ von $\mu^{(n)}$ ist das Lebesgue Maß auf
+$\R^n$.
+
+Man kann zeigen, dass $\bigotimes_{j=1}^n \BB(\R) =
+\sigma\left(\left\{X_{j=1}^n (a_j,b_j] \right\} \right)$.\fishhere
+\end{prop}
+
+\begin{prop}
+\label{prop:3.51}
+Seien $(\Omega,\Sigma,\mu)$, $(\Omega',\Sigma',\mu')$ $\sigma$-endlich, dann
+gilt
+\begin{enumerate}[label=(\roman{*})]
+  \item für $M\in\Sigma\otimes\Sigma'$ sind folgende Abbildungen,
+\begin{align*}
+&\ph_M : \Omega\to[0,\infty],\; x\mapsto \mu'(M_x),\\
+&\ph_M' : \Omega'\to[0,\infty],\; y\mapsto \mu(M^y),
+\end{align*}
+messbar.
+\item
+Für die Abbildungen,
+\begin{align*}
+&\rho(M) := \int_\Omega \ph_M \dmu = \int_\Omega \mu'(M_x) \dmu(x),\\
+&\rho'(M) := \int_{\Omega'} \ph_M' \dmu' = \int_{\Omega'} \mu(M^y) \dmu'(y),
+\end{align*}
+gilt $\rho = \rho' = \mu\otimes\mu'$.\fishhere
+\end{enumerate}
+\end{prop}
+\begin{proof}
+\begin{enumerate}[label=(\roman{*})]
+  \item Setze $\MM = \setdef{M\in\Sigma\otimes\Sigma'}{\ph_M \text{ ist
+  messbar}}\subseteq\Sigma\otimes\Sigma'$.
+
+  
+Sei $A\times B\in\Sigma\times\Sigma'$. Dann ist
+\begin{align*}
+\ph_{A\times B} : \Omega\to[0,1],\; x\mapsto \mu'(B)\chi_A(x),
+\end{align*}
+messbar nach \ref{prop:3.18} und daher ist $\Sigma\times\Sigma\subseteq\MM$.
+
+Zeige: $\MM$ ist $\sigma$-Algebra, dann ist $\Sigma\otimes\Sigma' = \MM$.
+
+\begin{enumerate}[label=\arabic{*}.)]
+  \item $\varnothing\in \MM$, da $\ph_{\varnothing}$ trivialerweise messbar ist.
+  \item $M\in \MM \Rightarrow M^c\in\MM$, denn $\Omega'$ ist $\sigma$-endlich,
+  es existiert also eine Folge $\Omega_n'$ mit,
+\begin{align*}
+\Omega' = \bigcup_{n=1}^\infty \Omega_n',\quad \Omega_1' \subseteq
+\Omega_2'\subseteq \ldots,\quad \mu'(\Omega_n')<\infty.
+\end{align*}
+\begin{align*}
+\mu'(M_x^c) &:= \lim\limits_{n\to\infty} \mu'\left(\Omega_n'\cap M_x^c\right)
+= \lim\limits_{n\to\infty} \mu'\left(\Omega_n' \setminus (M_x\cap
+\Omega_n')\right)
+\\ &= \lim\limits_{n\to\infty} \mu'\left(\Omega_n'\right) - \mu'(M_x\cap
+\Omega_n') \\ &= \lim\limits_{n\to\infty} \mu'\left(\Omega_n'\right) -
+\mu'((M\cap(\Omega\times\Omega_n'))_x),
+\end{align*}
+und alle Mengen sind messbar, also folgt mit \ref{prop:3.24}, dass $M_x^c$
+messbar ist.
+\item Sei $M=\dot{\bigcup}_{n\in\N} M_n,\; M_n\in\MM$. Es genügt hier disjunkte
+Vereinigungen zu betrachten, also
+\begin{align*}
+\mu'(M_x) = \mu'\left(\dot{\bigcup}_{n\in\N} (M_n)_x\right)
+= \sum\limits_{n\in\N} \mu'((M_n)_x),
+\end{align*}
+und $\mu'((M_n)_x)$ ist messbar.
+\end{enumerate}
+\item Zeige $\rho$ ist Maß auf $\Sigma\otimes\Sigma'$, $\rho(A\times B) =
+\mu(A)\mu'(B)$, also ist $\rho$ Fortsetzung desselben Prämaßes wie
+$\mu\otimes\mu'$ und da die Fortsetzung eindeutig ist, folgt $\rho =
+\mu\otimes\mu'$.\qedhere
+\end{enumerate}
+\end{proof}
+
+\begin{prop}[Satz von Fubini I]
+\label{prop:3.52}
+Seien $(\Omega,\Sigma,\mu)$, $(\Omega',\Sigma',\mu')$ $\sigma$-endlich,
+$f:\Omega\times\Omega' \to [0,\infty]$ messbar, dann sind die Abbildungen
+\begin{align*}
+&f_1: \Omega\to[0,\infty],\; x\mapsto \int_{\Omega'} f(x,\cdot)\dmu',\\
+&f_2: \Omega'\to[0,\infty],\; y\mapsto \int_\Omega f(\cdot,y)\dmu,
+\end{align*}
+messbar und es gilt,
+\begin{align*}
+\int_{\Omega\times\Omega'} f\dmumu &= \int_\Omega\left(
+\int_{\Omega'} f(x,y) \dmu'(y)
+\right) \dmu(x) \\ &= \int_{\Omega'} \left(\int_{\Omega} f(x,y) \dmu(x)
+\right)\dmu'(y).\fishhere
+\end{align*}
+\end{prop}
+\begin{proof}
+Sei $M\in\Sigma\otimes\Sigma'$. Nach \ref{prop:3.51} ist die Abbildung,
+\begin{align*}
+(\chi_{M})_2: y\mapsto \mu(M^y) =
+\int_\Omega \chi_{M^y}(x)\dmu(x) = \int_\Omega \chi_M(x,y)\dmu(x)
+\end{align*}
+messbar und es gilt,
+\begin{align*}
+\int_{\Omega\times\Omega'} \chi_M \dmumu
+&= (\mu\otimes\mu')(M) \overset{\ref{prop:3.51}}{=} \rho(M)
+= \int_{\Omega'} \mu(M^y) \dmu'(y)
+\\ &= \int_{\Omega'} \left(
+\int_\Omega \chi_M \dmu(x)
+\right) \dmu'(y).
+\end{align*}
+Aufgrund der Linearität des Integrals gilt für jede positive einfache
+Funktion $s$,
+\begin{align*}
+\int_{\Omega\times\Omega'} s(x,y)\dmumu
+= \int_{\Omega'}\left(\int_\Omega s(x,y)\dmu(x) \right)\dmu'(y), 
+\end{align*}
+insbesondere ist $y\mapsto \int_\Omega s(x,y)\dmu(x)$ messbar.
+
+\ref{prop:3.37} besagt, dass eine Folge $(s_n)$ positiver einfacher
+Funktionen existiert mit $s_n\uparrow f$. Mit Hilfe des Satzes von der
+monotonen Konvergenz, erhalten wir somit die Behauptung,
+\begin{align*}
+&\int_{\Omega\times\Omega'} f\dmumu = \lim\limits_{n\to\infty}
+\int_{\Omega\times\Omega'} s_n \dmumu
+\\ &= \lim\limits_{n\to\infty} \int_{\Omega'} \left(
+\underbrace{\int_\Omega s_n(x,y) \dmu(x)}_{:=(s_n)_2 \text{ messbar,
+monotonw.}} \right) \dmu'(y) \\ &= \int_{\Omega'} \left(
+\underbrace{\int_\Omega f(x,y) \dmu(x)}_{:=f_2} \right) \dmu'(y),
+\end{align*}
+und $f_2$ ist Grenzwert von $(s_n)_2$ also messbar.\qedhere
+\end{proof}
+
+\begin{prop}[Satz von Fubini II]
+\label{prop:3.53}
+Seien $(\Omega,\Sigma,\mu)$, $(\Omega',\Sigma',\mu')$ $\sigma$-endlich und
+$f:\Omega\times\Omega'\to\RA$ messbar, so gilt,
+\begin{align*}
+\int_{\Omega\times\Omega'} \abs{f}\dmumu &= 
+\int_\Omega\left(\int_{\Omega'} \abs{f(x,y)} \dmu'(y) \right) \dmu(x)\tag{*}\\
+&= \int_{\Omega'}\left(\int_{\Omega} \abs{f(x,y)} \dmu(x) \right) \dmu'(y).
+\end{align*}
+Ist eines der Integrale endlich, dann ist $f\in
+L_1(\Omega\times\Omega',\Sigma\otimes\Sigma',\mu\otimes\mu')$ und es gilt,
+\begin{align*}
+&f(\cdot,y)\in L_1(\Omega,\Sigma,\mu),\quad \text{ für fast alle }
+y\in\Omega',\tag{**}\\
+&f(x,\cdot)\in L_1(\Omega',\Sigma',\mu'),\quad \text{ für fast alle }
+x\in\Omega,
+\end{align*}
+sowie
+\begin{align*}
+\int_{\Omega\times\Omega'} f\dmumu &= \int_\Omega\left(
+\int_{\Omega'} f(x,y) \dmu'(y) \right) \dmu(x)
+\\ &= \int_{\Omega'} \left( \int_\Omega f(x,y) \dmu(x) 
+\right) \dmu'(y).\fishhere
+\end{align*}
+\end{prop}
+\begin{bemn}
+Die iterierten Integrale sind eventuell nicht definiert, da z.B. $f_1(x) =
+\int_{\Omega'} f(x,y)\dmu'(y)$ nur für fast alle $x\in\Omega$ definiert ist.
+
+Zu Abhilfe sei $A:=\setdef{x\in\Omega}{\int_{\Omega'} \abs{f(x,y)} \dmu'(y) =
+\infty}$, dann ist $A$ messbar mit $\mu(A) = 0$ (siehe Beweis). Nun kann man
+$f_1$ auf $\Omega$ messbar fortsetzten zu $\tilde{f}_1$ durch,
+\begin{align*}
+\tilde{f}_1(x) = \begin{cases}
+f_1(x), & x\in A^c,\\
+0, & x\in A,
+\end{cases}
+\end{align*}
+damit kann das Integral definiert werden durch
+\begin{align*}
+\int_\Omega f_1\dmu := \int_\Omega \tilde{f}_1\dmu.\maphere
+\end{align*}
+\end{bemn}
+\begin{proof}
+\begin{enumerate}[label=\arabic{*}.)]
+  \item $f$ ist messbar, also ist auch $\abs{f}$ messbar und mit 
+  Fubini I (\ref{prop:3.52}) folgt 
+  die Gleichheit in (*). Außerdem sind $f_+$ und $f_-$ messbar und damit auch
+\begin{align*}
+f_{1,+}(\cdot,y), f_{2,+}(x,\cdot), f_{1,-}(\dot,y), f_{2,-}(x,\cdot). 
+\end{align*}
+%. Also ist auch $f_1(y):=f(\cdot,y) = f_+(\cdot,y) -
+%f_-(\cdot,y)$ definiert und messbar, analog $f_2(x):=f(x,\cdot)$.
+\item Sei nun $\int_{\Omega\times\Omega'} \abs{f}\dmumu<\infty$, dann ist
+$f\in L_1(\Omega\times\Omega',\Sigma\otimes\Sigma',\mu\otimes\mu')$ und
+\begin{align*}
+g_1(x) := \int_{\Omega'} \abs{f(x,\cdot)} \dmu',
+\end{align*}
+ist ebenfalls $L_1$. Mit \ref{prop:3.30} folgt, dass
+\begin{align*}
+\mu\left(\setdef{x\in\Omega}{\abs{g_1(x)} = \infty}\right) = 0.
+\end{align*}
+Also sind $f(x,\cdot)$ und $f(y,\cdot)$ $\mufu$ integrierbar (**).
+
+Der Rest folgt durch Anwendung von \ref{prop:3.52} auf $f_+$ und $f_-$.\qedhere 
+\end{enumerate}
+\end{proof}
+
+\begin{prop}[Definition/Satz]
+\label{prop:3.54}
+Eine Menge $K$ heißt \emph{$x$-projezierbar}, falls es Funktionen $o(x)$ und
+$u(x)$ gibt, sodass der Einschluss der Graphen gerade $K$ ist.
+
+\begin{pspicture}(-1,-1)(4,3)
+ %\psgrid
+
+ \psaxes[labels=none,ticks=none]{->}%
+ (0,0)(-0.5,-0.5)(3.5,2.5)%
+ [\color{gdarkgray}$x$,-90]%
+ [\color{gdarkgray}$y$,0]
+ 
+ \psbezier[linecolor=yellow]%
+	(0.5,0.5)(1,2.2)%
+	(2.5,2.2)(3,0.5)
+
+ \psbezier[linecolor=darkblue]%
+	(0.5,0.5)(1.5,1.5)%
+	(2.5,-0.8)(3,0.5)
+	
+ \rput(2.1,1){\color{gdarkgray}$K$}
+ 
+ \rput[lb](2.6,1.6){\color{gdarkgray}$o(x)$}
+ \rput[lt](1,0.5){\color{gdarkgray}$u(x)$}
+ \rput(0.5,0){\color{gdarkgray}$[$}
+ \rput(3,0){\color{gdarkgray}$]$}
+ \rput[t](2.5,-0.1){\color{gdarkgray}$M$}
+	
+\end{pspicture}
+
+Sei $(\Omega,\Sigma,\mu)$ $\sigma$-endlich, $\Omega'=\R$, $\Sigma'=\BB(\R)$,
+$\mu'$ das Lebesgue-Borel-Maß auf $\R$ und $M\in\Sigma$.
+
+Sind $u,o: M\to\R$ messbar, $u\le o$ auf $M$, so gilt,
+\begin{align*}
+K=\setdef{(x,y)\in\Omega\times\Omega'}{x\in M\land u(x)\le y\le o(x)}
+\in\Sigma\otimes\Sigma',
+\end{align*}
+und für jede Abbildung $f:K\to\R$ ist $f(x,\cdot):[u(x),o(x)]\to\R$ messbar für
+festes $x\in M$. Ist weiter
+\begin{align*}
+\int_M \left(\int\limits_{[u(x),o(x)]} \abs{f(x,y)} \dmu'(y) \right)\dmu(x)
+<\infty,
+\end{align*}
+so gilt $f\in L_1(K,\Sigma\otimes\Sigma\cap K, \mu\otimes\mu'\big|_K)$ und
+\begin{align*}
+\int_K f\dmumu = \int_M \left( \int\limits_{[u(x),o(x)]} f(x,y) \dmu'(y)
+ \right)\dmu(x).\fishhere
+\end{align*}
+\end{prop}
+
+\begin{proof}
+\begin{enumerate}
+  \item Sei $\R=\dot{\bigcup}_{n\in\N} \left[a_n^{(k)},a_n^{(k)}+\frac{1}{k}
+  \right)$, dann gilt $\sigma^{-1}\left(\left[a_n^{(k)},a_n^{(k)}+\frac{1}{k}
+  \right) \right)\in\Sigma$ und
+\begin{align*}
+&\bigcap_{k=1}^\infty \bigcup_{n=1}^\infty
+\underbrace{\sigma^{-1}\left(\left[a_n^{(k)},a_n^{(k)}+\frac{1}{k} \right)
+\right)\times (-\infty,a_n^{(k)}+\frac{1}{k})}_{\in\Sigma\otimes\Sigma'} \\ &=
+\setdef{(x,t)}{x\in M, t\le o(x)}
+\end{align*}
+\begin{pspicture}(-1,-1)(4,3)
+ %\psgrid
+
+ \psline[linestyle=none,fillstyle=solid,fillcolor=glightgray]%
+ (0.6,-0.5)(0.6,1.45)(0.8,1.45)(0.8,-0.5)(0.6,-0.5)
+
+ \psline[linestyle=none,fillstyle=solid,fillcolor=glightgray]%
+ (1.9,-0.5)(1.9,1.45)(3,1.45)(3,-0.5)(1.9,-0.5)
+
+ \psline[linecolor=gdarkgray]%
+ (0,1.2)(3.5,1.2)
+
+ \psline[linecolor=gdarkgray]%
+ (0,1.45)(3.5,1.45)
+ 
+ \psaxes[labels=none,ticks=none]{->}%
+ (0,0)(-0.5,-0.5)(3.5,2.5)%
+ [\color{gdarkgray}$x$,-90]%
+ [\color{gdarkgray}$y$,0]
+ 
+ \psbezier[linecolor=darkblue]%
+	(0.5,1)(1.5,2.8)%
+	(2.5,0.2)(3,1.5)
+
+ \rput[r](-0.12,1.15){\color{gdarkgray}$a_n^{(k)}$}
+ %\rput[rb](-0.1,1.45){\color{gdarkgray}$a_n^{(k)}$$\frac{1}{n}$}
+ 
+ \rput(0.6,0){\color{gdarkgray}$[$}
+ \rput(0.8,0){\color{gdarkgray}$)$}
+ \rput(1.9,0){\color{gdarkgray}$($}
+ \rput(3,0){\color{gdarkgray}$)$}
+ 
+ \rput{90}(0,1.2){\color{gdarkgray}$[$}
+ \rput{90}(0,1.45){\color{gdarkgray}$)$}
+\end{pspicture}
+\item Rest folgt aus Fubinit mit z.B.,
+\begin{align*}
+\int_K \abs{f}\dmumu &= \int_{\Omega\times\Omega'}\abs{f}\chi_K \dmumu
+\\ &= \int_\R \left(\int_\R
+\abs{f(x,t)}\underbrace{\chi_K(x,t)}_{=\chi_M(x)\chi_{[u(x),o(x)]}(t)}\dmu'(t)
+\right)\dmu(x)\\ &
+= \int_M \left(\int\limits_{[u(x),o(x)]} \abs{f(x,t)}\dmu'(t)
+\right)\dmu(x).\qedhere
+\end{align*}
+\end{enumerate}
+\end{proof}
+
+\begin{bsp}
+\label{bsp:3.55}
+Kegel, $K:= \setdef{(x,y,z)\in\R^3}{0\le z\le 3\text{ und } x^2+y^2 \le z^2}$.
+
+Sei $\mu$ das Lebesgue Maß im $\R^3$, wir betrachten $K$ als,
+\begin{align*}
+K = \setdef{(x,y,z)}{x^2+y^2\le 9\land \sqrt{x^2+y^2}\le z\le 3},
+\end{align*}
+dann ist
+\begin{align*}
+\int_K z\dmu^{(3)} = \int\limits_{x^2+y^2\le 9}
+\left(\int\limits_{\sqrt{x^2+y^2}}^3 z\dmu^{(1)}(z) \right)\dmu^{(2)}(x,y),  
+\end{align*}
+da für stetige Funktionen auf kompakten Intervallen Lebesgue- und
+Riemann-Integral übereinstimmen, ist
+\begin{align*}
+\ldots &= \frac{1}{2} \int\limits_{x^2+y^2\le 9} 9 - x^2-y^2 \dmu^{(2)}(x,y)
+\\ &\overset{\ref{prop:3.54}}{=} \frac{1}{2} \int\limits_{-3}^3 \left( 
+\int\limits_{-\sqrt{9-x^2}}^{\sqrt{9-x^2}} 9 - x^2-y^2 \dmu^{(1)}(y)
+\right) \dmu^{(1)}(x)
+\\ &= \frac{1}{2} \int\limits_{-3}^3
+\left[(9-x^2)y-\frac{1}{3}y^3\right]_{-\sqrt{9-x^2}}^{\sqrt{9-x^2}}
+= \frac{1}{2}\frac{4}{3} \int\limits_{-3}^3 (9-x^2)^{3/2} 
+\dmu^{(1)}(x)
+\end{align*}
+Substitution: $x=3\sin \ph,\; \dx = 3\cos \ph\dph$,
+\begin{align*}
+&= \frac{2}{3} \int\limits_{-\pi/2}^{\pi/2} (9\cos^2 \ph)^{3/2} 3\cos\ph\dph
+= \frac{2}{3} 3^4 \underbrace{\int\limits_{-\pi/2}^{\pi/2} \cos^4\ph
+\dph}_{=\frac{3}{8}\pi}\\ &= \frac{81}{4}\pi <\infty.
+\end{align*}
+Das letzte Integral existiert also und ist endlich, wenn wir die Gleichung nun
+``zurückgehen'' sehen wir, dass alle Integrale existieren und endlich sind.
+
+Das berechnete Integral beschreibt im Übrigen das Trägheitsmoment des Kreisels
+bei Rotation um die $z$-Achse.\bsphere
+\end{bsp}
+
+\begin{defn}
+\label{defn:3.56}
+Seien $U,V\subseteq\R$. Eine Abbildung $\phi: U\to V$ heißt
+\emph{$C^k$-Diffeomorphimus} ($k\ge 1$), falls $\phi$ bijektiv und
+$\phi,\phi^{-1}$ beide $C^k$ sind.\fishhere
+\end{defn}
+
+\begin{bem}
+\label{bem:3.57}
+Der Satz über Umkehrabbildungen besagt, dass für eine Abbildung $\phi\in
+C^1(U\to V), x_0\in U$ mit $\det \D\phi(x_0) \neq 0$, eine Umgebung
+$U(x_0)\subseteq U$ existiert, so dass
+\begin{enumerate}[label=(\roman{*})]
+  \item $\phi\big|_{U(x_0)}$ injektiv,
+  \item $\phi(U(x_0))$ offen,
+  \item $\phi^{-1}\in C^1(\phi(U(x_0))\to U(x_0))$,
+  \item $\D\phi^{-1}(\phi(x_0)) =
+(\D\phi(x_0))^{-1}$.\maphere
+\end{enumerate}
+\end{bem}
+
+\begin{prop}
+\label{prop:3.58}
+Seien $U,V\subseteq\R^n$ offen, $\phi\in C^1(U\to V)$ bijektiv, dann sind
+äquivalent,
+\begin{enumerate}[label=(\roman{*})]
+  \item $\phi$ ist $C^1$ Diffeomorphismus,
+  \item $\det \D\phi\neq 0$ auf $U$.\fishhere
+\end{enumerate}
+\end{prop}
+
+\begin{prop}[Transformationssatz]
+\label{prop:3.59}
+Seien $U,V\subseteq\R^n$ offen, $\phi: U\to V$ ein $C^1$-Diffeomorphismus,
+$A\subseteq U$ messbar, dann gilt
+\begin{align*}
+\int_{\phi(A)} f\dmu^{(n)} = \int_A (f\circ \phi) \abs{\det D\phi} \dmu^{(n)},
+\end{align*}
+falls $f: \phi(A)\to[0,\infty]$ messbar oder $f\in L_1(\phi(A),\Sigma\cap
+\phi(A),\mu\big|_{\phi(A)})$.\fishhere
+\end{prop}
+
+\begin{bsp}
+\label{bsp:3.60}
+Sei $U=(0,\infty)\times(0,2\pi), V=\R^2\setminus\setdef{(x,0)}{x\ge0}$.
+\begin{align*}
+&\phi:
+\begin{pmatrix}
+r\\\ph
+\end{pmatrix}
+\mapsto
+\begin{pmatrix}
+r\cos\ph\\
+r\sin\ph
+\end{pmatrix}\\
+&\phi^{-1}:
+\begin{pmatrix}
+x\\y
+\end{pmatrix}
+\mapsto
+\begin{pmatrix}
+\sqrt{x^2+y^2}\\
+\begin{cases}
+\arccos\left(\frac{x}{\sqrt{x^2+y^2}} \right),& y\ge0,\\
+-\arccos\left(\frac{x}{\sqrt{x^2+y^2}} \right)+2\pi,& y<0
+\end{cases}
+\end{pmatrix} 
+\end{align*}
+\begin{pspicture}(-6,-3)(6,3)
+ %\psgrid
+
+ \psline[linestyle=none,fillstyle=solid,fillcolor=glightgray]%
+ (-3,0)(-3,1)(-1.1,1)(-1.1,0)(-3,0)
+
+ \psline[linestyle=none,fillstyle=solid,fillcolor=glightgray]%
+ (0.9,-1.9)(0.9,1.9)(4.9,1.9)(4.9,-1.9)(0.9,-1.9)
+	
+	
+ \psaxes[labels=none,ticks=none]{->}%
+ (-3,0)(-5,-2)(-1,2)%
+ [\color{gdarkgray}$r$,-90]%
+ [,-90]
+ %[\color{gdarkgray}$\ph$,0]
+
+ \psaxes[labels=none,ticks=none]{->}%
+ (3,0)(1,-2)(5,2)%
+ [\color{gdarkgray}$x$,-90]%
+ [,-90]
+ %[\color{gdarkgray}$y$,0]
+
+ \psline[linestyle=dotted,linecolor=gdarkgray]%
+ (-1,0)(-3,0)(-3,1)(-1,1)
+	 
+ \psbezier[linecolor=darkblue,arrows=->]%
+	(-0.5,1.5)(-0.2,1.8)%
+	(0.2,2)(0.5,1.5)
+
+ \rput(-1.4,0.6){\color{gdarkgray}$U$}	
+ \rput(4,1){\color{gdarkgray}$V$}
+ 
+ \rput(-3.2,2.2){\color{gdarkgray}$\ph$}
+ \rput(2.8,2.2){\color{gdarkgray}$y$}
+ \rput(0,2){\color{gdarkgray}$\phi$}
+\end{pspicture}
+Die Funktionaldeterminante von $\phi$ ist,
+\begin{align*}
+\det \D\phi(r,\ph) = \begin{vmatrix}
+\cos \ph & -r\sin\ph\\
+\sin\ph & r\cos\ph
+\end{vmatrix}
+= r(\cos^2\ph + \sin^2\ph) = r >0,
+\end{align*}
+da $r\in(0,\infty)$. Damit ist $\phi$ regulär in $U$, also
+$C^1$-Diffeomorphismus und es gilt,
+\begin{align*}
+\int_V f\dmu = \int_U f\circ\phi \abs{\det\D\phi}\dmu
+= \int_U f\circ\phi\ r\dmu,
+\end{align*}
+falls $f$ geeignet. $V$ entspricht dem $\R^2$ ohne die positive reelle
+Halbachse $\R_+$, das Integral soll jedoch über den ganzen $\R^2$ berechnet
+werden. Jedoch ist $\R_+$ als Teilmenge des $\R^2$ eine Nullmenge, denn
+\begin{align*}
+&\mu^{(2)}\left(\setdef{(x,0)}{x\ge 0}\right) =
+\mu^{(2)}\left([0,\infty)\times\{0\}\right) = \mu^{(1)}([0,\infty))
+\mu^{(1)}(\{0\}) = 0,\\
+&\mu^{(2)}\left(\setdef{(x,2\pi)}{x\ge 0}\right) = 0.
+\end{align*}
+Daher gilt für das Integral,
+\begin{align*}
+\int_{\R^2} f\dmu &= \int\limits_{[0,\infty)\times[0,2\pi]} f\circ\phi
+\dmu(r,\ph) \\ &\overset{\text{Fubini *}}{=}
+\int\limits_{r=0}^\infty\int\limits_{\ph=0}^{2\pi} f(r\cos\ph,r\sin\ph) r\dph
+\dr.
+\end{align*}
+* ist anwendbar, falls $f$ messbar und positiv oder $f\in L_1$.
+
+Wir wollen nun damit erneut das Trägheitsmoment des Kegels aus Beispiel
+\ref{bsp:3.55} berechnen,
+\begin{align*}
+\int_K z\dmu^{(3)} &= \frac{1}{2} \int_{x^2+y^2\le 9} 9-(x^2+y^2)\dmu^{(3)}(x,y)\\
+& = \frac{1}{2}\int\limits_{r=0}^3 \left(
+\int\limits_{\ph=0}^{2\pi} (9-r^2) r\dph \right) \dr  
+= \pi \left[\frac{9}{2}r^2 - \frac{1}{3}r^3\right]_{0}^3 \\
+&= \pi \left(\frac{3^4}{2} - \frac{3^4}{4} \right)
+=\frac{3^4}{4}\pi.
+\end{align*}
+Wir sehen also, dass die Koordinatentransformation oft schneller und eleganter
+ans Ziel führt.
+\end{bsp}
+
+\begin{bem}
+\label{bem:3.61}
+\begin{propn}[Satz von Sard]
+Sei $\phi\in C^1(U\to\R^n)$, $K:=\setdef{x\in U}{\D\phi(x)=0}$. Dann ist
+$\mu(\phi(K)) = 0$.\fishhere
+\end{propn}
+Dadurch können wir den Transformationssatz verallgemeinern, es muss also nur
+vorausgesetzt werden, dass $\phi\in C^1(U\to V)$ und
+$\phi\big|_{U\setminus K}$ injektiv.\maphere
+\end{bem}
+
+\subsection{$\LL^p$-Räume}
+\begin{bem}[Vorbemerkung.]
+\label{bem:3.62}
+Ist $f:(\Omega,\Sigma,\mu)\to\C$, so definieren wir,
+\begin{align*}
+\int_\Omega f\dmu = \int_\Omega \Re f\dmu + i\int_\Omega \Im f\dmu.
+\end{align*}
+Sätze, die die Anordnung von $\R$ nicht benötigen, also insbesondere die Sätze
+von Lebesgue und Fubini, gelten auch für diese Funktionen.
+
+Wir schreiben nun $\KH$, wenn sowohl $\RA$ also auch $\C$ möglich ist.\maphere 
+\end{bem}
+
+\begin{defn}
+\label{defn:3.63}
+Sei $f:(\Omega,\Sigma,\mu)\to\KH$ messbar.
+\begin{enumerate}[label=\arabic{*}.)]
+  \item Für $1\le p<\infty$, sei
+\begin{align*}
+N_p(f) := \left(\int_\Omega \abs{f}^p \dmu\right)^{1/p},
+\end{align*}
+denn $\abs{f}^p = (\cdot)^p\circ\abs{f}$ ist messbar\footnote{Wir setzen
+$\infty^p=\infty$}.
+\item Für $p=\infty$, heißt
+\begin{align*}
+N_\infty(f) := \inf\setdef{c\in[0,\infty]}{\abs{f}\le c \mufu}
+:= \esssup_\Omega(f),
+\end{align*}
+\emph{wesentliches Supremum von $f$}.\fishhere
+\end{enumerate}
+\end{defn}
+
+\begin{cor}
+\label{prop:3.64}
+\begin{enumerate}[label=\arabic{*}.)]
+  \item Für $1\le p\le\infty$ gilt,
+  \begin{enumerate}[label=(\roman{*})]
+    \item $0\le N_p(f) \le \infty$,
+    \item $N_p(\alpha f) = \abs{\alpha}N_p(f)$ für $\alpha\in\C$.
+  \end{enumerate}
+\item $\abs{f}\le N_\infty(f) \mufu$.
+\item $N_\infty(f+g) \le N_\infty(f)+N_\infty(g)$.\fishhere
+  \end{enumerate}
+\end{cor}
+
+\begin{proof}
+\begin{enumerate}[label=\arabic{*}.)]
+  \item Offensichtlich.
+  \item per definitionem gilt $\abs{f}\le N_\infty+\ep \mufu, \forall\ep > 0$,
+  also ist
+\begin{align*}
+&\mu\left(\setdef{\omega\in\Omega}{\abs{f(\omega)}> N_\infty(f)}\right) \\
+&= \mu\left(\bigcup_{n\in\N}
+\underbrace{\setdef{\omega\in\Omega}%
+{\abs{f(\omega)}> N_\infty(f)+\frac{1}{n}}}_{\mu(\cdot) = 0, \text{ nach
+Definition von } N_\infty}\right) \\ &= \lim\limits_{n\to\infty} \mu\left(\setdef{\omega\in\Omega}{\abs{f(\omega)}> N_\infty(f)+\frac{1}{n}}\right)
+= 0.
+\end{align*}
+\item $\abs{f+g}(\omega) \le\abs{f}(\omega) + \abs{g}(\omega) \le N_\infty(f) +
+N_\infty(g) \mufu$.\qedhere
+\end{enumerate}
+\end{proof}
+
+\begin{defn}
+\label{defn:3.65}
+$p,q\in[1,\infty]$ heißen \emph{konjugiert}, falls sie eine dieser
+Bedingungen erfüllen,
+\begin{enumerate}[label=(\roman{*})]
+  \item $p,q\neq \infty$ und $\frac{1}{p}+\frac{1}{q} = 1$,
+  \item $p=1, q=\infty$ oder $p=\infty, q= 1$.\fishhere
+\end{enumerate}
+\end{defn}
+Wir werden sehen, dass $p=q=2$ ein wichtiger Spezialfall ist.
+\begin{prop}
+\label{prop:3.66}
+Seien $f,g:(\Omega,\Sigma,\mu)\to\KH$ messbar.
+\begin{enumerate}[label=\arabic{*}.)]
+  \item Für $1<p, q<\infty$ und $p,q$ konjugiert, gilt die \emph{Höldersche
+  Ungleichung},
+\begin{align*}
+\underbrace{\int_\Omega \abs{fg}\dmu}_{=N_1(fg)} \le
+\underbrace{\left(\int_\Omega
+\abs{f}^p \right)^{1/p} \left(\int_\Omega \abs{g}^q
+\right)^{1/q}}_{=N_p(f)N_q(g)}.
+\end{align*}
+\item Für $1\le p<\infty$ gilt die \emph{Minkowski Ungleichung},
+\begin{align*}
+\underbrace{\left(\int_\Omega \abs{f+g}^p\right)^{1/p}}_{=N_p(f+g)}
+\le \underbrace{\left(\int_\Omega \abs{f}^p\right)^{1/p} + \left(\int_\Omega
+\abs{g}^p\right)^{1/p}}_{N_p(f)+N_p(g)}.\fishhere
+\end{align*}
+\end{enumerate}
+\end{prop}
+
+\begin{proof}
+\begin{enumerate}[label=\arabic{*}.)]
+\item\begin{enumerate}[label=(\alph{*})]
+\item Wir betrachten zunächst die Sonderfälle.\\
+Ist $N_p(f) = 0$, dann ist
+$f=0 \mufu$ also auch $fg=0 \mufu$ und damit folgt $N_1(fg) = 0$.
+
+Ist $N_p(f) > 0$ und $N_q(g) = \infty$, dann folgt die Behauptung
+trivialerweise.
+\item Sei nun $0<N_p(f),N_q(g)<\infty$.
+
+Wir wollen uns auf den Spezialfall,
+\begin{align*}
+N_p(f) = 1\text{ und }N_q(g)=1 \Rightarrow
+\int_\Omega \abs{fg}\dmu \le 1,\tag{*}
+\end{align*}
+zurückziehen, denn für beliebige $f,g$ ist,
+\begin{align*}
+N_p\left(\frac{f}{N_p(f)} \right) = 1,\; N_q\left(\frac{g}{N_q(g)} \right) =1,
+\end{align*}
+und damit folgt,
+\begin{align*}
+1 \ge \int_\Omega \abs{\frac{f}{N_p(f)}\frac{g}{N_q(g)}} \dmu =
+\frac{1}{N_p(f)}\frac{1}{N_q(g)} \int_\Omega \abs{fg}\dmu.
+\end{align*}
+\item Hilfsungleichung: 
+
+Seien $0<x,y<\infty$, dann existieren $u,v\in\R$, so dass
+\begin{align*}
+x=e^{\frac{1}{p} u},\;y=e^{\frac{1}{q} v}.
+\end{align*}
+Die Abbildung $t\mapsto e^t$ ist konvex, setze nun 
+$\lambda=\frac{1}{p}$, dann ist $\frac{1}{q}=1-\lambda$ und daher gilt,
+\begin{align*}
+\underbrace{e^{\frac{1}{p}u+\frac{1}{q}v}}_{=x\cdot y}
+= e^{\lambda u + (1-\lambda) v}
+ \le \lambda e^u + (1-\lambda) e^v = 
+\underbrace{\frac{1}{p}e^{u}+\frac{1}{q}e^{v}}_{=\frac{1}{p}x^p +
+\frac{1}{q}y^q}.
+\end{align*}
+Somit ist $x\cdot y \le \frac{1}{p}x^p +
+\frac{1}{q}y^q$ für $x,y\in(0,\infty)$. Offensichtlich gilt die Gleichung 
+sogar für $x,y\in[0,\infty]$.
+\item Wir zeigen nun den Spezialfall, indem wir über die Hilfsungleichung
+integrieren, sei also $N_p(f)=N_q(g)=1$,
+\begin{align*}
+\int_\Omega \abs{f\cdot g} \le \frac{1}{p}\int_\Omega \abs{f}^p\dmu +
+\frac{1}{q}\int_\Omega \abs{g}^q \dmu = \frac{1}{p} + \frac{1}{q} = 1.
+\end{align*}
+\end{enumerate}
+\item Für $p=1$ ist dies gerade die Dreiecksungleichung für das Integral. Sei
+nun $1<p<\infty$, dann gilt ohne Einschränkung  $N_p(f+g)>0$ und
+$N_p(f),\;N_p(g)<\infty$. Es gilt also
+\begin{align*}
+\abs{f+g}^p & \le \left(2\max\left\{ \abs{f},\abs{g}\right\}\right)^p
+= 2^p \max\left\{ \abs{f}^p,\abs{g}^p\right\}
+\\ &\le 2^p\left(\abs{f}^p + \abs{g}^p\right),
+\end{align*}
+also ist $N_p(f+g)<\infty$.
+Es folgt daher,
+\begin{align*}
+N_p(f+g)^p &= \int_\Omega \abs{f+g}^p \dmu
+= \int_\Omega \abs{f+g}\abs{f+g}^{p-1}\dmu
+\\ &\le \int_\Omega \abs{f}\abs{f+g}^{p-1}\dmu + \int_\Omega
+\abs{g}\abs{f+g}^{p-1}\dmu
+ \\ &\le N_p(f)N_q\left(\abs{f+g}^{p-1}\right) +
+ N_p(g)N_q\left(\abs{f+g}^{p-1}\right)
+ \\ &= \left(N_p(f)+N_p(g) \right)\left(\int_\Omega
+ \abs{f+g}^{q(p-1)}\right)^{1/q}.
+\end{align*}
+$p$ und $q$ sind assoziert, es gilt daher $\frac{p}{q}=p-1$,
+\begin{align*}
+&= \left(N_p(f)+N_p(g) \right)\left(\left(\int_\Omega
+ \abs{f+g}^{p}\right)^{\frac{1}{p}}\right)^{p/q}
+ \\ &= \left(N_p(f)+N_p(g) \right) N_p(f+g)^{\frac{p}{q}}.
+\end{align*}
+Nun ist $N_p(f+g)< \infty$ also gilt auch
+\begin{align*}
+N_p(f+g)^{p-\frac{p}{q}} \le N_p(f)+N_p(g),
+\end{align*}
+und $p-\frac{p}{q}=1$.\qedhere
+\end{enumerate}
+\end{proof}
+
+
+\begin{cor}
+\label{prop:3.67}
+\begin{enumerate}[label=\arabic{*}.)]
+  \item Für $1\le p,q\le \infty$ konjugiert, gilt
+\begin{align*}
+N_1(f\cdot g) \le N_p(f)N_q(g).
+\end{align*}
+  \item Für $1\le p\le\infty$ gilt, 
+\begin{align*}
+N_p(f+g) \le N_p(f) + N_p(g).\fishhere
+\end{align*}
+\end{enumerate}
+\end{cor}
+
+\begin{proof}
+\begin{enumerate}[label=\arabic{*}.)]
+  \item Wir müssen noch den Fall $p=1, q=\infty$ betrachten, doch hier ist
+\begin{align*}
+N_1(f\cdot g) = \int_\Omega \underbrace{\abs{f\cdot g}}_{\le\norm{f}_\infty
+\abs{g}\mufu}\dmu \le \norm{f}_\infty \int_\Omega \abs{g}\dmu.
+\end{align*}
+\item Für $p=\infty$ siehe \ref{prop:3.64}.\qedhere
+\end{enumerate}
+\end{proof}
+
+\begin{cor}
+\label{prop:3.68}
+Sei $1\le p\le \infty$, dann ist
+\begin{align*}
+L^p(\Omega,\Sigma,\mu) := \setdef{f:\Omega\to\KH}{f\text{ ist messbar und
+}N_p(f)<\infty},
+\end{align*}
+ein Vektorraum über $\R$ oder $\C$. $N_p$ ist eine Seminorm auf
+$L^p(\Omega,\Sigma,\mu)$.\fishhere
+\end{cor}
+
+Streng genommen ist $L^p$ mit der gewöhnlichen Addition kein Vektorraum, denn
+es sind auch auch Funktionen zugelassen, so dass auf einer Nullmenge gilt
+$f(\omega) = \pm \infty$ und $g(\omega)=\mp\infty$ und dann ist $f+g$ nur
+$\mufu$ definiert.
+
+Darüber hinaus ist $L^p$ aber auch kein normierter Vektorraum, denn $N_p(f)
+= 0$ impliziert lediglich, dass $f=0\mufu$ und nicht, dass $f$ die Nullfunktion ist. Wir können
+dieses Problem aber mithilfe des Faktorraums lösen.
+
+\begin{defn}
+\label{defn:3.69}
+Sei $1\le p\le\infty$, dann ist
+\begin{align*}
+N := \setdef{f: \Omega\to\KH}{N_p(f) =0} = \setdef{f:\Omega\to\KH}{f=0\mufu},
+\end{align*}
+ein Unterraum von $L^p$.
+\begin{align*}
+f\sim g \Leftrightarrow f-g\in N,
+\end{align*}
+definiert eine Äquivalenzrelation auf $L^p$. Seien $\nrm{f}$ die
+Äquivalenzklassen mit Vertreter $f$, dann ist
+\begin{align*}
+\LL^p(\Omega,\Sigma,\mu) = \setdef{[f]}{f\in L^p} = L^p/N,
+\end{align*}
+ein Vektorraum und $\norm{[f]}_p := N_p(f)$ eine Norm für
+$[f]\in\LL^p$.\fishhere
+\end{defn}
+
+Bei Elementen in $\LL^p$ handelt es sich also um Vertreter einer
+Äquivalenzklasse. Aussagen die für die Äquivalenzklasse $[f]$ gelten, gelten
+daher für einen Vertreter $f$ stets nur $\mufu$. Außerdem muss man
+beispielsweise bei Widerspruchsargumenten darauf achten, den Widerspruch für die ganze
+Äquivalenzklasse herbeizuführen und nicht nur für einen einzigen Vertreter.
+
+Wir wollen nun die Äquivalenzklassen untersuchen. Dazu schreiben wir im Folgenden $\LL^p(\Omega)$ bzw. $\LL^p$ für
+$\LL^p(\Omega,\Sigma,\mu)$ und meinen mit $f$ stets die Äquivalenzklasse $[f]$.
+
+\begin{bemn}
+Jede Klasse $[f]$ enthält ein Element $\tilde{f}$ mit $\abs{\tilde{f}} <\infty$
+auf ganz $\Omega$.\maphere
+\end{bemn}
+Besonders sind wir daran interessiert, ob jede Äquivalenzklasse ein
+stetiges Element enthält und wenn ja, ob dieses eindeutig ist. Die
+Eindeutigkeit ist wie des Öfteren eine leichte Angelegenheit.
+
+\begin{prop}
+\label{prop:3.70}
+Sei $\Omega\subseteq\R^n$ offen und $f,g\in C(\Omega)\cap\LL^p(\Omega)$ und
+$\norm{f-g}_p=0$, dann ist $f=g$ auf ganz $\Omega$. Insbesondere enthält jede
+Äquivalenzklasse höchstens ein stetiges Element.\fishhere
+\end{prop}
+
+\begin{proof}
+Seien $f,g$ wie vorausgesetzt und $\norm{f-g}_p=0$, dann ist $f=g\mufu$.
+Angenommen es gibt ein $\omega\in\Omega$ mit $f(\omega) \neq g(\omega)$, dann
+gibt es aufgrund der Stetigkeit von $f$ und $g$ auch eine Umgebung
+$U\subseteq\R^n$ von $\omega$ auf der $f$ und $g$ verschieden sind. Aber $U$
+ist offen in $\R^n$ und nichtleer und daher gilt $\mu(U)\neq 0$, ein Widerspruch.\qedhere
+\end{proof}
+Für die Existenz müssen wir jedoch bestimmte Voraussetzung an die
+Äquivalenzklasse treffen. Dies überschreitet jedoch den Rahmen der Vorlesung,
+weshalb wir den folgenden Satz nicht beweisen werden.
+
+\begin{prop}[Sobolevsche Einbettung]
+\label{prop:3.71}
+Sei $f: \R^n\to\R$ mindestens $\frac{n}{2}$-mal ``schwach differenzierbar'' und
+alle  Ableitungen in $\LL^p(\R^n)$, dann ist $f$ stetig, d.h. $[f]$ enthält ein
+stetiges Element.\fishhere
+\end{prop}
+
+\begin{prop}
+\label{prop:3.72}
+\begin{enumerate}[label=\arabic{*}.)]
+  \item Seien $\mu(\Omega)<\infty$, $1\le p\le p'\le\infty$ und $f\in
+  \LL^{p'}$, dann ist $f\in\LL^p(\Omega)$ und es gilt $\norm{f}_p\le
+  \mu(\Omega)^{\frac{1}{p}-\frac{1}{p'}}\norm{f}_{p'}$.
+  \item Seien $1\le p< p'\le \infty$, dann ist
+\begin{align*}
+&\LL^p(\Omega)\setminus \LL^{p'}(\Omega) \neq \varnothing,\\
+&\LL^{p'}(\Omega)\setminus \LL^p(\Omega)\neq\varnothing.
+\end{align*}
+\item Seien $\Omega = \N, \Sigma=\PP(\N), \mu(M) = \card M$ und $1\le p\le p'\le
+\infty$, dann folgt
+\begin{align*}
+l^p = \LL^p(\N)\subseteq l^{p'}.\fishhere
+\end{align*}
+\end{enumerate}
+\end{prop}
+
+\begin{proof}
+Der Beweis sei als Übungsaufgabe überlassen.\qedhere
+\end{proof}
+
+\begin{prop}[Satz von Fischer-Riesz]
+\label{prop:3.73}
+Für $1\le p\le \infty$ ist $\LL^p(\Omega)$ ein Banachraum.\fishhere
+\end{prop}
+\begin{proof}
+\begin{enumerate}[label=\arabic{*}.)]
+  \item Sei $p=\infty$ und $(f_n)$ Cauchyfolge in $\LL^p(\Omega)$. Setze
+\begin{align*}
+&A_n :=\setdef{\omega\in\Omega}{\abs{f_n(\omega)} > \norm{f_n}_\infty},\\
+&B_{k,l} :=
+\setdef{\omega\in\Omega}{\abs{f_k(\omega)-f_l(\omega)}>\norm{f_k-f_l}_\infty},
+\end{align*}
+dann ist klar, dass $\mu(A_n) = \mu(B_{k,l}) = 0$. Ebenso ist,
+\begin{align*}
+E := \bigcup_{n\in\N} A_n \cup \bigcup_{k,l\in\N} B_{k,l},
+\end{align*}
+als Vereinigung abzählbar vieler Nullmengen eine Nullmenge.
+
+Für $\omega\in\Omega\setminus E$ gilt $\abs{f_k(\omega)-f_l(\omega)} \le
+\norm{f_k-f_l}_\infty\to 0$ für $k,l\to \infty$, d.h. $f_k(\omega)\to
+f(\omega)$ gleichmäßig auf $\Omega\setminus E$. Setze
+\begin{align*}
+f(\omega) := \begin{cases}
+\lim\limits_{n\to\infty} f_n(\omega),& \omega\in\Omega\setminus E,\\
+0,& \omega\in E,
+\end{cases}
+\end{align*}
+dann ist $f = \lim\limits_{n\to\infty} f_n(\omega)\mufu$ also messbar und
+es gilt,
+\begin{align*}
+\abs{f_n(\omega)-f(\omega)} = \lim\limits_{m\to\infty} \abs{f_n(\omega) -
+f_m(\omega)} \le \lim\limits_{m\to\infty} \norm{f_n - f_m} < \ep,
+\end{align*}
+für $n\ge N_\ep$ und $\omega\in\Omega\setminus E$. Damit ist 
+$\norm{f_n-f}<\ep$ und $f-f_n \in \LL^\infty$.
+
+Insbesondere ist $f = \underbrace{f-f_n}_{\in\LL^\infty} + f_n \in \LL^\infty$.
+\item Sei $1\le p < \infty$ und $(f_n)$ Cauchyfolge in $\LL^p$.
+
+Wähle $n_1$ mit $\norm{f_{n_1}-f_m}_p < \frac{1}{2}$ für $m>n_1$, $n_2> n_1$
+mit $\norm{f_{n_2}-f_m}_p < \frac{1}{4}$ für $m>n_2$ usw., dann ist
+\begin{align*}
+\norm{f_{n_k}-f_{n_{k+1}}} \le \frac{1}{2^{k}}.
+\end{align*}
+\begin{enumerate}[label=(\alph{*})]
+  \item Grenzfunktion $f$ konstruieren:
+\begin{align*}
+&g_n(\omega) := \sum\limits_{k=1}^n f_{n_k}(\omega) -
+f_{n_{k+1}}(\omega),\\
+&g(\omega) := \sum\limits_{k=1}^\infty
+f_{n_k}(\omega)-f_{n_{k+1}}(\omega).
+\end{align*}
+Dann ist $\norm{g_n}_p \le \sum\limits_{k=1}^n \norm{f_{n_k} -
+f_{n_{k+1}}}_p \le \sum\limits_{k=1}^n \frac{1}{2^n}< 1$ und es gilt,
+\begin{align*}
+0\le g_n \uparrow g \Rightarrow 0\le g_n^p \uparrow g^p,
+\end{align*}
+und $g^p$ ist messbar. Wir können also den Satz der monotonen Konvergenz
+anwenden und erhalten,
+\begin{align*}
+\norm{g}_p^p = \int_\Omega \abs{g}^p \dmu =  \lim\limits_{n\to\infty}
+\int_\Omega \abs{g_n}^p \dmu =  \lim\limits_{n\to\infty} \norm{g_n}_p^p \le 1.
+\end{align*}
+$g_n$ konvergiert daher $\mufu$ absolut und daher konvergiert auch
+$(f_{n_1}-f_{n_k})_k$ gegen eine messbare Funktion und es gilt,
+\begin{align*}
+f_{n_{l+1}} = f_{n_1} + \sum\limits_{k=1}^l (f_{n_{k+1}}-f_{n_k}),
+\end{align*}
+$\mufu$. Sei $f = \lim\limits_{l\to\infty} f_{n_l}$. 
+\item Zeige $f\in\LL^p$ und $\norm{f_n-f}_p \to 0$.
+
+Sei $\ep > 0,\;N\in\N$ mit $\norm{f_{n} - f_{m}}_p < \ep$ für $n,m >N$,
+dann besagt das Lemma von Fatou,
+\begin{align*}
+\norm{f_n-f}_p^p &= \int_\Omega \abs{f_n -f}^p \dmu
+ = \int_\Omega \lim\limits_{l\to\infty} \abs{f_n-f_{n_l}}^p\dmu
+\\ &\le \liminf_{l\to\infty} \int_\Omega \abs{f_n-f_{n_l}}^p\dmu
+=  \liminf_{l\to\infty} \norm{f_n-f_{n_l}}_p^p  \\
+ &\le \ep^p.
+\end{align*}
+Also ist $f-f_n\in\LL^p$ und damit folgt $f = \underbrace{f-f_n}_{\in\LL^p} +
+\underbrace{f_n}_{\in\LL^p}\in\LL^p$.\qedhere
+\end{enumerate}
+\end{enumerate}
+\end{proof}
+
+\begin{cor}[Satz von Weyl]
+\label{prop:3.74}
+Sei $1\le p\le\infty$ und $(f_n)$ Cauchyfolge in $\LL^p$. Dann existiert ein
+$f\in\LL^p$ und eine Teilfolge $(f_{n_k})$ so, dass
+\begin{align*}
+\norm{f_n-f}\to 0\text{ und } f_{n_k} \unito f\mufu.\fishhere
+\end{align*}
+\end{cor}
+\begin{proof}
+Ergibt sich aus der Konstruktion im Satz von Fischer-Riesz.\qedhere
+\end{proof}
+
+\begin{prop}
+\label{prop:3.75}
+Sei $1\le p<\infty$.
+\begin{enumerate}[label=\arabic{*}.)]
+  \item Für eine einfache Funktion $s$ gilt,
+\begin{align*}
+s\in \LL^p(\Omega) \Leftrightarrow
+\mu\left(\setdef{\omega\in\Omega}{s(\omega)\neq 0}\right) <\infty.
+\end{align*}
+\item $\setdef{s\in\LL^p(\Omega)}{s\text{ ist einfach}}$ liegt dicht in
+$\LL^p$.\fishhere
+\end{enumerate}
+\end{prop}
+\begin{proof}
+\begin{enumerate}[label=\arabic{*}.]
+  \item Übung.
+  \item Sei zunächst $f\in\LL^p(\Omega)$ und $f\ge 0$. Dann existiert eine
+  Folge $(s_n)$ einfacher Funktionen mit $0\le s_1\le s_2\le \ldots$ und $s_n\to
+  f$. $f$ majorisiert $s_n$ und $f-s_n$, es gilt
+  daher $s_n\in \LL^p$ sowie,
+\begin{align*}
+\lim\limits_{n\to\infty} \norm{f-s_n}_p^p = \lim\limits_{n\to\infty} \int
+= \int_\Omega \lim\limits_{n\to\infty} \abs{f-s_n}\dmu = 0.
+\abs{f-s_n}^p\dmu
+\end{align*}
+Für allgemeines $f$ betrachte $f_+$ und $f_-$.
+\end{enumerate}
+\end{proof}
+
+\begin{prop}[Ausblick]
+\label{prop:3.76}
+Sei $1\le p<\infty$. Dann liegt
+\begin{align*}
+C_c^\infty(\R^n) := \setdef{f\in C^\infty(\R^n\to\C)}{\supp f\text{ ist
+kompakt}},
+\end{align*}
+dicht in $\LL^p(\R^n)$.\fishhere
+\end{prop}
+
+\begin{bem}
+\label{bem:3.77}
+$\LL^2(\Omega)$ ist Hilbertraum mit dem Skalarprodukt,
+\begin{align*}
+\lin{f,g} = \int_\Omega f\overline{g}\dmu,
+\end{align*}
+d.h. vollständig bezüglich der durch das Skalarprodukt induzierten Norm,
+\begin{align*}
+\norm{f} := \sqrt{\lin{f,f}} = \norm{f}_2.
+\end{align*}
+Dabei erfüllt die Höldersche Ungleichung,
+\begin{align*}
+\abs{\lin{f,g}} \le \int_\Omega \abs{f\overline{g}}\dmu \le
+\norm{f}_2\norm{g}_2,
+\end{align*}
+die Cauchy-Schwartzsche-Ungleichung.\maphere
+\end{bem}

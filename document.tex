@@ -1,0 +1,125 @@
+% =============================================================================
+% Titel:	Analysis III - Mitschrieb
+% Erstellt:	WS 08/09
+% Dozent:	PD. P.H. Lesky
+% Autor:	Jan-Cornelius Molnar
+% =============================================================================
+\documentclass[paper=a5,parskip=half,fleqn,DIV=calc]{scrartcl}
+
+% =============================================================================
+% 					Benötigte Pakete
+% =============================================================================
+\usepackage{janmcommon}
+\usepackage{janmscript}
+
+\usepackage{cancel}
+
+% =============================================================================
+% 					Ana-Theorem-Style
+% =============================================================================
+% Theorem Umgebungen *MIT* Numerierung
+\theoremstyle{graymarginwithblueheader}
+\theorembodyfont{\itshape}
+\theoremseparator{}
+\theoremsymbol{}
+
+\newtheorem{prop}{Satz}[section]
+\newtheorem{lem}[prop]{Lemma}
+\newtheorem{defn}[prop]{Definition}
+\newtheorem{cor}[prop]{Korollar}
+
+\theoremstyle{graymarginwithyellowheader}
+\theorembodyfont{\normalfont}
+\theoremseparator{}
+\theoremsymbol{}
+
+\newtheorem{bsp}[prop]{Bsp}
+
+\theoremstyle{graymarginwithitblackheader}
+\theorembodyfont{\normalfont}
+\theoremseparator{}
+\theoremsymbol{}
+
+\newtheorem{bem}[prop]{Bemerkung.}
+
+% Theorem Umgebungen *OHNE* Numerierung
+\theoremstyle{graymarginwithblueheadern}
+\theorembodyfont{\itshape}
+\theoremseparator{}
+\theoremsymbol{}
+
+\newtheorem{propn}{Satz}
+\newtheorem{lemn}{Lemma}
+\newtheorem{corn}{Korollar}
+\newtheorem{defnn}{Definition}
+
+\theoremstyle{graymarginwithyellowheadern}
+\theorembodyfont{\normalfont}
+\theoremseparator{}
+\theoremsymbol{}
+
+\newtheorem{bspn}{Bsp}
+
+\theoremstyle{graymarginwithitblackheadern}
+\theorembodyfont{\normalfont}
+\theoremseparator{}
+\theoremsymbol{}
+
+\newtheorem{bemn}{Bemerkung.}
+
+% =============================================================================
+% 					Ana-Überschriften-Style
+% =============================================================================
+\renewcommand\thesection{\arabic{section}}
+\renewcommand\thesubsection{\arabic{section}-\Alph{subsection}}
+
+\titleformat{\section}%
+  {\normalfont\bfseries\Huge\color{darkblue}}%
+  {\thesection}%
+  {0.6em}%
+  {}%
+  
+\titleformat{\subsection}%
+  {\normalfont\bfseries\Large\color{darkblue}}%
+  {\thesubsection}%
+  {0.6em}%
+  {}%
+
+\renewcommand{\labelenumi}{{\normalfont(\alph{enumi})}}
+
+\psset{linecolor=gdarkgray}
+\psset{tickcolor=gdarkgray}
+\psset{fillcolor=glightgray}
+
+% =============================================================================
+% 					Document-Body
+% =============================================================================
+\begin{document}
+
+% Titel
+\begin{center}
+{\huge\bf Analysis III - Mitschrieb}
+
+bei PD. Dr. P. H. Lesky
+
+Jan-Cornelius Molnar, Version: \today\ \thistime
+\end{center}
+
+% Inhaltsverzeichnis
+\tableofcontents
+
+% Inhalt
+\newpage
+\input{01_Grenzwerte.tex}
+
+\newpage
+\input{02_Funktionentheorie.tex}
+
+\newpage
+\input{03_IntegrationsUndMasstheorie.tex}
+
+\newpage
+
+\input{04_VFI_Vektorana.tex}
+
+\end{document}
